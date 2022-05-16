@@ -1,24 +1,20 @@
 <template>
-  <div class="ManageProjects">
+  <div class="ManageCollections">
     <div class="head">
-      <h1 class="header-text">Projects</h1>
+      <h1 class="header-text">Collections</h1>
       <button class="btn" @click="onNewProject">
         New Project
       </button>
     </div>
     <div class="list">
-      <div class="item" v-for="p in projects" :key="p._id">
-        <router-link
-            :to="{name:'manage-collections',params:{project:p.name}}"
-            class="name" >
-          {{p.name}}
-        </router-link>
+      <div class="item" v-for="p in collections" :key="p._id">
+        <div class="name" v-text="p.name"></div>
         <button @click="removeProject(p)" class="btn btn-danger">
           Delete
         </button>
       </div>
-      <div class="no-data" v-if="!projects || !projects.length">
-        you have no projects.
+      <div class="no-data" v-if="!collections || !collections.length">
+        you have no collections.
       </div>
     </div>
     <Modal ref="modal">
@@ -44,7 +40,7 @@ import Modal from "../../../components/Modal.vue";
 import {ax} from "../../../plugins/axios";
 
 export default {
-  name: "ManageProjects",
+  name: "ManageCollections",
   components: {Modal},
   mounted() {
     this.fetchData();
@@ -54,17 +50,17 @@ export default {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await ax.post('projects', {name: this.form.name})
+      const {data, status} = await ax.post(`store/__col/${this.project}`, {name: this.form.name})
       this.$refs.modal.hide()
       this.form.name = '';
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await ax.get('projects');
-      this.projects = data;
+      const {data} = await ax.get(`store/__col/${this.project}`);
+      this.collections = data;
     },
     async removeProject(p) {
-      const {data} = await ax.delete('projects/' + p.name);
+      const {data} = await ax.delete(`store/__col/${this.project}/${p.name}`);
       await this.fetchData();
     }
   },
@@ -73,14 +69,19 @@ export default {
       form: {
         name: '',
       },
-      projects: [],
+      collections: [],
+    }
+  },
+  computed:{
+    project(){
+      return this.$route.params.project;
     }
   }
 }
 </script>
 
 <style lang="scss">
-.ManageProjects {
+.ManageCollections {
   max-width: 600px;
   margin: 0 auto;
 

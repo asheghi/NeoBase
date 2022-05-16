@@ -19,6 +19,11 @@ export const routes = [
         path: '',
         component:() => import('./views/dash/components/ManageProjects.vue')
       },
+      {
+        name:"manage-collections",
+        path:':project',
+        component: () => import('./views/dash/components/ManageCollections.vue')
+      }
     ]
   }
 ]
