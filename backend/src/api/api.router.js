@@ -3,6 +3,7 @@ import {config} from "../config/index.js";
 import {CollectionsApiRouter} from "./collections/collections.api.js";
 import cors from 'cors'
 import {AuthRouter} from "./auth/auth.router.js";
+import {ProjectsApiRouter} from "./projects/projects.api.js";
 
 const app = Express.Router();
 
@@ -16,6 +17,7 @@ if (config.simulate_slow_network) {
 app.use(cors());
 
 app.use('/store', CollectionsApiRouter);
+app.use('/projects', ProjectsApiRouter);
 app.use('/auth', AuthRouter);
 
 app.use('/', (req, res) => {

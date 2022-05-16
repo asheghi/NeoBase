@@ -17,8 +17,8 @@ export const routes = [
     children: [
       {
         path: '',
-        component:() => import('./views/dash/components/DashHomePage.vue')
-      }
+        component:() => import('./views/dash/components/ManageProjects.vue')
+      },
     ]
   }
 ]

@@ -13,9 +13,13 @@ export async function getCollection(db_name,col_name){
   return conn.models[col_name] || conn.model(col_name,new Mongoose.Schema({},{
     strict:false,
     validateBeforeSave:false,
+    timestamps:true,
   }));
 }
 
 export async function getAccountCollection(){
   return getCollection('main','users')
 };
+export async function getProjectsCollection(){
+  return getCollection('main','projects');
+}
