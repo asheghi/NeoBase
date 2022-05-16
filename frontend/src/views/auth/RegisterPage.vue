@@ -4,7 +4,7 @@
       <div class="header">
         <img :src="logoImage" width="120" height="120"/>
         <h1 class="text-2xl text-center opacity-60">
-          <span class="">Login to</span>
+          <span class="">Join</span>
           Wild Fire</h1>
       </div>
 
@@ -18,13 +18,13 @@
           <input type="password" id="password" v-model="form.password" placeholder="secure password">
         </div>
         <button @click="submit" class="">
-          Sign in
+          Continue
         </button>
       </div>
 
       <div class="msg opacity-75 ">
-        <p>New here?
-          <router-link class="text-blue-700 font-bold" to="/register">Register Here</router-link>
+        <p>Already registered?
+          <router-link class="text-blue-700 font-bold" to="/login" >Login Here</router-link>
         </p>
       </div>
     </div>
@@ -34,22 +34,21 @@
 <script>
 import logoImage from '../../assets/logo.png?url'
 import {ax} from "../../plugins/axios";
-
 export default {
-  name: "LoginPage",
+  name: "RegisterPage",
   data() {
     return {
       logoImage,
       form: {
-        email: '',
-        password: "",
+        email:'',
+        password:"",
       }
     }
   },
   methods: {
     async submit() {
-      const {data, status} = await ax.post('auth/login', this.form);
-      localStorage.setItem('x-wf-auth', data.token);
+      const {data, status} = await ax.post('auth/register',this.form);
+      localStorage.setItem('x-wf-auth',data.token);
       await this.$router.replace('/dash')
     }
   }
@@ -57,28 +56,25 @@ export default {
 </script>
 
 <style lang="scss">
-.LoginPage {
+.LoginPage{
   @apply min-h-screen flex justify-center items-center;
-  .cover {
+  .cover{
     @apply flex flex-col justify-center items-center gap-7;
-    .header {
+    .header{
       @apply flex justify-center flex-col gap-4 items-center py-4;
     }
-
-    .form-group {
-      @apply flex flex-col justify-start gap-2 ;
-      label {
+    .form-group{
+     @apply flex flex-col justify-start gap-2 ;
+      label{
         min-width: 80px;
         opacity: .5;
       }
-
-      input {
+      input{
         @apply px-4 py-2 rounded bg-gray-100 outline-blue-600;
       }
 
     }
-
-    button {
+    button{
       @apply px-4 w-full focus:bg-blue-700 active:bg-blue-800 transition-all
       outline-0 py-2  active:bg-blue-800 mt-4 rounded text-white bg-blue-600 font-bold;
     }

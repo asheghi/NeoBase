@@ -6,7 +6,7 @@
       <p class="desc">
         flexible, scalable database for mobile, web, and server development
       </p>
-      <router-link to="/login" class="btn">
+      <router-link to="/register" class="btn">
         Get Started
       </router-link>
     </div>

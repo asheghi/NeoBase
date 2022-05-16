@@ -8,6 +8,10 @@ export const routes = [
     component: () => import('./views/auth/LoginPage.vue')
   },
   {
+    path:'/register',
+    component: () => import('./views/auth/RegisterPage.vue')
+  },
+  {
     path: '/dash',
     component: () => import('./views/dash/DashboardPage.vue'),
     children: [

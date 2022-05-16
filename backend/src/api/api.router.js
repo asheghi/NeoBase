@@ -2,6 +2,7 @@ import Express from "express";
 import {config} from "../config/index.js";
 import {CollectionsApiRouter} from "./collections/collections.api.js";
 import cors from 'cors'
+import {AuthRouter} from "./auth/auth.router.js";
 
 const app = Express.Router();
 
@@ -14,9 +15,10 @@ if (config.simulate_slow_network) {
 
 app.use(cors());
 
-app.use('/db',CollectionsApiRouter);
+app.use('/store', CollectionsApiRouter);
+app.use('/auth', AuthRouter);
 
-app.use('/',(req,res) => {
+app.use('/', (req, res) => {
   res.send('api base url')
 })
 

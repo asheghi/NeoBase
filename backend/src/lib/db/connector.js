@@ -15,3 +15,7 @@ export async function getCollection(db_name,col_name){
     validateBeforeSave:false,
   }));
 }
+
+export async function getAccountCollection(){
+  return getCollection('main','users')
+};
