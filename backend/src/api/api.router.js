@@ -1,6 +1,7 @@
 import Express from "express";
 import {config} from "../config/index.js";
 import {CollectionsApiRouter} from "./collections/collections.api.js";
+import cors from 'cors'
 
 const app = Express.Router();
 
@@ -10,6 +11,8 @@ if (config.simulate_slow_network) {
     setTimeout(next, +config.simulate_slow_network || 1500);
   });
 }
+
+app.use(cors());
 
 app.use('/db',CollectionsApiRouter);
 
