@@ -1,29 +1,45 @@
 export const routes = [
   {
     path: "/",
-    component: () => import('./views/HomePage.vue'),
+    component: () => import('./pages/HomePage.vue'),
   },
   {
     path:'/login',
-    component: () => import('./views/auth/LoginPage.vue')
+    component: () => import('./pages/auth/LoginPage.vue')
   },
   {
     path:'/register',
-    component: () => import('./views/auth/RegisterPage.vue')
+    component: () => import('./pages/auth/RegisterPage.vue')
   },
   {
     path: '/dash',
-    component: () => import('./views/dash/DashboardPage.vue'),
+    component: () => import('./pages/dash/DashboardPage.vue'),
     children: [
       {
         path: '',
-        component:() => import('./views/dash/components/ManageProjects.vue')
+        component:() => import('./pages/dash/views/ManageProjects.vue')
       },
       {
         name:"manage-collections",
         path:':project',
-        component: () => import('./views/dash/components/ManageCollections.vue')
-      }
+        component: () => import('./pages/dash/views/FireStore.vue'),
+        children:[
+          {
+            name:"documents",
+            path:':collection',
+            component: () => import('./pages/dash/views/Documents.vue'),
+            children:[
+              {
+                name:"documents",
+                path:':_id',
+                component: () => import('./pages/dash/views/ViewEditDocument.vue')
+              },
+            ]
+          },
+
+        ]
+      },
+
     ]
   }
 ]

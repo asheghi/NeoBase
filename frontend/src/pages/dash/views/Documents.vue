@@ -1,37 +1,10 @@
 <template>
-  <div class="ManageCollections">
-    <div class="head">
-      <h1 class="header-text">Collections</h1>
-      <button class="btn" @click="onNewProject">
-        New Project
-      </button>
+  <div class="Documents">
+    <div class="">
+      <h1>Documents</h1>
+      <button class="btn btn-sm btn-text">New Document</button>
+      <router-link class="item" v-for="doc in documents" :to="{name:'document',params:{}}" />
     </div>
-    <div class="list">
-      <div class="item" v-for="p in collections" :key="p._id">
-        <div class="name" v-text="p.name"></div>
-        <button @click="removeProject(p)" class="btn btn-danger">
-          Delete
-        </button>
-      </div>
-      <div class="no-data" v-if="!collections || !collections.length">
-        you have no collections.
-      </div>
-    </div>
-    <Modal ref="modal">
-      <div class="new-project">
-        <div class="form" @keydown.enter="submit">
-          <div class="form-group">
-            <label for="email">Project Name</label>
-            <input id="email" name="email" v-model="form.name"
-                   placeholder="what's the name of your app?"
-            >
-          </div>
-          <button @click="submit" class="btn">
-            Submit
-          </button>
-        </div>
-      </div>
-    </Modal>
   </div>
 </template>
 
@@ -40,27 +13,27 @@ import Modal from "../../../components/Modal.vue";
 import {ax} from "../../../plugins/axios";
 
 export default {
-  name: "ManageCollections",
+  name: "ManageDocuments",
   components: {Modal},
   mounted() {
     this.fetchData();
   },
   methods: {
-    onNewProject() {
+    onNewDocument() {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await ax.post(`store/__col/${this.project}`, {name: this.form.name})
+      const {data, status} = await ax.post('documents', {name: this.form.name})
       this.$refs.modal.hide()
       this.form.name = '';
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await ax.get(`store/__col/${this.project}`);
-      this.collections = data;
+      const {data} = await ax.get('documents');
+      this.documents = data;
     },
-    async removeProject(p) {
-      const {data} = await ax.delete(`store/__col/${this.project}/${p.name}`);
+    async removeDocument(p) {
+      const {data} = await ax.delete('documents/' + p.name);
       await this.fetchData();
     }
   },
@@ -69,19 +42,22 @@ export default {
       form: {
         name: '',
       },
-      collections: [],
+      documents: [],
     }
   },
   computed:{
     project(){
       return this.$route.params.project;
+    },
+    collection(){
+      return this.$route.params.collection;
     }
   }
 }
 </script>
 
 <style lang="scss">
-.ManageCollections {
+.ManageDocuments {
   max-width: 600px;
   margin: 0 auto;
 
@@ -109,7 +85,7 @@ export default {
   }
 
   .modal-box {
-    .new-project {
+    .new-document {
       @apply flex flex-col gap-4;
       min-width: 360px;
     }

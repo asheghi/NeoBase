@@ -5,3 +5,9 @@
 *{
     font-family: 'Open Sans',sans-serif;
 }
+.btn-sm{
+    @apply text-sm;
+}
+.btn-text {
+    @apply text-blue-400 px-4 -mx-4 py-2 font-bold;
+}

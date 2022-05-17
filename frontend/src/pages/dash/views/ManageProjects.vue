@@ -2,11 +2,13 @@
   <div class="ManageProjects">
     <div class="head">
       <h1 class="header-text">Projects</h1>
-      <button class="btn" @click="onNewProject">
-        New Project
-      </button>
     </div>
     <div class="list">
+      <div class="item">
+        <button class="btn" @click="onNewProject">
+          New Project
+        </button>
+      </div>
       <div class="item" v-for="p in projects" :key="p._id">
         <router-link
             :to="{name:'manage-collections',params:{project:p.name}}"
@@ -14,7 +16,7 @@
           {{p.name}}
         </router-link>
         <button @click="removeProject(p)" class="btn btn-danger">
-          Delete
+          Drop
         </button>
       </div>
       <div class="no-data" v-if="!projects || !projects.length">
@@ -81,28 +83,27 @@ export default {
 
 <style lang="scss">
 .ManageProjects {
-  max-width: 600px;
-  margin: 0 auto;
-
   .head {
     @apply flex justify-between items-center;
     .header-text {
       @apply font-bold text-lg;
     }
 
-    .btn {
-      @apply bg-blue-600 text-white px-4 py-2
-      rounded font-bold text-sm ;
-    }
   }
 
   .list {
     @apply mt-4;
     .item {
-      @apply py-2 flex items-center justify-between;
+      @apply py-2 flex items-center gap-16 items-center;
+
+
+      .btn {
+        @apply text-blue-400 px-4 -mx-4 py-2
+         font-bold text-sm;
+      }
 
       .btn-danger {
-        @apply bg-red-600 text-white px-4 py-1 rounded font-bold;
+        @apply -mx-4 px-4 text-red-500 font-bold;
       }
     }
   }
@@ -114,20 +115,20 @@ export default {
     }
 
     .form {
+      @apply flex items-center gap-4 w-full;
       .form-group {
-        @apply flex flex-col gap-2;
+        @apply flex flex-col gap-2 w-full;
         label {
           @apply text-sm opacity-50;
         }
 
         input {
-          @apply px-4 py-2 rounded bg-gray-100 outline-blue-500;
+          @apply px-4 w-full py-2 rounded bg-gray-100 outline-blue-500;
         }
       }
 
       .btn {
-        @apply bg-blue-600 text-white px-4 py-2
-        rounded font-bold text-sm w-full mt-4;
+        @apply bg-blue-500 text-white px-4 py-2 rounded mt-auto m-0;
       }
 
     }
