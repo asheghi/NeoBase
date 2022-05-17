@@ -32,7 +32,7 @@ const ownerGuard = async (req, res, next) => {
   next();
 };
 
-app.use(ownerGuard);
+/*app.use(ownerGuard);*/
 app.use(bodyParser.json());
 
 

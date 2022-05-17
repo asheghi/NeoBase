@@ -1,6 +1,6 @@
 <template>
   <div class="ViewEditDocument">
-    <div class="head bg-red-400" v-text="doc ? doc._id : 'Document'">
+    <div class="head font-bold opacity-50 px-4 -mx-4 mb-4" v-text="doc ? doc._id : 'Document'">
     </div>
     <div>
       <pre v-if="doc"><code>{{ JSON.stringify(doc, null, '\t') }}</code></pre>
@@ -33,20 +33,24 @@ export default {
               _id: this.$route.params._id,
             }
           });
-      this.doc = data;
+      this.doc = data[0];
     }
   },
   data() {
     return {
       doc: null,
     }
-  }
+  },
+  beforeRouteUpdate(to, from) {
+    this.doc = null;
+    this.fetchDocument();
+   },
 }
 </script>
 
 <style lang="scss">
 .ViewEditDocument {
-  @apply flex justify-center items-center;
+  @apply flex flex-col;
   min-height: 400px;
 }
 
