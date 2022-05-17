@@ -17,12 +17,12 @@ export const routes = [
     children: [
       {
         path: '',
-        component:() => import('./pages/dash/views/ManageProjects.vue')
+        component:() => import('./pages/dash/views/Projects.vue')
       },
       {
-        name:"manage-collections",
+        name:"collections",
         path:':project',
-        component: () => import('./pages/dash/views/FireStore.vue'),
+        component: () => import('./pages/dash/views/Collections.vue'),
         children:[
           {
             name:"documents",
@@ -30,7 +30,7 @@ export const routes = [
             component: () => import('./pages/dash/views/Documents.vue'),
             children:[
               {
-                name:"documents",
+                name:"document",
                 path:':_id',
                 component: () => import('./pages/dash/views/ViewEditDocument.vue')
               },

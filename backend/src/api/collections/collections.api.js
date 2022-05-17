@@ -14,6 +14,10 @@ app.get('/find', async (req, res) => {
   res.send(await req.collection.find(req.query));
 })
 
+app.get('/findOne', async (req, res) => {
+  res.send(await req.collection.find(req.query));
+})
+
 
 app.get('/count', async (req, res) => {
   res.json(await req.collection.count(req.params));

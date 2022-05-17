@@ -1,7 +1,7 @@
 <template>
   <div class="FireStore">
     <div class="collections">
-      <div class="head">Collections</div>
+      <div class="head opacity-50">Collections</div>
       <div class="item">
         <button class="btn btn-text btn-sm" @click="showNewCollectionModal">New Collection</button>
       </div>
@@ -11,7 +11,7 @@
                    :class="{selected:col.name === collection}"
                    v-text="col.name"></router-link>
     </div>
-    <div class="documents" v-if="collection">
+    <div :key="collection" class="documents w-full" v-if="collection">
       <router-view/>
     </div>
     <div class="select-document" v-if="!collection">
@@ -46,7 +46,7 @@ import {ax} from "../../../plugins/axios";
 import Modal from "../../../components/Modal.vue";
 
 export default {
-  name: "FireStore",
+  name: "Collections",
   components: {Modal},
   mounted() {
     this.fetchData();
@@ -91,13 +91,13 @@ export default {
 
 <style lang="scss">
 .FireStore {
-  @apply flex gap-8;
+  @apply flex;
   .collections {
     @apply flex flex-col gap-1;
     min-width: 220px;
     .item {
-      @apply w-full px-4 -mx-4  py-2 text-lg ;
-      &.router-link-exact-active {
+      @apply w-full px-4 -mx-4  py-2 text-lg rounded;
+      &.router-link-active {
         @apply font-bold bg-gray-200;
       }
     }

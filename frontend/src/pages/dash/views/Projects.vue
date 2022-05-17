@@ -11,7 +11,7 @@
       </div>
       <div class="item" v-for="p in projects" :key="p._id">
         <router-link
-            :to="{name:'manage-collections',params:{project:p.name}}"
+            :to="{name:'collections',params:{project:p.name}}"
             class="name" >
           {{p.name}}
         </router-link>
