@@ -2,8 +2,9 @@ import Express from "express";
 import {config} from "../config/index.js";
 import {CollectionsApiRouter} from "./collections/collections.api.js";
 import cors from 'cors'
-import {AuthRouter} from "./auth/auth.router.js";
+import {AccountsRouter} from "./accounts/accounts.router.js";
 import {ProjectsApiRouter} from "./projects/projects.api.js";
+import {ProjectAuthRouter} from "./auth/auth.router.js";
 
 const app = Express.Router();
 
@@ -18,10 +19,14 @@ app.use(cors());
 
 app.use('/store', CollectionsApiRouter);
 app.use('/projects', ProjectsApiRouter);
-app.use('/auth', AuthRouter);
+app.use('/accounts', AccountsRouter);
+app.use('/auth/:project',ProjectAuthRouter);
 
 app.use('/', (req, res) => {
-  res.send('api base url')
+  res.json({
+    name:"FireStore Api",
+    version:"1.0.0",
+  })
 })
 
 export const ApiRouter = app;

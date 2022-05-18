@@ -1,7 +1,7 @@
 import Express from 'express'
 import bodyParser from "body-parser";
 import {getProjectsCollection} from "../../lib/db/connector.js";
-import {authenticateRequest, authGuard} from "../auth/auth.middleware.js";
+import {authenticateRequest, authGuard} from "../accounts/accounts.middleware.js";
 
 const app = Express.Router();
 

@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import {getCollection, getDatabase, getProjectsCollection,} from "../../lib/db/connector.js";
 import {getDebug} from "../../lib/debug.js";
 import {checkAccess} from "../../lib/access-control.js";
-import {authenticateRequest} from "../auth/auth.middleware.js";
+import {authenticateRequest} from "../accounts/accounts.middleware.js";
 
 const log = getDebug('collection.api');
 const app = Express.Router();
