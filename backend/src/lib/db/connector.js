@@ -14,12 +14,17 @@ export async function getCollection(db_name,col_name){
     strict:false,
     validateBeforeSave:false,
     timestamps:true,
-  }));
+  }),col_name);
 }
 
 export async function getAccountCollection(){
   return getCollection('main','users')
 };
+
 export async function getProjectsCollection(){
   return getCollection('main','projects');
+}
+
+export async function getAccessConfigCollection(){
+  return getCollection('main','access_config')
 }
