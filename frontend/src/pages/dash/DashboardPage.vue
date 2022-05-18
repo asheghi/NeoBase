@@ -17,11 +17,12 @@
 
 <script>
 import {ax} from "../../plugins/axios";
+import {Api} from "../../lib/api";
 
 export default {
   async beforeRouteEnter (to, from, next) {
     try {
-      const {data, status} = await ax.get('auth/me')
+      const {data, status} = await Api.me();
     } catch (e) {
       console.error(e);
       return next('/login')

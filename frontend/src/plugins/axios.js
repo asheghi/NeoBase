@@ -7,6 +7,6 @@ export const ax = axios.create({
 });
 
 ax.interceptors.request.use(config => {
-  config.headers['x-wf-auth'] = localStorage.getItem('x-wf-auth')
+  config.headers['x-account-token'] = localStorage.getItem('x-wf-auth')
   return config
 })

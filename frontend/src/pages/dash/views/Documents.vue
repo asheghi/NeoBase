@@ -20,12 +20,14 @@
       <div class="new-document">
         <div class="form flex flex-col" @keydown.enter="newDocument">
           <div class="form-group">
-            <label for="">New Document</label>
+            <label for="newDoc">New Document</label>
             <textarea
+                name="newDoc"
+                id="newDoc"
                 class="border border-gray-200 p-2 rounded outline-blue-200"
                 cols="32"
                 rows="10"
-                id="email" name="email" v-model="newDoc"
+                v-model="newDoc"
                 placeholder="insert json content here"
             />
           </div>
@@ -42,6 +44,7 @@
 import Modal from "../../../components/Modal.vue";
 import {ax} from "../../../plugins/axios";
 import {useRoute} from "vue-router";
+import {Api} from "../../../lib/api";
 
 export default {
   name: "ManageDocuments",
@@ -61,17 +64,17 @@ export default {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await ax.post(`store/${this.project}/${this.collection}/create`, JSON.parse(this.newDoc))
+      const {data, status} = await this.api.create(JSON.parse(this.newDoc))
       this.$refs.modal.hide()
       this.newDoc = '';
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await ax.get(`store/${this.project}/${this.collection}/find`);
+      const {data} = await this.api.find();
       this.documents = data;
     },
     async removeDocument(p) {
-      const {data} = await ax.delete('documents/' + p.name);
+      const {data} = await this.api.deleteOne({_id: p._id})
       await this.fetchData();
     },
   },
@@ -82,6 +85,9 @@ export default {
     }
   },
   computed: {
+    api() {
+      return Api.Documents(this.project, this.collection);
+    },
     project() {
       return this.$route.params.project;
     },

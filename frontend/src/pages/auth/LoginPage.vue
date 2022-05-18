@@ -34,6 +34,7 @@
 <script>
 import logoImage from '../../assets/logo.png?url'
 import {ax} from "../../plugins/axios";
+import {Api} from "../../lib/api";
 
 export default {
   name: "LoginPage",
@@ -48,8 +49,8 @@ export default {
   },
   methods: {
     async submit() {
-      const {data, status} = await ax.post('auth/login', this.form);
-      localStorage.setItem('x-wf-auth', data.token);
+      const {data} = await Api.login(this.form);
+      localStorage.setItem('x-account-token', data.token);
       await this.$router.replace('/dash')
     }
   }

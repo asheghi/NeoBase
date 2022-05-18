@@ -9,15 +9,20 @@
                    :to="{name:'documents',params:{collection: col.name}}"
                    class="item name"
                    :class="{selected:col.name === collection}"
-                   v-text="col.name"></router-link>
+                  >
+        {{col.name}}
+        <div @click="removeCollection(col)" class="drop">
+          Drop
+        </div>
+      </router-link>
     </div>
     <div :key="collection" class="documents w-full" v-if="collection">
       <router-view/>
     </div>
     <div class="select-document" v-if="!collection">
-     <div v-if="collections && collections.length">
-       select a collection first
-     </div>
+      <div v-if="collections && collections.length">
+        select a collection first
+      </div>
       <div class="" v-else>
         create a collection first
       </div>
@@ -44,6 +49,7 @@
 
 import {ax} from "../../../plugins/axios";
 import Modal from "../../../components/Modal.vue";
+import {Api} from "../../../lib/api";
 
 export default {
   name: "Collections",
@@ -56,17 +62,17 @@ export default {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await ax.post(`store/__col/${this.project}`, {name: this.form.name})
+      const {data, status} = await Api.Collections(this.project).create({name: this.form.name})
       this.$refs.modal.hide()
       this.form.name = '';
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await ax.get(`store/__col/${this.project}`);
+      const {data} = await Api.Collections(this.project).list();
       this.collections = data;
     },
-    async removeProject(p) {
-      const {data} = await ax.delete(`store/__col/${this.project}/${p.name}`);
+    async removeCollection(p) {
+      const {data} = await Api.Collections(this.project).delete(p.name);
       await this.fetchData();
     }
   },
@@ -95,18 +101,28 @@ export default {
   .collections {
     @apply flex flex-col gap-1;
     min-width: 220px;
+
     .item {
-      @apply w-full px-4 -mx-4  py-2 text-lg rounded;
+      @apply relative flex items-center w-full px-4 -mx-4  py-2 text-lg rounded;
       &.router-link-active {
         @apply font-bold bg-gray-200;
+      }
+      &:hover{
+        .drop{
+          @apply block;
+        }
+      }
+      .drop{
+        @apply absolute right-4 hidden text-red-500 text-sm font-bold;
       }
     }
   }
 
-  .select-document{
+  .select-document {
     @apply w-full flex justify-center items-center opacity-50;
     min-height: 400px;
   }
+
   .modal-box {
     .new-project {
       @apply flex flex-col gap-4;

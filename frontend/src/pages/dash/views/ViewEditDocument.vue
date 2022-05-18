@@ -11,6 +11,7 @@
 <script>
 import {useRoute} from "vue-router";
 import {ax} from "../../../plugins/axios";
+import {Api} from "../../../lib/api";
 
 export default {
   name: "ViewEditDocument",
@@ -27,13 +28,10 @@ export default {
   },
   methods: {
     async fetchDocument() {
-      const {data} = await ax.get(`store/${this.project}/${this.collection}/findOne`,
-          {
-            params: {
-              _id: this.$route.params._id,
-            }
-          });
-      this.doc = data[0];
+      const {data} = await this.api.findOne({
+        _id: this.$route.params._id,
+      });
+      this.doc = data;
     }
   },
   data() {
@@ -44,7 +42,18 @@ export default {
   beforeRouteUpdate(to, from) {
     this.doc = null;
     this.fetchDocument();
-   },
+  },
+  computed: {
+    api() {
+      return Api.Documents(this.project, this.collection);
+    },
+    project() {
+      return this.$route.params.project;
+    },
+    collection() {
+      return this.$route.params.collection;
+    }
+  }
 }
 </script>
 

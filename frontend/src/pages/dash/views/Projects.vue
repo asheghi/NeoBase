@@ -12,8 +12,8 @@
       <div class="item" v-for="p in projects" :key="p._id">
         <router-link
             :to="{name:'collections',params:{project:p.name}}"
-            class="name" >
-          {{p.name}}
+            class="name">
+          {{ p.name }}
         </router-link>
         <button @click="removeProject(p)" class="btn btn-danger">
           Drop
@@ -44,6 +44,7 @@
 <script>
 import Modal from "../../../components/Modal.vue";
 import {ax} from "../../../plugins/axios";
+import {Api} from "../../../lib/api";
 
 export default {
   name: "ManageProjects",
@@ -56,17 +57,17 @@ export default {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await ax.post('projects', {name: this.form.name})
+      const {data, status} = await Api.Projects.create({name: this.form.name})
       this.$refs.modal.hide()
       this.form.name = '';
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await ax.get('projects');
+      const {data} = await Api.Projects.list();
       this.projects = data;
     },
     async removeProject(p) {
-      const {data} = await ax.delete('projects/' + p.name);
+      const {data} = await Api.Projects.delete(p.name);
       await this.fetchData();
     }
   },
@@ -99,7 +100,7 @@ export default {
 
       .btn {
         @apply text-blue-400 px-4 -mx-4 py-2
-         font-bold text-sm;
+        font-bold text-sm;
       }
 
       .btn-danger {
