@@ -4,7 +4,7 @@ import {getDebug} from "../../lib/debug.js";
 
 const log = getDebug('auth.service');
 
-export const AuthService = {
+export const AccountsService = {
   async login(email, password) {
     const Accounts = await getAccountCollection()
     const user = await Accounts.findOne({ email });

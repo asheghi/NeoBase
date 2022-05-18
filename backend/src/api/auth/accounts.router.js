@@ -1,16 +1,16 @@
 import Express from "express";
 import bodyParser from "body-parser";
-import {AuthService} from "./auth.service.js";
-import {authenticateRequest, authGuard} from "./auth.middleware.js";
+import {AccountsService} from "./accounts.service.js";
+import {authenticateRequest, authGuard} from "./accounts.middleware.js";
 
 const app = Express.Router();
 
 app.post('/register', bodyParser.json(), async (req, res) => {
   const {body: {email, password}} = req;
   try {
-    const user = await AuthService.register(email, password);
+    const user = await AccountsService.register(email, password);
     if (!user) return res.status(400).send('something is not right!');
-    const token = AuthService.generateToken(user);
+    const token = AccountsService.generateToken(user);
     return res.json({token});
   } catch (e) {
     console.error(e);
@@ -21,9 +21,9 @@ app.post('/register', bodyParser.json(), async (req, res) => {
 
 app.post('/login', bodyParser.json(), async (req, res) => {
   const {body: {email, password}} = req;
-  const user = await AuthService.login(email, password);
+  const user = await AccountsService.login(email, password);
   if (!user) return res.status(400).json({success: false});
-  const token = AuthService.generateToken(user);
+  const token = AccountsService.generateToken(user);
   res.json({token});
 });
 
@@ -34,4 +34,4 @@ app.get('/me', (req, res) => {
   const {email} = req.user;
   res.json({email});
 });
-export const AuthRouter = app;
+export const AccountsRouter = app;
