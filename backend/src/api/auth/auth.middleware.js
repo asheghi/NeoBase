@@ -1,15 +1,17 @@
 import {getDebug} from "../../lib/debug.js";
 import {verifyRequest} from "../../lib/jwt-utils.js";
-import {getAccountCollection} from "../../lib/db/connector.js";
+import {getAccountCollection, getCollection} from "../../lib/db/connector.js";
 
 const log = getDebug('auth.middleware');
 
-export const authenticateRequest = async (req, res, next) => {
+export const authenticateUserRequest = async (req, res, next) => {
+  if (req.user && req.user._id) return next();
   try {
     verifyRequest(req);
     if (req.user) {
-      let Accounts = await getAccountCollection();
-      req.user = await req.AuthService.Users.findOne({email: req.user.email})
+      const Users = await getCollection('auth', req.params.project)
+      req.user = await Users.findOne({email: req.user.email})
+      req.user.auth_provider = 'auth';
     }
   } catch (e) {
     log.debug('failed to authenticate', e.message);

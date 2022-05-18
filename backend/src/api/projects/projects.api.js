@@ -1,11 +1,11 @@
 import Express from 'express'
 import bodyParser from "body-parser";
 import {getProjectsCollection} from "../../lib/db/connector.js";
-import {authenticateRequest, authGuard} from "../accounts/accounts.middleware.js";
+import {authenticateAccountRequest, accountGuard} from "../accounts/accounts.middleware.js";
 
 const app = Express.Router();
 
-app.use(authenticateRequest, authGuard);
+app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());
 
 //return users projects

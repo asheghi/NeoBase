@@ -6,6 +6,7 @@ import {AccountsRouter} from "./accounts/accounts.router.js";
 import {ProjectsApiRouter} from "./projects/projects.api.js";
 import {ProjectAuthRouter} from "./auth/auth.router.js";
 import {DocumentsApiRouter} from "./documents/documents.router.js";
+import {getCollection} from "../lib/db/connector.js";
 
 const app = Express.Router();
 
@@ -20,8 +21,22 @@ app.use(cors());
 
 app.use('/accounts', AccountsRouter);
 app.use('/projects', ProjectsApiRouter);
-app.use('/collections/:project', CollectionsApiRouter)
-app.use('/documents/:project/:collection', DocumentsApiRouter);
+app.use('/collections/:project',
+  (req, res, next) => {
+    req.project = req.params.project;
+    next();
+  },
+  CollectionsApiRouter)
+
+app.use('/documents/:project/:collection',
+  async (req, res, next) => {
+    const {project, collection} = req.params;
+    req.project = project;
+    req.collection_name = collection;
+    req.Collection = await getCollection(project, collection);
+    next()
+  },
+  DocumentsApiRouter);
 app.use('/auth/:project', ProjectAuthRouter);
 
 app.get('/', (req, res) => {

@@ -1,7 +1,7 @@
 import Express from "express";
 import bodyParser from "body-parser";
 import {getAuthService} from "./auth.service.js";
-import {authenticateRequest, authGuard} from "./auth.middleware.js";
+import {authenticateUserRequest, authGuard} from "./auth.middleware.js";
 
 const app = Express.Router();
 app.use(async (req, res, next) => {
@@ -32,7 +32,7 @@ app.post('/login', bodyParser.json(), async (req, res) => {
 });
 
 //private routes
-app.use(authenticateRequest, authGuard);
+app.use(authenticateUserRequest, authGuard);
 
 app.get('/me', (req, res) => {
   const {email} = req.user;
