@@ -37,7 +37,13 @@ app.use('/documents/:project/:collection',
     next()
   },
   DocumentsApiRouter);
-app.use('/auth/:project', ProjectAuthRouter);
+app.use('/auth/:project', (req, res, next) => {
+    req.project = req.params.project;
+    next();
+  },
+  ProjectAuthRouter
+)
+;
 
 app.get('/', (req, res) => {
   res.json({

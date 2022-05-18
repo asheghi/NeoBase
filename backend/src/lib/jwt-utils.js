@@ -9,7 +9,7 @@ export function generateTokenForPayload(payload) {
   return jwt.sign(payload, config.jwtSecret);
 }
 
-export function verifyToken(token) {
+function verifyToken(token) {
   if (!token) return false;
   let valid;
   try {
@@ -23,12 +23,10 @@ export function verifyToken(token) {
   return valid;
 }
 
-export function verifyRequest(req) {
-  const token = req.headers['x-wf-auth'];
+export function extractToken(token) {
   const valid = verifyToken(token);
   if (!valid) throw new Error('invalid token');
-  req.user = decodeToken(token);
-  return valid;
+  return decodeToken(token);
 }
 
 // note decode does not validate token

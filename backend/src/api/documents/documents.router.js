@@ -1,13 +1,18 @@
 import Express from "express";
 import {checkAccess} from "./access-control.js";
 import bodyParser from "body-parser";
-import {getCollection} from "../../lib/db/connector.js";
 import {authenticateUserRequest} from "../auth/auth.middleware.js";
 import {authenticateAccountRequest} from "../accounts/accounts.middleware.js";
 
 const app = Express.Router();
 
-app.use(authenticateUserRequest,authenticateAccountRequest)
+app.use((req,res,next) => {
+  req['fuck'] = 'this shit';
+  next();
+})
+
+app.use(authenticateAccountRequest)
+app.use(authenticateUserRequest,)
 
 const canUserDo = (operation) => async (req, res, next) => {
   const haveAccess = await checkAccess({req, project: req.project, collection: req.Collection, operation})

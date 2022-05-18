@@ -5,7 +5,7 @@ import {authenticateUserRequest, authGuard} from "./auth.middleware.js";
 
 const app = Express.Router();
 app.use(async (req, res, next) => {
-  req.AuthService = await getAuthService(req.params.project);
+  req.AuthService = await getAuthService(req.project);
   next();
 })
 
