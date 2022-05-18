@@ -5,12 +5,14 @@ import {getAccountCollection} from "../../lib/db/connector.js";
 const log = getDebug('auth.middleware');
 
 export const authenticateAccountRequest = async (req, res, next) => {
-  if (req.user && req.user._id) return next();
+  if (req.user && req.user._id) {
+    return next();
+  }
   try {
     const token = req.headers['x-account-token']
     const {email} = extractToken(token);
     let Accounts = await getAccountCollection();
-    req.user = await Accounts.findOne({email})
+    req.user = await Accounts.findOne({email});
     req.user.auth_provider = 'account';
   } catch (e) {
     log.debug('failed to authenticate', e.message);
@@ -19,6 +21,8 @@ export const authenticateAccountRequest = async (req, res, next) => {
 };
 
 export async function accountGuard(req, res, next) {
-  if (!req.user) return res.status(401).send();
+  if (!req.user || req.user.auth_provider !== 'account') {
+    return res.status(401).send();
+  }
   return next();
 }

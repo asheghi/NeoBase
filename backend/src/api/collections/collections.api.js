@@ -1,16 +1,41 @@
 import Express from 'express'
 import bodyParser from "body-parser";
-import { getDatabase,} from "../../lib/db/connector.js";
+import {getAccessConfigCollection, getDatabase,} from "../../lib/db/connector.js";
 import {getDebug} from "../../lib/debug.js";
-import {authenticateAccountRequest} from "../accounts/accounts.middleware.js";
+import {accountGuard, authenticateAccountRequest} from "../accounts/accounts.middleware.js";
 
 const log = getDebug('collection.api');
 
-
 const app = Express.Router();
-app.use(authenticateAccountRequest);
+
+app.use((req, res, next) => {
+  next();
+  log.debug('is handling request')
+});
 
 app.use(bodyParser.json());
+
+app.use(authenticateAccountRequest, accountGuard);
+
+app.get('/access-config/:collection', async (req, res, next) => {
+  let AccessConfig = await getAccessConfigCollection();
+  const {project,} = req;
+  const {collection} = req.params;
+  res.json(await AccessConfig.findOne({project, collection}))
+})
+
+app.post('/access-config/:collection', async (req, res) => {
+  let AccessConfig = await getAccessConfigCollection();
+  const {project} = req;
+  const {collection} = req.params;
+  const existing = await AccessConfig.findOne({project, collection});
+  const config = req.body;
+  if (!existing) return res.json(await AccessConfig.create({...config, project, collection}));
+  await existing.update({$set: config});
+
+  res.json(await AccessConfig.findOne({project,collection}));
+})
+
 
 app.post('/', async (req, res) => {
   try {

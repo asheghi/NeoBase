@@ -2,8 +2,15 @@ import Express from 'express'
 import bodyParser from "body-parser";
 import {getProjectsCollection} from "../../lib/db/connector.js";
 import {authenticateAccountRequest, accountGuard} from "../accounts/accounts.middleware.js";
-
+import {getDebug} from "../../lib/debug.js";
+const log = getDebug('projects.api')
 const app = Express.Router();
+
+app.use((req, res, next) => {
+  next();
+  log.debug('is handling request')
+});
+
 
 app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());

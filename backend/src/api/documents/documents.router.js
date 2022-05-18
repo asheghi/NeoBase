@@ -3,8 +3,15 @@ import {checkAccess} from "./access-control.js";
 import bodyParser from "body-parser";
 import {authenticateUserRequest} from "../auth/auth.middleware.js";
 import {authenticateAccountRequest} from "../accounts/accounts.middleware.js";
-
+import {getDebug} from "../../lib/debug.js";
+const log = getDebug('documents.api')
 const app = Express.Router();
+
+app.use((req, res, next) => {
+  next();
+  log.debug('is handling request')
+});
+
 
 app.use((req,res,next) => {
   req['fuck'] = 'this shit';

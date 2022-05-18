@@ -1,8 +1,13 @@
 import Express from 'express';
 import {config} from "./config/index.js";
 import {ApiRouter} from "./api/api.router.js";
+import morgan from 'morgan'
 
 const app = Express();
+
+if (config.log_access){
+  app.use(morgan("dev"));
+}
 
 app.use('/api',ApiRouter);
 

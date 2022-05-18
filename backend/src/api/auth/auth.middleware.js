@@ -19,6 +19,8 @@ export const authenticateUserRequest = async (req, res, next) => {
 };
 
 export async function authGuard(req, res, next) {
-  if (!req.user) return res.status(401).send();
+  if (!req.user) {
+    return res.status(401).send();
+  }
   return next();
 }

@@ -2,8 +2,15 @@ import Express from "express";
 import bodyParser from "body-parser";
 import {getAuthService} from "./auth.service.js";
 import {authenticateUserRequest, authGuard} from "./auth.middleware.js";
-
+import {getDebug} from "../../lib/debug.js";
+const log = getDebug('auth.api')
 const app = Express.Router();
+
+app.use((req, res, next) => {
+  next();
+  log.debug('is handling request')
+});
+
 app.use(async (req, res, next) => {
   req.AuthService = await getAuthService(req.project);
   next();
