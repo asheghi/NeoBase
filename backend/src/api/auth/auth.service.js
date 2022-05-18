@@ -5,7 +5,7 @@ import {comparePassword, generateTokenForPayload, hashPassword} from "../../lib/
 const log = getDebug('auth.service');
 
 export async function getAuthService(project) {
-  const Users = await getCollection(project, 'users');
+  const Users = await getCollection('auth', project);
   return {
     Users,
     async login(email, password) {
