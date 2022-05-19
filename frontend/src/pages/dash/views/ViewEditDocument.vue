@@ -1,6 +1,11 @@
 <template>
   <div class="ViewEditDocument">
-    <div class="head font-bold opacity-50 px-4 -mx-4 mb-4" v-text="doc ? doc._id : 'Document'">
+    <div class="flex items-center justify-between">
+      <div class="head opacity-50 px-4 -mx-4 mb-4" v-text="doc ? doc._id : 'Document'">
+      </div>
+      <div class="icons flex items-center gap-2">
+        <DeleteIcon class="fill-red-500 opacity-75" width="24" height="24"/>
+      </div>
     </div>
     <div>
       <pre v-if="doc"><code>{{ JSON.stringify(doc, null, '\t') }}</code></pre>
@@ -10,11 +15,12 @@
 
 <script>
 import {useRoute} from "vue-router";
-import {ax} from "../../../plugins/axios";
 import {Api} from "../../../lib/api";
+import DeleteIcon from 'ionicons/dist/svg/trash.svg';
 
 export default {
   name: "ViewEditDocument",
+  components: {DeleteIcon},
   setup() {
     const {project, collection, _id} = useRoute().params;
     return {
@@ -59,7 +65,7 @@ export default {
 
 <style lang="scss">
 .ViewEditDocument {
-  @apply flex flex-col;
+  @apply flex flex-col absolute inset-0;
   min-height: 400px;
 }
 

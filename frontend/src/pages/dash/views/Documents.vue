@@ -1,20 +1,28 @@
 <template>
   <div class="Documents">
     <div class="side-bar">
-      <h1 class="opacity-50">Documents</h1>
+      <h1 class="head">Documents</h1>
       <button class="btn btn-sm btn-text" @click="$refs.modal.show()">New Document</button>
-      <router-link class="item"
-                   v-for="doc in documents"
-                   :to="{name:'document',params:{
+      <div class="items">
+        <router-link class="item"
+                     v-for="doc in documents"
+                     :to="{name:'document',params:{
                      project,
                      collection,
                      _id:doc._id,
                    }}"
-                   v-text="doc._id.substring(10)"
-      />
+        >
+          {{doc._id.substring(10)}}
+          <div @click="removeDocument(doc)" class="drop">
+            <DeleteIcon class="fill-red-500 opacity-75" width="24" height="24"/>
+          </div>
+        </router-link>
+      </div>
     </div>
-    <div class="document">
-      <router-view/>
+    <div class="document relative">
+      <transition name="fade">
+        <router-view :key="doc"/>
+      </transition>
     </div>
     <Modal ref="modal">
       <div class="new-document">
@@ -42,13 +50,13 @@
 
 <script>
 import Modal from "../../../components/Modal.vue";
-import {ax} from "../../../plugins/axios";
 import {useRoute} from "vue-router";
 import {Api} from "../../../lib/api";
+import DeleteIcon from 'ionicons/dist/svg/trash.svg'
 
 export default {
   name: "ManageDocuments",
-  components: {Modal},
+  components: {Modal,DeleteIcon},
   setup() {
     const {project, collection} = useRoute().params;
     return {
@@ -75,6 +83,8 @@ export default {
     },
     async removeDocument(p) {
       const {data} = await this.api.deleteOne({_id: p._id})
+      let {collection, project} = this;
+      this.$router.replace({name:'documents',params:{ project,collection}}).then();
       await this.fetchData();
     },
   },
@@ -93,6 +103,9 @@ export default {
     },
     collection() {
       return this.$route.params.collection;
+    },
+    doc(){
+      return this.$route.params._id;
     }
   }
 }
@@ -100,14 +113,10 @@ export default {
 
 <style lang="scss">
 .Documents {
-  @apply flex w-full ;
-  .side-bar {
-    min-width: 220px;
-    @apply flex flex-col gap-2 items-start;
-    .item {
-      @apply py-2 px-4 -mx-4 rounded font-bold uppercase tracking-wide;
-      &.router-link-active {
-        @apply bg-gray-200;
+  @apply flex w-full absolute inset-0;
+  .side-bar{
+    .items{
+      .item{
       }
     }
   }

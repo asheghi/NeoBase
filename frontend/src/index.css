@@ -11,3 +11,16 @@
 .btn-text {
     @apply text-blue-400 px-4 -mx-4 py-2 font-bold;
 }
+
+.fade-leave-active {
+    transition: opacity 160ms ease-out;
+}
+
+.fade-enter-active{
+    transition: opacity 360ms linear;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}

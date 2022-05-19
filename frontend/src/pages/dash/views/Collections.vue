@@ -1,23 +1,26 @@
 <template>
   <div class="FireStore">
-    <div class="collections">
-      <div class="head opacity-50">Collections</div>
-      <div class="item">
-        <button class="btn btn-text btn-sm" @click="showNewCollectionModal">New Collection</button>
+    <div class="side-bar">
+      <div class="head">Collections</div>
+      <button class="btn btn-text btn-sm" @click="showNewCollectionModal">New Collection</button>
+      <div class="items">
+
+        <router-link v-for="col in collections" :key="col"
+                     :to="{name:'documents',params:{collection: col.name}}"
+                     class="item name"
+                     :class="{selected:col.name === collection}"
+        >
+          {{ col.name }}
+          <div @click="removeCollection(col)" class="drop">
+            <DeleteIcon class="fill-red-500 opacity-75" width="24" height="24"/>
+          </div>
+        </router-link>
       </div>
-      <router-link v-for="col in collections" :key="col"
-                   :to="{name:'documents',params:{collection: col.name}}"
-                   class="item name"
-                   :class="{selected:col.name === collection}"
-                  >
-        {{col.name}}
-        <div @click="removeCollection(col)" class="drop">
-          Drop
-        </div>
-      </router-link>
     </div>
-    <div :key="collection" class="documents w-full" v-if="collection">
-      <router-view/>
+    <div class="documents w-full relative" v-if="collection">
+      <transition name="fade">
+        <router-view :key="collection"/>
+      </transition>
     </div>
     <div class="select-document" v-if="!collection">
       <div v-if="collections && collections.length">
@@ -50,10 +53,11 @@
 import {ax} from "../../../plugins/axios";
 import Modal from "../../../components/Modal.vue";
 import {Api} from "../../../lib/api";
+import DeleteIcon from 'ionicons/dist/svg/trash.svg'
 
 export default {
   name: "Collections",
-  components: {Modal},
+  components: {Modal, DeleteIcon},
   mounted() {
     this.fetchData();
   },
@@ -97,22 +101,24 @@ export default {
 
 <style lang="scss">
 .FireStore {
-  @apply flex;
-  .collections {
-    @apply flex flex-col gap-1;
-    min-width: 220px;
+  @apply flex gap-2;
+  .side-bar {
+    min-width: 240px;
+    @apply flex flex-col gap-2 items-start ;
+    .items {
+      @apply w-full flex flex-col gap-2;
+    }
 
     .item {
-      @apply relative flex items-center w-full px-4 -mx-4  py-2 text-lg rounded;
+      @apply relative flex items-center transition-all ease-linear w-full rounded-lg text-gray-600 px-2 py-2;
       &.router-link-active {
-        @apply font-bold bg-gray-200;
-      }
-      &:hover{
-        .drop{
-          @apply block;
+        @apply bg-gray-100 text-black;
+          .drop {
+            @apply block opacity-75;
         }
       }
-      .drop{
+
+      .drop {
         @apply absolute right-4 hidden text-red-500 text-sm font-bold;
       }
     }

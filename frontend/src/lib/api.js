@@ -69,7 +69,7 @@ export const Api = {
         return {data, status};
       },
       async deleteOne(payload) {
-        const {data, status} = await ax.post(`documents/${project}/${collection}`,payload);
+        const {data, status} = await ax.post(`documents/${project}/${collection}/deleteOne`,payload);
         return {data, status};
       },
     };

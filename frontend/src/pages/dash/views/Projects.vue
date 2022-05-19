@@ -43,7 +43,6 @@
 
 <script>
 import Modal from "../../../components/Modal.vue";
-import {ax} from "../../../plugins/axios";
 import {Api} from "../../../lib/api";
 
 export default {
