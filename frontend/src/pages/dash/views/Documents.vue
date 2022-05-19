@@ -21,7 +21,7 @@
     </div>
     <div class="document relative">
       <transition name="fade">
-        <router-view :key="doc"/>
+        <router-view @deleteDocument="removeDocument" :key="doc"/>
       </transition>
     </div>
     <Modal ref="modal">

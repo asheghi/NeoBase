@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.6.2",
     "axios": "^0.27.2",
     "ionicons": "^6.0.1",
     "sass": "^1.51.0",

@@ -4,7 +4,7 @@
       <div class="head opacity-50 px-4 -mx-4 mb-4" v-text="doc ? doc._id : 'Document'">
       </div>
       <div class="icons flex items-center gap-2">
-        <DeleteIcon class="fill-red-500 opacity-75" width="24" height="24"/>
+        <DeleteIcon v-if="doc" @click="$emit('deleteDocument',doc)" class="fill-red-500 opacity-75" width="24" height="24"/>
       </div>
     </div>
     <div>
@@ -65,7 +65,7 @@ export default {
 
 <style lang="scss">
 .ViewEditDocument {
-  @apply flex flex-col absolute inset-0;
+  @apply flex flex-col absolute inset-0 px-4;
   min-height: 400px;
 }
 

@@ -1,8 +1,11 @@
 <template>
   <div class="FireStore">
     <div class="side-bar">
-      <div class="head">Collections</div>
-      <button class="btn btn-text btn-sm" @click="showNewCollectionModal">New Collection</button>
+      <div class="head">
+        Collections</div>
+      <button class="btn btn-text btn-sm" @click="showNewCollectionModal">
+        New Collection
+      </button>
       <div class="items">
 
         <router-link v-for="col in collections" :key="col"
@@ -50,14 +53,14 @@
 
 <script>
 
-import {ax} from "../../../plugins/axios";
 import Modal from "../../../components/Modal.vue";
 import {Api} from "../../../lib/api";
 import DeleteIcon from 'ionicons/dist/svg/trash.svg'
+import CreateIcon from 'ionicons/dist/svg/pencil.svg'
 
 export default {
   name: "Collections",
-  components: {Modal, DeleteIcon},
+  components: {Modal, DeleteIcon, CreateIcon},
   mounted() {
     this.fetchData();
   },
@@ -105,6 +108,15 @@ export default {
   .side-bar {
     min-width: 240px;
     @apply flex flex-col gap-2 items-start ;
+    .head{
+      @apply bg-gray-100 w-full flex gap-1 px-2 py-2 rounded;
+      .icon{
+        @apply fill-gray-500;
+      }
+    }
+    .btn{
+      @apply flex items-center justify-between gap-1 w-full;
+    }
     .items {
       @apply w-full flex flex-col gap-2;
     }
