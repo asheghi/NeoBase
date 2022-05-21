@@ -2,7 +2,7 @@ import {extractToken} from "../../lib/jwt-utils.js";
 import {getDebug} from "../../lib/debug.js";
 import {getAccountCollection} from "../../lib/db/connector.js";
 
-const log = getDebug('auth.middleware');
+const log = getDebug('account:middleware');
 
 export const authenticateAccountRequest = async (req, res, next) => {
   if (req.user && req.user._id) {
@@ -13,6 +13,7 @@ export const authenticateAccountRequest = async (req, res, next) => {
     const {email} = extractToken(token);
     let Accounts = await getAccountCollection();
     req.user = await Accounts.findOne({email});
+    if (!req.user) throw new Error(`user not found!, email:${email}`)
     req.user.auth_provider = 'account';
   } catch (e) {
     log.debug('failed to authenticate', e.message);

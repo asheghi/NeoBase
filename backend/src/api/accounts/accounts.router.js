@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import {AccountsService} from "./accounts.service.js";
 import {authenticateAccountRequest, accountGuard} from "./accounts.middleware.js";
 import {getDebug} from "../../lib/debug.js";
-const log = getDebug('account.api')
+const log = getDebug('account:api')
 const app = Express.Router();
 app.use((req, res, next) => {
   next();

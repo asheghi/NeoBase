@@ -26,23 +26,7 @@
     </div>
     <Modal ref="modal">
       <div class="new-document">
-        <div class="form flex flex-col" @keydown.enter="newDocument">
-          <div class="form-group">
-            <label for="newDoc">New Document</label>
-            <textarea
-                name="newDoc"
-                id="newDoc"
-                class="border border-gray-200 p-2 rounded outline-blue-200"
-                cols="32"
-                rows="10"
-                v-model="newDoc"
-                placeholder="insert json content here"
-            />
-          </div>
-          <button @click="submit" class="btn">
-            Create
-          </button>
-        </div>
+        <CreateEditDocument />
       </div>
     </Modal>
   </div>
@@ -53,10 +37,11 @@ import Modal from "../../../components/Modal.vue";
 import {useRoute} from "vue-router";
 import {Api} from "../../../lib/api";
 import DeleteIcon from 'ionicons/dist/svg/trash.svg'
+import CreateEditDocument from "./CreateEditDocument.vue";
 
 export default {
   name: "ManageDocuments",
-  components: {Modal,DeleteIcon},
+  components: {CreateEditDocument, Modal,DeleteIcon},
   setup() {
     const {project, collection} = useRoute().params;
     return {

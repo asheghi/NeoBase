@@ -1,4 +1,5 @@
 import './index.css'
+import 'sweetalert2/dist/sweetalert2.css'
 
 import { createApp } from 'vue'
 import {createRouter,createWebHashHistory} from 'vue-router'

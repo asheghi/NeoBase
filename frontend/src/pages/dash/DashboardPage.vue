@@ -18,6 +18,7 @@
 <script>
 import {ax} from "../../plugins/axios";
 import {Api} from "../../lib/api";
+import {removeAccountToken} from "../../lib/auth";
 
 export default {
   async beforeRouteEnter (to, from, next) {
@@ -31,7 +32,7 @@ export default {
   },
   methods: {
     logout() {
-      localStorage.removeItem('x-wf-auth');
+      removeAccountToken();
       this.$router.replace('/login')
     }
   },

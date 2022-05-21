@@ -35,6 +35,7 @@
 import logoImage from '../../assets/logo.png?url'
 import {ax} from "../../plugins/axios";
 import {Api} from "../../lib/api";
+import {setAccountToken} from "../../lib/auth";
 
 export default {
   name: "LoginPage",
@@ -50,7 +51,7 @@ export default {
   methods: {
     async submit() {
       const {data} = await Api.login(this.form);
-      localStorage.setItem('x-account-token', data.token);
+      setAccountToken(data.token);
       await this.$router.replace('/dash')
     }
   }

@@ -28,6 +28,7 @@ export const AccountsService = {
     });
   },
   generateToken(user) {
+    log.debug('generate token called for:',user.email);
     return generateTokenForPayload({email: user.email});
   }
 }

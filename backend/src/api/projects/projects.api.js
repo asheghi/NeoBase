@@ -25,7 +25,7 @@ app.post('/', async (req, res) => {
   const {name} = req.body;
   if (['admin','config','main','local'].includes(name))res.status(422).json('project name is taken!')
   const Projects = await getProjectsCollection();
-  const exists = await Projects.count({name})
+  const exists = await Projects.findOne({name})
   if (exists) return res.status(422).json({msg: "project name already taken!"})
   res.json(await Projects.create({user_id: req.user._id, name}))
 })

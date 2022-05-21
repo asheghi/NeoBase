@@ -23,7 +23,7 @@
         you have no projects.
       </div>
     </div>
-    <Modal ref="modal">
+    <Modal ref="modal" @onClose="form.name = ''">
       <div class="new-project">
         <div class="form" @keydown.enter="submit">
           <div class="form-group">
@@ -44,6 +44,8 @@
 <script>
 import Modal from "../../../components/Modal.vue";
 import {Api} from "../../../lib/api";
+import {toast} from "../../../plugins/alert";
+import swal from 'sweetalert2';
 
 export default {
   name: "ManageProjects",
@@ -56,18 +58,55 @@ export default {
       this.$refs.modal.show();
     },
     async submit() {
-      const {data, status} = await Api.Projects.create({name: this.form.name})
-      this.$refs.modal.hide()
-      this.form.name = '';
-      await this.fetchData();
+      if (this.loading) {
+        console.log('already running');
+        return;
+      }
+      this.loading = true;
+      try {
+        const {data, status} = await Api.Projects.create({name: this.form.name})
+        this.$refs.modal.hide()
+        this.form.name = '';
+        await this.fetchData();
+        toast('New project created')
+      } catch (e) {
+        console.error(e);
+        toast('Failed to Create Project', {text: e.response.data.msg, icon: 'error',});
+      } finally {
+        this.loading = false;
+      }
     },
     async fetchData() {
       const {data} = await Api.Projects.list();
       this.projects = data;
     },
     async removeProject(p) {
-      const {data} = await Api.Projects.delete(p.name);
-      await this.fetchData();
+      try {
+        const result = await swal.fire({
+          title:"Delete Project",
+          icon:'warning',
+          text:'Are you sure? project ' + p.name + ' will be wiped out!',
+          showCancelButton:true,
+          confirmButtonText:'yes, delete project',
+          confirmButtonColor:'red',
+          customClass:{
+            cancelButton:"bg-green-500 text-white"
+          }
+        });
+        if (!result.isConfirmed) {
+         return;
+        }
+        const {data} = await Api.Projects.delete(p.name);
+        await this.fetchData();
+        toast('Delete Project ' + p.name)
+      } catch (e) {
+        console.error(e);
+        toast('Failed to delete project',{
+          text:e.response.data.msg,
+          icon:'warning',
+        })
+      } finally {
+      }
     }
   },
   data() {
@@ -76,6 +115,7 @@ export default {
         name: '',
       },
       projects: [],
+      loading: false,
     }
   }
 }
