@@ -2,31 +2,44 @@
   <div class="Documents">
     <div class="side-bar">
       <h1 class="head">Documents</h1>
-      <button class="btn btn-sm btn-text" @click="$refs.modal.show()">New Document</button>
+      <button class="btn btn-sm btn-text" @click="$refs.modal.show()">
+        New Document
+      </button>
       <div class="items">
-        <router-link class="item"
-                     v-for="doc in documents"
-                     :to="{name:'document',params:{
-                     project,
-                     collection,
-                     _id:doc._id,
-                   }}"
+        <router-link
+          v-for="doc in documents"
+          class="item"
+          :to="{
+            name: 'document',
+            params: {
+              project,
+              collection,
+              _id: doc._id,
+            },
+          }"
         >
-          {{doc._id.substring(10)}}
-          <div @click="removeDocument(doc)" class="drop">
-            <DeleteIcon class="fill-red-500 opacity-75" width="24" height="24"/>
+          {{ doc._id.substring(10) }}
+          <div class="drop" @click="removeDocument(doc)">
+            <DeleteIcon
+              class="fill-red-500 opacity-75"
+              width="24"
+              height="24"
+            />
           </div>
         </router-link>
       </div>
     </div>
     <div class="document relative">
       <transition name="fade">
-        <router-view @deleteDocument="removeDocument" :key="doc"/>
+        <router-view :key="doc" @deleteDocument="removeDocument" />
       </transition>
     </div>
     <Modal ref="modal">
       <div class="new-document">
-        <CreateEditDocument />
+        <CreateDocument
+          @created="onNewDocumentCreated"
+          @cancel="$refs.modal.hide()"
+        />
       </div>
     </Modal>
   </div>
@@ -34,20 +47,33 @@
 
 <script>
 import Modal from "../../../components/Modal.vue";
-import {useRoute} from "vue-router";
-import {Api} from "../../../lib/api";
-import DeleteIcon from 'ionicons/dist/svg/trash.svg'
-import CreateEditDocument from "./CreateEditDocument.vue";
+import { useRoute } from "vue-router";
+import { Api } from "../../../lib/api";
+import DeleteIcon from "ionicons/dist/svg/trash.svg";
+import CreateDocument from "./CreateDocument.vue";
 
 export default {
   name: "ManageDocuments",
-  components: {CreateEditDocument, Modal,DeleteIcon},
+  components: { CreateDocument, Modal, DeleteIcon },
   setup() {
-    const {project, collection} = useRoute().params;
+    const { project, collection } = useRoute().params;
+    const api = Api.Documents(project, collection);
     return {
       project,
       collection,
-    }
+      api,
+    };
+  },
+  data() {
+    return {
+      documents: [],
+      newDoc: "",
+    };
+  },
+  computed: {
+    doc() {
+      return this.$route.params._id;
+    },
   },
   mounted() {
     this.fetchData();
@@ -56,52 +82,38 @@ export default {
     onNewDocument() {
       this.$refs.modal.show();
     },
+    onNewDocumentCreated() {
+      this.fetchData();
+      this.$refs.modal.hide();
+    },
     async submit() {
-      const {data, status} = await this.api.create(JSON.parse(this.newDoc))
-      this.$refs.modal.hide()
-      this.newDoc = '';
+      const { data, status } = await this.api.create(JSON.parse(this.newDoc));
+      this.$refs.modal.hide();
+      this.newDoc = "";
       await this.fetchData();
     },
     async fetchData() {
-      const {data} = await this.api.find();
+      const { data } = await this.api.find();
       this.documents = data;
     },
     async removeDocument(p) {
-      const {data} = await this.api.deleteOne({_id: p._id})
-      let {collection, project} = this;
-      this.$router.replace({name:'documents',params:{ project,collection}}).then();
+      const { data } = await this.api.deleteOne({ _id: p._id });
+      let { collection, project } = this;
+      this.$router
+        .replace({ name: "documents", params: { project, collection } })
+        .then();
       await this.fetchData();
     },
   },
-  data() {
-    return {
-      documents: [],
-      newDoc: '',
-    }
-  },
-  computed: {
-    api() {
-      return Api.Documents(this.project, this.collection);
-    },
-    project() {
-      return this.$route.params.project;
-    },
-    collection() {
-      return this.$route.params.collection;
-    },
-    doc(){
-      return this.$route.params._id;
-    }
-  }
-}
+};
 </script>
 
 <style lang="scss">
 .Documents {
   @apply flex w-full absolute inset-0;
-  .side-bar{
-    .items{
-      .item{
+  .side-bar {
+    .items {
+      .item {
       }
     }
   }
@@ -111,8 +123,6 @@ export default {
   }
 
   .new-document {
-
   }
 }
-
 </style>
