@@ -16,20 +16,53 @@
     <div class="type">
       <label for="type">Type</label>
       <br />
-      <select id="type" :value="type">
+      <select
+        id="type"
+        :value="type"
+        @change="selected_type = $event.target.value"
+      >
         <option value="text" v-text="'text'" />
         <option value="number" v-text="'number'" />
+        <option value="boolean" v-text="'boolean'" />
+        <option value="date-time" v-text="'date-time'" />
+        <option value="array" v-text="'array'" />
+        <option value="map" v-text="'map'" />
       </select>
     </div>
     <div class="value">
       <label for="value">Value</label>
       <br />
       <input
+        v-if="type === 'number'"
+        id="value"
+        type="number"
+        :value="fieldValue"
+        name="value"
+        placeholder="value"
+        @change="$emit('update:field-value', +$event.target.value)"
+      />
+      <input
+        v-else-if="type === 'text'"
         id="value"
         :value="fieldValue"
         name="value"
         placeholder="value"
         @change="$emit('update:field-value', $event.target.value)"
+      />
+      <select
+        v-else-if="type === 'boolean'"
+        id="type"
+        :value="fieldValue"
+        @change="$emit('update:field-value', Boolean($event.target.value))"
+      >
+        <option :value="true" v-text="'true'" />
+        <option :value="false" v-text="'false'" />
+      </select>
+      <textarea
+        v-else
+        id="type"
+        :value="fieldValue"
+        @change="$emit('update:field-value', JSON.parse($event.target.value))"
       />
     </div>
     <button v-if="fieldKey" class="remove-icon">
@@ -69,6 +102,21 @@ export default {
     type() {
       const { selected_type } = this;
       if (selected_type) return selected_type;
+      if (!String(this.fieldValue)) return "text";
+      const typeOf = typeof this.fieldValue;
+      console.log("typeof ", typeOf);
+      if (typeOf === "boolean") return "boolean";
+      if (typeOf === "string") {
+        if (this.fieldValue.length === 24 && this.fieldValue.endsWith("Z")) {
+          return "date-time";
+        }
+      }
+      if (typeOf === "object") {
+        if (Array.isArray(this.fieldValue)) {
+          return "array";
+        }
+        if (this.fieldValue) return "object";
+      }
       if (!isNaN(this.fieldValue)) return "number";
       return "text";
     },
@@ -77,7 +125,7 @@ export default {
 </script>
 <style lang="scss">
 .Field {
-  @apply flex gap-2 items-center pl-8;
+  @apply flex gap-2  pl-8 items-start justify-start;
 
   .key {
     position: relative;
@@ -105,7 +153,7 @@ export default {
     }
   }
   .equal {
-    @apply mt-auto mb-1 opacity-75;
+    @apply mt-7 mb-1 opacity-75;
   }
 
   .remove-icon {
@@ -115,6 +163,9 @@ export default {
     path {
       stroke: theme("colors.gray.500");
     }
+  }
+  textarea {
+    @apply border;
   }
 }
 </style>

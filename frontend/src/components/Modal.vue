@@ -39,12 +39,11 @@ export default {
     show() {
       this.open = true;
       setTimeout(() => {
-        const input = document.querySelector('.Modal input');
-        if (input){
+        const input = document.querySelector(".Modal input");
+        if (input) {
           input.focus();
         }
-      },360);
-
+      }, 360);
     },
 
     outSideClicked() {

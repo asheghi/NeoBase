@@ -2,29 +2,41 @@
   <div class="LoginPage">
     <div class="cover">
       <div class="header">
-        <img :src="logoImage" width="120" height="120"/>
+        <img :src="logoImage" width="120" height="120" />
         <h1 class="text-2xl text-center opacity-60">
           <span class="">Join</span>
-          Wild Fire</h1>
+          Wild Fire
+        </h1>
       </div>
 
       <div class="form">
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" name="email" v-model="form.email" placeholder="john@doe.com">
+          <input
+            id="email"
+            v-model="form.email"
+            name="email"
+            placeholder="john@doe.com"
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" id="password" v-model="form.password" placeholder="secure password">
+          <input
+            id="password"
+            v-model="form.password"
+            type="password"
+            placeholder="secure password"
+          />
         </div>
-        <button @click="submit" class="">
-          Continue
-        </button>
+        <button class="" @click="submit">Continue</button>
       </div>
 
-      <div class="msg opacity-75 ">
-        <p>Already registered?
-          <router-link class="text-blue-700 font-bold" to="/login" >Login Here</router-link>
+      <div class="msg opacity-75">
+        <p>
+          Already registered?
+          <router-link class="text-blue-700 font-bold" to="/login"
+            >Login Here</router-link
+          >
         </p>
       </div>
     </div>
@@ -32,55 +44,53 @@
 </template>
 
 <script>
-import logoImage from '../../assets/logo.png?url'
-import {ax} from "../../plugins/axios";
-import {Api} from "../../lib/api";
-import {setAccountToken} from "../../lib/auth";
+import logoImage from "../../assets/logo.png?url";
+import { ax } from "../../plugins/axios";
+import { Api } from "../../lib/api";
+import { setAccountToken } from "../../lib/auth";
 export default {
   name: "RegisterPage",
   data() {
     return {
       logoImage,
       form: {
-        email:'',
-        password:"",
-      }
-    }
+        email: "",
+        password: "",
+      },
+    };
   },
   methods: {
     async submit() {
-      const {data, status} = await Api.register(this.form);
+      const { data, status } = await Api.register(this.form);
       setAccountToken(data.token);
-      await this.$router.replace('/dash')
-    }
-  }
-}
+      await this.$router.replace("/dash");
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-.LoginPage{
+.LoginPage {
   @apply min-h-screen flex justify-center items-center;
-  .cover{
+  .cover {
     @apply flex flex-col justify-center items-center gap-7;
-    .header{
+    .header {
       @apply flex justify-center flex-col gap-4 items-center py-4;
     }
-    .form-group{
-     @apply flex flex-col justify-start gap-2 ;
-      label{
+    .form-group {
+      @apply flex flex-col justify-start gap-2;
+      label {
         min-width: 80px;
-        opacity: .5;
+        opacity: 0.5;
       }
-      input{
+      input {
         @apply px-4 py-2 rounded bg-gray-100 outline-blue-600;
       }
-
     }
-    button{
+    button {
       @apply px-4 w-full focus:bg-blue-700 active:bg-blue-800 transition-all
       outline-0 py-2  active:bg-blue-800 mt-4 rounded text-white bg-blue-600 font-bold;
     }
   }
 }
-
 </style>

@@ -21,9 +21,11 @@
   </div>
 </template>
 <script>
-import DocumentEditor from "./DocumentEditor.vue";
+import DocumentEditor from "./components/DocumentEditor.vue";
 import { useRoute } from "vue-router";
 import { Api } from "../../../lib/api";
+import { getLogger } from "../../../plugins/log";
+const log = getLogger("create-document");
 export default {
   name: "CreateDocument",
   components: { DocumentEditor },
@@ -40,9 +42,7 @@ export default {
   data() {
     return {
       document: {
-        name: "John Doe",
-        age: 26,
-        married: true,
+        "": "",
       },
     };
   },
@@ -56,7 +56,11 @@ export default {
   },
   methods: {
     async createDocument() {
-      delete this.document[""];
+      if (!this.document) {
+        log.error("this.document is not defined!", this.document);
+        return;
+      }
+      if ("" in this.document) delete this.document[""];
       console.log("before create", this.document);
       const { data, status } = await this.api.create(this.document);
       this.$emit("created", data);

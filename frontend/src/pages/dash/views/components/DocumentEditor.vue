@@ -2,7 +2,6 @@
   <div class="DocumentEditor">
     <template v-for="(key, index) in Object.keys(document)" :key="index">
       <DocumentField
-        v-model:field-value="document[key]"
         :field-key="String(key)"
         :field-value="document[key]"
         @update:field-key="onKeyChange"
@@ -13,8 +12,8 @@
   </div>
 </template>
 <script>
-import DocumentField from "./components/DocumentField.vue";
-import { getLogger } from "../../../plugins/log";
+import DocumentField from "./DocumentField.vue";
+import { getLogger } from "../../../../plugins/log";
 const log = getLogger("document-editor");
 
 export default {
@@ -62,7 +61,7 @@ export default {
       const value = { ...this.document };
       delete value[""];
       console.log("check", value);
-      this.$emit("update:modelValue");
+      this.$emit("update:modelValue", value);
     },
     removeField(key) {
       if (!key) return;
@@ -72,3 +71,8 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+.Field {
+  @apply py-2;
+}
+</style>

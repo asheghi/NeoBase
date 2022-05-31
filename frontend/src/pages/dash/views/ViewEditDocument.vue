@@ -35,10 +35,12 @@ export default {
   },
   setup() {
     const { project, collection, _id } = useRoute().params;
+    const api = Api.Documents(project, collection);
     return {
       project,
       collection,
-      _id,
+      id: _id,
+      api,
     };
   },
   data() {
@@ -46,24 +48,15 @@ export default {
       doc: null,
     };
   },
-  computed: {
-    api() {
-      return Api.Documents(this.project, this.collection);
-    },
-    project() {
-      return this.$route.params.project;
-    },
-    collection() {
-      return this.$route.params.collection;
-    },
-  },
   mounted() {
     this.fetchDocument();
   },
   methods: {
     async fetchDocument() {
       const { data } = await this.api.findOne({
-        _id: this.$route.params._id,
+        params: {
+          _id: this.$route.params._id,
+        },
       });
       this.doc = data;
     },

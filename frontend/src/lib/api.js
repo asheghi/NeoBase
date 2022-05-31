@@ -1,4 +1,6 @@
 import { ax } from "../plugins/axios";
+import { getLogger } from "../plugins/log";
+const log = getLogger("API");
 
 export const Api = {
   Projects: {
@@ -73,6 +75,7 @@ export const Api = {
         return { data, status };
       },
       async findOne({ params } = {}) {
+        log.debug("find one doc called with", params);
         const { data, status } = await ax.get(
           `documents/${project}/${collection}/findOne`,
           { params }
