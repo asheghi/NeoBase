@@ -12,8 +12,14 @@
       />
     </div>
     <br />
-    <DocumentEditor v-model="document" />
+    <DocumentEditor v-if="currentMode === 'editor'" v-model="document" />
+    <JsonEditor v-if="currentMode === 'json'" v-model="document" />
     <div class="buttons">
+      <button
+        class="btn btn-text btn-sm mr-auto"
+        @click="toggleMode"
+        v-text="alternateMode"
+      />
       <button class="btn btn-text btn-sm" @click="onCancel" v-text="'cancel'" />
       <button class="btn save" @click="createDocument" v-text="'Save'" />
     </div>
@@ -25,18 +31,30 @@ import DocumentEditor from "./components/DocumentEditor.vue";
 import { useRoute } from "vue-router";
 import { Api } from "../../../lib/api";
 import { getLogger } from "../../../plugins/log";
+import { computed, ref } from "vue";
+import JsonEditor from "./components/JsonEditor.vue";
+
 const log = getLogger("create-document");
 export default {
   name: "CreateDocument",
-  components: { DocumentEditor },
+  components: { JsonEditor, DocumentEditor },
   emits: ["created", "cancel"],
   setup() {
     const { project, collection } = useRoute().params;
-    const api = Api.Documents(project, collection);
+    const currentMode = ref("json");
+    const alternateMode = computed(() =>
+      currentMode.value === "json" ? "editor" : "json"
+    );
+    const toggleMode = () => {
+      currentMode.value = alternateMode.value;
+    };
     return {
       project,
       collection,
-      api,
+      api: Api.Documents(project, collection),
+      currentMode,
+      alternateMode,
+      toggleMode,
     };
   },
   data() {
@@ -67,6 +85,9 @@ export default {
     },
     onCancel() {
       this.$emit("cancel", true);
+    },
+    toggleAlternateMode() {
+      this.currentMode = this.alternateMode;
     },
   },
 };
