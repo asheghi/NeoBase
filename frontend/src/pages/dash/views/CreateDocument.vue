@@ -1,5 +1,5 @@
 <template>
-  <div class="CreateDocument">
+  <div class="CreateDocument" :class="'mode-' + currentMode">
     <div class="document-id">
       <label for="document_id">Document ID</label>
       <br />
@@ -105,6 +105,11 @@ export default {
   select {
     @apply px-2 py-1 text-gray-500 drop-shadow rounded outline-blue-600 border;
     background: white;
+  }
+  &.mode-json {
+    .border-left {
+      @apply hidden;
+    }
   }
   .border-left {
     @apply absolute bottom-0;

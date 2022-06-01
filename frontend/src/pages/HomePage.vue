@@ -7,6 +7,9 @@
         flexible, scalable database for mobile, web, and server development
       </p>
       <router-link to="/register" class="btn"> Get Started </router-link>
+      <router-link to="/login" class="text-gray-400"
+        >already have an account</router-link
+      >
     </div>
   </div>
 </template>

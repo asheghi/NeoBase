@@ -129,8 +129,10 @@ export default {
       @apply relative flex items-center transition-all ease-linear w-full rounded-lg text-gray-600 px-2 py-2;
       &.router-link-active {
         @apply bg-gray-100 text-black;
-        .drop {
-          @apply block opacity-75;
+        &:hover{
+          .drop {
+            @apply block opacity-75;
+          }
         }
       }
 

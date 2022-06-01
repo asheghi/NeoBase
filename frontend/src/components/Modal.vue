@@ -64,7 +64,7 @@ export default {
 
   .modal-fullscreen {
     @apply fixed inset-0 w-full h-screen overflow-hidden;
-    z-index: 9999;
+    z-index: 9;
     @apply w-full h-full flex justify-center items-center;
     background: rgba(black, 0.1);
     backdrop-filter: blur(1px);

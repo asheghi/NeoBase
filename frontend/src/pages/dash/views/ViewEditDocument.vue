@@ -6,13 +6,14 @@
         v-text="doc ? doc._id : 'Document'"
       ></div>
       <div class="icons flex items-center gap-2">
-        <DeleteIcon
-          v-if="doc"
-          class="fill-red-500 opacity-75"
-          width="24"
-          height="24"
-          @click="$emit('deleteDocument', doc)"
-        />
+        <button @click="$emit('deleteDocument', doc)">
+          <DeleteIcon
+            v-if="doc"
+            class="fill-red-500 opacity-75"
+            width="24"
+            height="24"
+          />
+        </button>
       </div>
     </div>
     <div>
