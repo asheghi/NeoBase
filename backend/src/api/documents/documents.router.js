@@ -51,7 +51,7 @@ app.post('/deleteMany',canUserDo('delete'), async (req, res) => {
   res.json(await req.Collection.deleteMany(req.body));
 })
 
-app.put('/update', canUserDo('update'), async (req, res) => {
+app.put('/updateOne', canUserDo('update'), async (req, res) => {
   res.json(await req.Collection.updateOne(req.query, req.body));
 })
 

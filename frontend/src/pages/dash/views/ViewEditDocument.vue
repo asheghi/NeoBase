@@ -6,6 +6,7 @@
         v-text="doc ? doc._id : 'Document'"
       ></div>
       <div class="icons flex items-center gap-2">
+        <button @click="toggleEditMode">Edit</button>
         <button @click="$emit('deleteDocument', doc)">
           <DeleteIcon
             v-if="doc"
@@ -16,9 +17,15 @@
         </button>
       </div>
     </div>
-    <div>
+    <div v-if="currentMode === ModeView">
       <pre v-if="doc"><code>{{ JSON.stringify(doc, null, '\t') }}</code></pre>
     </div>
+    <CreateDocument
+      v-if="currentMode === ModeEdit"
+      hide-id
+      :doc="doc"
+      @updated="onUpdate"
+    />
   </div>
 </template>
 
@@ -26,11 +33,14 @@
 import { useRoute } from "vue-router";
 import { Api } from "../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
+import CreateDocument from "./CreateDocument.vue";
+const ModeView = "mode-view";
+const ModeEdit = "mode-edit";
 
 export default {
   name: "ViewEditDocument",
-  components: { DeleteIcon },
-  beforeRouteUpdate(to, from) {
+  components: { CreateDocument, DeleteIcon },
+  beforeRouteUpdate() {
     this.doc = null;
     this.fetchDocument();
   },
@@ -47,7 +57,16 @@ export default {
   data() {
     return {
       doc: null,
+      currentMode: ModeView,
+      ModeEdit,
+      ModeView,
     };
+  },
+  computed: {
+    alternateMode() {
+      if (this.currentMode === ModeEdit) return ModeView;
+      return ModeEdit;
+    },
   },
   mounted() {
     this.fetchDocument();
@@ -60,6 +79,13 @@ export default {
         },
       });
       this.doc = data;
+    },
+    toggleEditMode() {
+      this.currentMode = this.alternateMode;
+    },
+    onUpdate() {
+      this.fetchDocument();
+      this.toggleEditMode();
     },
   },
 };

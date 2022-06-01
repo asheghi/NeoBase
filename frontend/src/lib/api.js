@@ -67,6 +67,16 @@ export const Api = {
         );
         return { data, status };
       },
+      async updateOne(filter, payload) {
+        const { data, status } = await ax.put(
+          `documents/${project}/${collection}/updateOne`,
+          payload,
+          {
+            params: filter,
+          }
+        );
+        return { data, status };
+      },
       async find({ params } = {}) {
         const { data, status } = await ax.get(
           `documents/${project}/${collection}/find`,

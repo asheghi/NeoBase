@@ -2,7 +2,6 @@
   <div class="Field">
     <div class="key">
       <label for="key">Field</label>
-      <br />
       <input
         id="key"
         name="key"
@@ -15,7 +14,6 @@
     <div class="equal">=</div>
     <div class="type">
       <label for="type">Type</label>
-      <br />
       <select
         id="type"
         :value="type"
