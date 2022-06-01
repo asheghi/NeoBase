@@ -3,23 +3,18 @@ import {checkAccess} from "./access-control.js";
 import bodyParser from "body-parser";
 import {authenticateUserRequest} from "../auth/auth.middleware.js";
 import {authenticateAccountRequest} from "../accounts/accounts.middleware.js";
-import {getDebug} from "../../lib/debug.js";
-const log = getDebug('documents.api')
+import {getLogger} from "../../lib/debug.js";
+import {projectOwnerGuard} from "../common/guards.middleware.js";
+const logger = getLogger('documents.api')
 const app = Express.Router();
 
-app.use((req, res, next) => {
-  next();
-  log.debug('is handling request')
-});
-
-
 app.use((req,res,next) => {
-  req['fuck'] = 'this shit';
   next();
 })
 
-app.use(authenticateAccountRequest)
-app.use(authenticateUserRequest,)
+app.use(authenticateAccountRequest);
+app.use(authenticateUserRequest);
+app.use(projectOwnerGuard);
 
 const canUserDo = (operation) => async (req, res, next) => {
   const haveAccess = await checkAccess({req, project: req.project, collection: req.Collection, operation})

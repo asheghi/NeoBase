@@ -2,8 +2,9 @@ import Express from 'express'
 import bodyParser from "body-parser";
 import {getProjectsCollection} from "../../lib/db/connector.js";
 import {authenticateAccountRequest, accountGuard} from "../accounts/accounts.middleware.js";
-import {getDebug} from "../../lib/debug.js";
-const log = getDebug('projects.api')
+import {getLogger} from "../../lib/debug.js";
+import {projectOwnerGuard} from "../common/guards.middleware.js";
+const log = getLogger('projects.api')
 const app = Express.Router();
 
 app.use((req, res, next) => {
@@ -30,16 +31,13 @@ app.post('/', async (req, res) => {
   res.json(await Projects.create({user_id: req.user._id, name}))
 })
 
-const ownerGuard = async (req, res, next) => {
-  const {project: name} = req.params;
-  const Projects = await getProjectsCollection();
-  const exists = await Projects.findOne({name});
-  if (!exists) res.status(422).json({msg: "project does not exists!"})
-  if (exists.user_id.toString() !== req.user._id.toString()) return res.status(422).json({msg: "no access!"})
+
+const setProject = (req, res, next)=>{
+  req.project = req.params.project;
   next();
 };
 
-app.delete('/:project', ownerGuard, async (req, res) => {
+app.delete('/:project',setProject, projectOwnerGuard, async (req, res) => {
   const Projects = await getProjectsCollection();
   const {project} = req.params
   res.json(await Projects.deleteOne({name:project}))

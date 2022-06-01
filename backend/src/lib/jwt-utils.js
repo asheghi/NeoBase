@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs'
-import {getDebug} from "./debug.js";
+import {getLogger} from "./debug.js";
 import {config} from "../config/index.js";
 
-const log = getDebug('jwt-utils')
+const log = getLogger('jwt-utils')
 
 export function generateTokenForPayload(payload) {
   return jwt.sign(payload, config.jwtSecret);

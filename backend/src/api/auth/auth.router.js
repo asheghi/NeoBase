@@ -2,8 +2,8 @@ import Express from "express";
 import bodyParser from "body-parser";
 import {getAuthService} from "./auth.service.js";
 import {authenticateUserRequest, authGuard} from "./auth.middleware.js";
-import {getDebug} from "../../lib/debug.js";
-const log = getDebug('auth.api')
+import {getLogger} from "../../lib/debug.js";
+const log = getLogger('auth.api')
 const app = Express.Router();
 
 app.use((req, res, next) => {

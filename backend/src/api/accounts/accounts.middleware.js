@@ -1,8 +1,8 @@
 import {extractToken} from "../../lib/jwt-utils.js";
-import {getDebug} from "../../lib/debug.js";
+import {getLogger} from "../../lib/debug.js";
 import {getAccountCollection} from "../../lib/db/connector.js";
 
-const log = getDebug('account:middleware');
+const log = getLogger('account:middleware');
 
 export const authenticateAccountRequest = async (req, res, next) => {
   if (req.user && req.user._id) {

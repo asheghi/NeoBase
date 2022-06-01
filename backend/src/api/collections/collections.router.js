@@ -1,21 +1,16 @@
 import Express from 'express'
 import bodyParser from "body-parser";
 import {getAccessConfigCollection, getDatabase,} from "../../lib/db/connector.js";
-import {getDebug} from "../../lib/debug.js";
+import {getLogger} from "../../lib/debug.js";
 import {accountGuard, authenticateAccountRequest} from "../accounts/accounts.middleware.js";
+import {projectOwnerGuard} from "../common/guards.middleware.js";
 
-const log = getDebug('collection.api');
-
+const logger = getLogger('collection.api');
 const app = Express.Router();
-
-app.use((req, res, next) => {
-  next();
-  log.debug('is handling request')
-});
 
 app.use(bodyParser.json());
 
-app.use(authenticateAccountRequest, accountGuard);
+app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
 
 app.get('/access-config/:collection', async (req, res, next) => {
   let AccessConfig = await getAccessConfigCollection();

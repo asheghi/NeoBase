@@ -1,8 +1,8 @@
 import {comparePassword, generateTokenForPayload, hashPassword} from "../../lib/jwt-utils.js";
 import {getAccountCollection} from "../../lib/db/connector.js";
-import {getDebug} from "../../lib/debug.js";
+import {getLogger} from "../../lib/debug.js";
 
-const log = getDebug('auth.service');
+const log = getLogger('auth.service');
 
 export const AccountsService = {
   async login(email, password) {

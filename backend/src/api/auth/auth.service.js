@@ -1,8 +1,8 @@
-import {getDebug} from "../../lib/debug.js";
+import {getLogger} from "../../lib/debug.js";
 import {getCollection} from "../../lib/db/connector.js";
 import {comparePassword, generateTokenForPayload, hashPassword} from "../../lib/jwt-utils.js";
 
-const log = getDebug('auth.service');
+const log = getLogger('auth.service');
 
 export async function getAuthService(project) {
   const Users = await getCollection('auth', project);

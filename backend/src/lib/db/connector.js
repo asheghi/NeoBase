@@ -1,7 +1,7 @@
-import {getDebug} from "../debug.js";
+import {getLogger} from "../debug.js";
 import {config} from "../../config/index.js";
 import Mongoose from 'mongoose'
-const log = getDebug('db-connector')
+const log = getLogger('db-connector')
 
 export async function getDatabase(name) {
   const uri = config.mongoUriBase + name;
