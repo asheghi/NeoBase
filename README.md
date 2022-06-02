@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
 <img  src="https://raw.githubusercontent.com/asheghi/wildfire/master/frontend/src/assets/logo.png" width="120">
 <h1 style="margin: 0; padding: 0">WildFire</h1>
 </div>
