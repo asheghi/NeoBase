@@ -3,9 +3,8 @@
 <h1 style="margin: 0; padding: 0">WildFire</h1>
 </div>
 
----
 an open-source alternative to Google FireBase,
-provides server-less solutions for mobile, web, and server development.
+provides server-less solutions for mobile, web, and server development. (WIP)
 
 ### Features
  - [x] Management Dashboard
