@@ -4,8 +4,8 @@
 </div>
 
 ---
-an attempt to create an open-source alternative to Google `FireBase`,
-which provides flexible, scalable database and authentication for mobile, web, and server development.
+an open-source alternative to Google FireBase,
+provides server-less solutions for mobile, web, and server development.
 
 ### Features
  - [x] Management Dashboard
