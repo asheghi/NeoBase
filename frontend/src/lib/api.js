@@ -57,7 +57,6 @@ export const Api = {
     const { data, status } = await ax.get("accounts/me");
     return { data, status };
   },
-
   Documents(project, collection) {
     return {
       async create(payload) {
@@ -107,4 +106,22 @@ export const Api = {
       },
     };
   },
+  Users: (project) => ({
+    async find() {
+      const { data, status } = await ax.get(`users/${project}`);
+      return { data, status };
+    },
+    async newUser(payload) {
+      const { data, status } = await ax.post(`users/${project}`, payload);
+      return { data, status };
+    },
+    async deleteUser(user) {
+      const { data, status } = await ax.delete(`users/${project}/${user._id}`);
+      return { data, status };
+    },
+    async fetchUser(uid) {
+      const { data, status } = await ax.get(`users/${project}/${uid}`);
+      return { data, status };
+    },
+  }),
 };

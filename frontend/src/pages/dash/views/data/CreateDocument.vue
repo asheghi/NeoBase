@@ -27,8 +27,8 @@
 <script>
 import DocumentEditor from "./components/DocumentEditor.vue";
 import { useRoute } from "vue-router";
-import { Api } from "../../../lib/api";
-import { getLogger } from "../../../plugins/log";
+import { Api } from "../../../../lib/api";
+import { getLogger } from "../../../../plugins/log";
 import { computed, ref } from "vue";
 import JsonEditor from "./components/JsonEditor.vue";
 

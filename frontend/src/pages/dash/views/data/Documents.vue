@@ -46,9 +46,9 @@
 </template>
 
 <script>
-import Modal from "../../../components/Modal.vue";
+import Modal from "../../../../components/Modal.vue";
 import { useRoute } from "vue-router";
-import { Api } from "../../../lib/api";
+import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import CreateDocument from "./CreateDocument.vue";
 
@@ -111,12 +111,6 @@ export default {
 <style lang="scss">
 .Documents {
   @apply flex w-full absolute inset-0;
-  .side-bar {
-    .items {
-      .item {
-      }
-    }
-  }
 
   .document {
     @apply w-full;

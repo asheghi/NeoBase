@@ -1,7 +1,7 @@
 <template>
   <div class="DashboardPage">
     <div
-      class="navbar container mx-auto flex gap-4 py-2 text-lg opacity-50 px-4 mb-4"
+      class="navbar container mx-auto flex gap-4 py-2 text-lg opacity-50 px-4"
     >
       <div class="left">
         <router-link to="/dash">Home</router-link>

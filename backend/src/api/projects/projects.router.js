@@ -16,6 +16,12 @@ app.use((req, res, next) => {
 app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());
 
+const setProject = (req, res, next)=>{
+  log.debug('setting project')
+  req.project = req.params.project;
+  next();
+};
+
 //return users projects
 app.get('/', async (req, res) => {
   const Projects = await getProjectsCollection();
@@ -32,16 +38,13 @@ app.post('/', async (req, res) => {
 })
 
 
-const setProject = (req, res, next)=>{
-  req.project = req.params.project;
-  next();
-};
-
 app.delete('/:project',setProject, projectOwnerGuard, async (req, res) => {
   const Projects = await getProjectsCollection();
   const {project} = req.params
   res.json(await Projects.deleteOne({name:project}))
   //todo delete database
 })
+
+
 
 export const ProjectsApiRouter = app;

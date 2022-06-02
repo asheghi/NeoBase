@@ -7,6 +7,7 @@ import {ProjectsApiRouter} from "./projects/projects.router.js";
 import {ProjectAuthRouter} from "./auth/auth.router.js";
 import {DocumentsApiRouter} from "./documents/documents.router.js";
 import {getCollection} from "../lib/db/connector.js";
+import {ProjectUsersApiRouter} from "./projects/users.router.js";
 
 const app = Express.Router();
 
@@ -19,31 +20,24 @@ if (config.simulate_slow_network) {
 
 app.use(cors());
 
+const setProject = (req, res, next)=>{
+  req.project = req.params.project;
+  next();
+};
+const setCollection = async (req, res, next) => {
+  const {project, collection} = req.params;
+  req.project = project;
+  req.collection_name = collection;
+  req.Collection = await getCollection(project, collection);
+  next()
+};
+
 app.use('/accounts', AccountsRouter);
 app.use('/projects', ProjectsApiRouter);
-app.use('/collections/:project',
-  (req, res, next) => {
-    req.project = req.params.project;
-    next();
-  },
-  CollectionsApiRouter)
-
-app.use('/documents/:project/:collection',
-  async (req, res, next) => {
-    const {project, collection} = req.params;
-    req.project = project;
-    req.collection_name = collection;
-    req.Collection = await getCollection(project, collection);
-    next()
-  },
-  DocumentsApiRouter);
-app.use('/auth/:project', (req, res, next) => {
-    req.project = req.params.project;
-    next();
-  },
-  ProjectAuthRouter
-)
-;
+app.use('/users/:project',setProject,ProjectUsersApiRouter)
+app.use('/collections/:project', setProject, CollectionsApiRouter)
+app.use('/documents/:project/:collection', setCollection, DocumentsApiRouter);
+app.use('/auth/:project',setProject, ProjectAuthRouter);
 
 app.get('/', (req, res) => {
   res.json({

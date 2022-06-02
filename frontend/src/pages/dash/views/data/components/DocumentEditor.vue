@@ -13,7 +13,7 @@
 </template>
 <script>
 import DocumentField from "./DocumentField.vue";
-import { getLogger } from "../../../../plugins/log";
+import { getLogger } from "../../../../../plugins/log";
 const log = getLogger("document-editor");
 
 export default {

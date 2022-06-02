@@ -17,23 +17,43 @@ export const routes = [
     children: [
       {
         path: "",
-        component: () => import("./pages/dash/views/Projects.vue"),
+        component: () => import("./pages/dash/views/data/Projects.vue"),
       },
       {
-        name: "collections",
+        name: "project",
         path: ":project",
-        component: () => import("./pages/dash/views/Collections.vue"),
+        component: () => import("./pages/dash/views/data/Project.vue"),
         children: [
           {
-            name: "documents",
-            path: ":collection",
-            component: () => import("./pages/dash/views/Documents.vue"),
+            name: "collections",
+            path: "data",
+            component: () => import("./pages/dash/views/data/Collections.vue"),
             children: [
               {
-                name: "document",
-                path: ":_id",
+                name: "documents",
+                path: ":collection",
                 component: () =>
-                  import("./pages/dash/views/ViewEditDocument.vue"),
+                  import("./pages/dash/views/data/Documents.vue"),
+                children: [
+                  {
+                    name: "document",
+                    path: ":_id",
+                    component: () =>
+                      import("./pages/dash/views/data/ViewEditDocument.vue"),
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            name: "auth",
+            path: "auth",
+            component: () => import("./pages/dash/views/auth/Users.vue"),
+            children: [
+              {
+                name: "user",
+                path: ":uid",
+                component: () => import("./pages/dash/views/auth/User.vue"),
               },
             ],
           },

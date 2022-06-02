@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import Modal from "../../../components/Modal.vue";
-import { Api } from "../../../lib/api";
+import Modal from "../../../../components/Modal.vue";
+import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import CreateIcon from "ionicons/dist/svg/pencil.svg";
 
