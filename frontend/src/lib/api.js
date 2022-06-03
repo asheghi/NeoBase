@@ -124,4 +124,26 @@ export const Api = {
       return { data, status };
     },
   }),
+  AccessControl(project) {
+    return {
+      async getAccessConfig(collection) {
+        const { data, status } = await ax.get(
+          `collections/${project}/access-config/${collection}`
+        );
+        return { data, status };
+      },
+      async resetConfig(collection) {
+        let url = `collections/${project}/access-config/${collection}`;
+        const { data, status } = await ax.delete(url);
+        return { data, status };
+      },
+      async updateConfig(collection, config) {
+        const { data, status } = await ax.post(
+          `collections/${project}/access-config/${collection}`,
+          config
+        );
+        return { data, status };
+      },
+    };
+  },
 };

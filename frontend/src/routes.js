@@ -17,12 +17,12 @@ export const routes = [
     children: [
       {
         path: "",
-        component: () => import("./pages/dash/views/data/Projects.vue"),
+        component: () => import("./pages/dash/views/Projects.vue"),
       },
       {
         name: "project",
         path: ":project",
-        component: () => import("./pages/dash/views/data/Project.vue"),
+        component: () => import("./pages/dash/views/Project.vue"),
         children: [
           {
             name: "collections",
@@ -54,6 +54,20 @@ export const routes = [
                 name: "user",
                 path: ":uid",
                 component: () => import("./pages/dash/views/auth/User.vue"),
+              },
+            ],
+          },
+          {
+            name: "access",
+            path: "access",
+            component: () =>
+              import("./pages/dash/views/access/CollectionsAccessControl.vue"),
+            children: [
+              {
+                name: "access-config",
+                path: ":collection",
+                component: () =>
+                  import("./pages/dash/views/access/AccessConfig.vue"),
               },
             ],
           },

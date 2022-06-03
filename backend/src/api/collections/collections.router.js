@@ -10,6 +10,7 @@ import {
   authenticateAccountRequest,
 } from "../accounts/accounts.middleware.js";
 import { projectOwnerGuard } from "../common/guards.middleware.js";
+import { defaultAccessConfig } from "../documents/access-control.js";
 
 const logger = getLogger("collection.api");
 const app = Express.Router();
@@ -22,22 +23,44 @@ app.get("/access-config/:collection", async (req, res, next) => {
   const AccessConfig = await getAccessConfigCollection();
   const { project } = req;
   const { collection } = req.params;
-  res.json(await AccessConfig.findOne({ project, collection }));
+  let config = await AccessConfig.findOne({ project, collection });
+  if (!config) config = defaultAccessConfig;
+  else config = config.toObject();
+  ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
+    (it) => {
+      delete config[it];
+    }
+  );
+  res.json(config);
 });
 
 app.post("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();
   const { project } = req;
   const { collection } = req.params;
-  const existing = await AccessConfig.findOne({ project, collection });
+  const query = { project, collection };
+  const existing = await AccessConfig.findOne(query);
   const config = req.body;
   if (!existing)
     return res.json(
       await AccessConfig.create({ ...config, project, collection })
     );
-  await existing.update({ $set: config });
-
+  ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
+    (it) => {
+      delete config[it];
+    }
+  );
+  await AccessConfig.updateOne(query, { $set: config });
   res.json(await AccessConfig.findOne({ project, collection }));
+});
+
+app.delete("/access-config/:collection", async (req, res) => {
+  const AccessConfig = await getAccessConfigCollection();
+  const { project } = req;
+  const { collection } = req.params;
+  const query = { project, collection };
+  const result = await AccessConfig.deleteMany(query);
+  res.json(result);
 });
 
 app.post("/", async (req, res) => {

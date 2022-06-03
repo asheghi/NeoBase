@@ -40,9 +40,9 @@
 </template>
 
 <script>
-import Modal from "../../../../components/Modal.vue";
-import { Api } from "../../../../lib/api";
-import { toast } from "../../../../plugins/alert";
+import Modal from "../../../components/Modal.vue";
+import { Api } from "../../../lib/api";
+import { toast } from "../../../plugins/alert";
 import swal from "sweetalert2";
 
 export default {

@@ -3,13 +3,14 @@
     <div class="tabs">
       <router-link :to="{ name: 'collections' }">Data</router-link>
       <router-link :to="{ name: 'auth' }">Authentication</router-link>
+      <router-link :to="{ name: 'access' }">Authentication</router-link>
     </div>
     <router-view />
   </div>
 </template>
 
 <script>
-import Tabs from "../../../../components/Tab.vue";
+import Tabs from "../../../components/Tab.vue";
 
 export default {
   name: "Project",

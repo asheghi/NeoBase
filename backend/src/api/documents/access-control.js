@@ -4,7 +4,7 @@ import {
 } from "../../lib/db/connector.js";
 
 // collection level access control
-const defaultAccessConfig = {
+export const defaultAccessConfig = {
   read: "public",
   create: {
     _id: "$uid$",
