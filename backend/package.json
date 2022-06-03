@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "DEBUG_LEVEL=DEBUG DEBUG=app:* node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js",
+    "lint-fix": "eslint . --ext .js --fix"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +26,13 @@
     "object-hash": "^3.0.0"
   },
   "devDependencies": {
+    "eslint": "^8.16.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-no-loops": "^0.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2",
     "vite-svg-loader": "^3.3.0"
   }
 }

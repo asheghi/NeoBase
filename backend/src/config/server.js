@@ -1,3 +1,3 @@
 export default {
-  log_access:true,
-}
+  log_access: true,
+};

@@ -1,3 +1,3 @@
 export default {
-  mongoUriBase: 'mongodb://localhost:27017/',
-}
+  mongoUriBase: "mongodb://localhost:27017/",
+};
