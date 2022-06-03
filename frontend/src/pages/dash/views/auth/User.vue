@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="User">
     User<br />
     <pre :key="$route.params.uid">{{ JSON.stringify(user, null, "\t") }}</pre>
   </div>
@@ -38,4 +38,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.User {
+  @apply absolute inset-0;
+}
+</style>

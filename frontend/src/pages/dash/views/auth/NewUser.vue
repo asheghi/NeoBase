@@ -21,7 +21,17 @@
           placeholder="enter a secure password"
         />
       </div>
-      <button class="btn" @click="submit">Submit</button>
+      <div class="form-group">
+        <label for="role">Role:</label>
+        <input
+          id="role"
+          v-model="form.role"
+          name="role"
+          type="text"
+          placeholder="enter a user role"
+        />
+      </div>
+      <button :disabled="loading" class="btn" @click="submit">Submit</button>
     </div>
   </div>
 </template>
@@ -31,7 +41,7 @@ import { Api } from "../../../../lib/api";
 
 export default {
   name: "NewUser",
-emits: ['created'],
+  emits: ["created"],
   setup() {
     let route = useRoute();
     const project = route.params.project;
@@ -44,15 +54,45 @@ emits: ['created'],
   data() {
     return {
       form: {},
+      loading: false,
     };
   },
   methods: {
     async submit() {
-      const payload = this.form;
-      const { data, status } = await this.api.newUser(payload);
-      console.log('check', data);
-      this.$emit("created", data);
+      if (this.loading) return;
+      this.loading = true;
+      try {
+        const payload = this.form;
+        const { data, status } = await this.api.newUser(payload);
+        this.$emit("created", data);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
 </script>
+<style lang="scss">
+.NewUser {
+  @apply flex flex-col gap-4;
+  min-width: 260px;
+
+  .form {
+    @apply flex flex-col items-center gap-4 w-full;
+    .form-group {
+      @apply flex flex-col gap-2 w-full;
+      label {
+        @apply text-sm opacity-50;
+      }
+
+      input {
+        @apply px-4 w-full py-2 rounded bg-gray-100 outline-blue-500;
+      }
+    }
+
+    .btn {
+      @apply bg-blue-500 text-white px-4 py-2 rounded mt-auto w-full m-0;
+    }
+  }
+}
+</style>

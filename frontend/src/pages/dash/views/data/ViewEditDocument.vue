@@ -33,7 +33,7 @@
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
-import CreateDocument from "./CreateDocument.vue";
+import CreateDocument from "./NewDocument.vue";
 const ModeView = "mode-view";
 const ModeEdit = "mode-edit";
 

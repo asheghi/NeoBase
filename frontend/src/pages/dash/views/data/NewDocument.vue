@@ -1,5 +1,5 @@
 <template>
-  <div class="CreateDocument" :class="'mode-' + currentMode">
+  <div class="NewDocument" :class="'mode-' + currentMode">
     <div v-if="!hideId" class="document-id">
       <label for="document_id">Document ID</label>
       <input
@@ -85,7 +85,6 @@ export default {
         return;
       }
       if ("" in this.document) delete this.document[""];
-      console.log("before create", this.document);
       const { data, status } = await this.api.create(this.document);
       this.$emit("created", data);
     },
@@ -117,7 +116,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.CreateDocument {
+.NewDocument {
   @apply relative;
   min-width: 600px;
   min-height: 220px;

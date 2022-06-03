@@ -50,7 +50,7 @@ import Modal from "../../../../components/Modal.vue";
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
-import CreateDocument from "./CreateDocument.vue";
+import CreateDocument from "./NewDocument.vue";
 
 export default {
   name: "ManageDocuments",
@@ -82,9 +82,10 @@ export default {
     onNewDocument() {
       this.$refs.modal.show();
     },
-    onNewDocumentCreated() {
+    onNewDocumentCreated(doc) {
       this.fetchData();
       this.$refs.modal.hide();
+      this.$router.replace({name:"document",params:{_id:doc._id}})
     },
     async submit() {
       const { data, status } = await this.api.create(JSON.parse(this.newDoc));
