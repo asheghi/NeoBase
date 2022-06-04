@@ -38,7 +38,7 @@ export async function checkAccess({ req, project, collection, operation }) {
   if (!req.user) return false;
   if (req.user.auth_provider === "account") return true;
   const result = await AccessConfig.findOne({ project, collection });
-  const accessConfig = result ? result[0] : defaultAccessConfig;
+  const accessConfig = result ? result : defaultAccessConfig;
   const config = accessConfig[operation] || defaultAccessConfig[operation];
   if (config === "public") return true;
   if (config === "authed") return !!req.user;

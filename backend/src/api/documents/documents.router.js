@@ -4,7 +4,6 @@ import { checkAccess } from "./access-control.js";
 import { authenticateUserRequest } from "../auth/auth.middleware.js";
 import { authenticateAccountRequest } from "../accounts/accounts.middleware.js";
 import { getLogger } from "../../lib/debug.js";
-import { projectOwnerGuard } from "../common/guards.middleware.js";
 
 const logger = getLogger("documents.api");
 const app = Express.Router();
@@ -15,7 +14,6 @@ app.use((req, res, next) => {
 
 app.use(authenticateAccountRequest);
 app.use(authenticateUserRequest);
-app.use(projectOwnerGuard);
 
 const canUserDo = (operation) => async (req, res, next) => {
   const haveAccess = await checkAccess({

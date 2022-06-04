@@ -1,5 +1,4 @@
 import Express from "express";
-import cors from "cors";
 import { config } from "../config/index.js";
 import { CollectionsApiRouter } from "./collections/collections.router.js";
 import { AccountsRouter } from "./accounts/accounts.router.js";
@@ -18,7 +17,6 @@ if (config.simulate_slow_network) {
   });
 }
 
-app.use(cors());
 
 const setProject = (req, res, next) => {
   req.project = req.params.project;
