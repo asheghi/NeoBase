@@ -17,7 +17,6 @@ if (config.simulate_slow_network) {
   });
 }
 
-
 const setProject = (req, res, next) => {
   req.project = req.params.project;
   next();
