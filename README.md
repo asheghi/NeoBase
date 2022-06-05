@@ -1,10 +1,10 @@
 <div align="center">
-<img  src="https://raw.githubusercontent.com/asheghi/wildfire/master/frontend/src/assets/logo.png" width="120">
-<h1 style="margin: 0; padding: 0">WildFire</h1>
+<img  src="https://raw.githubusercontent.com/asheghi/NeoBase/master/frontend/src/assets/logo.png" width="120">
+<h1 style="margin: 0; padding: 0">NeoBase</h1>
 </div>
 
 an open-source alternative to Google FireBase,
-provides server-less solutions for mobile, web, and server development. (WIP)
+provides server-less solutions for mobile, web, and server development. *(WorkInProgress)*
 
 ### Features
  - [x] Management Dashboard
