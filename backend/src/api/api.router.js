@@ -24,7 +24,7 @@ const setProject = (req, res, next) => {
 const setCollection = async (req, res, next) => {
   const { project, collection } = req.params;
   req.project = project;
-  req.collection_name = collection;
+  req.collection = collection;
   req.Collection = await getCollection(project, collection);
   next();
 };
