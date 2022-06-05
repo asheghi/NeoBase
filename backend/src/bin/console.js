@@ -16,7 +16,6 @@ const context = {
 };
 
 const replServer = repl.start({
-  // useColors: true,
   prompt: `Node (${process.version}) > `,
 });
 
