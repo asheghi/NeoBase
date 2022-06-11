@@ -1,53 +1,37 @@
-import {
-  getAccessConfigCollection,
-  getCollection,
-} from "../../lib/db/connector.js";
+/* eslint-disable no-loops/no-loops */
+import { getAccessConfigCollection } from "../../lib/db/connector.js";
 
-export const defaultAccessConfig = {
-  // who
-  user: {
-    read: "public",
-    create: "authed",
-    update: "authed",
-    delete: "authed",
+export const defaultAccessConfig = [
+  // user with role
+  {
+    user: {
+      role: "admin",
+    },
+    create: true,
+    read: true,
+    update: true,
+    delete: true,
   },
-  // document filters
-  document: {
-    read: {
-      createdBy: "$uid$",
-    },
-    update: {
-      createdBy: "$uid$",
-    },
-    delete: {
-      createdBy: "$uid$",
-    },
+  // authenticated user
+  {
+    user: true,
+    create: true,
+    read: { createdBy: "$uid" },
+    update: { createdBy: "$uid" },
+    delete: { createdBy: "$uid" },
   },
-};
-
-function getQuery(configArg, context) {
-  const { req } = context;
-  const config = { ...configArg };
-  Object.keys(config).forEach((key) => {
-    const value = config[key];
-    if (typeof value === "string") {
-      if (value === "$uid$" && req.user) {
-        config[key] = req.user._id;
-      }
-    }
-  });
-  return config;
-}
-
-const AccessConfig = await getAccessConfigCollection();
+  // unAuthenticated user
+  { user: null, create: false, read: false, delete: false, update: false },
+];
 
 function processFilter(filterArg, context) {
+  if (!filterArg) return false;
   const { req } = context;
   const filter = { ...filterArg };
   Object.keys(filter).forEach((key) => {
     const value = filter[key];
     if (typeof value === "string") {
-      if (value === "$uid$" && req.user) {
+      if (value === "$uid" && req.user) {
         filter[key] = req.user._id;
       }
     }
@@ -55,36 +39,34 @@ function processFilter(filterArg, context) {
   return filter;
 }
 
-export async function getDocumentFilter({
-  req,
-  project,
-  collection,
-  operation,
-}) {
-  const existing = await AccessConfig.findOne({ project, collection });
-  const accessConfig = existing || defaultAccessConfig;
-  const documentFilter = accessConfig.document;
-  const filter = documentFilter[operation] || {};
-  return processFilter(filter, { req });
-}
+const AccessConfig = await getAccessConfigCollection();
 
-export async function canUserAccessCollection({
-  req,
-  project,
-  collection,
-  operation,
-}) {
-  if (req.user.auth_provider === "account") return true;
-  const result = await AccessConfig.findOne({ project, collection });
-  const accessConfig = result || defaultAccessConfig;
-  const userAccessConfig = accessConfig.user;
-  const config =
-    userAccessConfig[operation] || defaultAccessConfig.user[operation];
-  if (config === "public" || config === true) return true;
-  if (config === "authed") return !!req.user;
-  const Users = await getCollection("auth", project);
-  const query = getQuery(config, {
-    req,
-  });
-  return Users.count(query);
+export async function getUserFilter({ req, operation, project, collection }) {
+  const existing = await AccessConfig.findOne({ project, collection });
+  const accessConfig = existing ? existing.roles : defaultAccessConfig;
+  const { user } = req;
+
+  if (user) {
+    if (user.role) {
+      const roleBasedRoles = accessConfig.filter(
+        (it) => it.user && it.user.role && typeof it.user.role === "string"
+      );
+      const matchedConfig = roleBasedRoles.find(
+        (it) => it.user.role === user.role
+      );
+      if (matchedConfig) {
+        let operationConf = matchedConfig[operation];
+        if (operationConf === true) operationConf = {};
+        return processFilter(operationConf, { req });
+      }
+    }
+    const authedRole = accessConfig.find((it) => it.user === true);
+    if (authedRole) return processFilter(authedRole[operation], { req });
+  } else {
+    const unAuthedRole = accessConfig.find((it) => !it.user);
+    if (unAuthedRole) return processFilter(unAuthedRole[operation], { req });
+  }
+
+  // finally, if no suitable rules were found
+  return false;
 }

@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /tmp/mongo-data:/data/db
+      - /data/mongo-data:/data/db
     restart: always
 
   mongo-express:

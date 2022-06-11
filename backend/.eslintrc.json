@@ -1,9 +1,11 @@
 {
-    "plugins": ["no-loops"],
+    "plugins": ["no-loops","mocha"],
     "extends": [
         "airbnb-base",
         "eslint:recommended",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:mocha/recommended",
+        "plugin:chai-friendly/recommended"
     ],
     "env": {
         "browser": true,

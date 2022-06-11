@@ -50,7 +50,6 @@ export default {
   @apply w-full;
   textarea {
     @apply w-full border rounded border-gray-400 outline-0 px-2 py-1;
-    min-height: 300px;
     &.invalid {
       @apply border-red-400;
     }

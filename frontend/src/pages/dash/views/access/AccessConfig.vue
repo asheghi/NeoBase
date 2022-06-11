@@ -3,19 +3,17 @@
     <div class="flex">
       <div class="header">Access Config of {{ collection }}</div>
       <div class="actions ml-auto flex gap-4">
-        <button class="text-red-400" @click="resetConfig">Reset</button>
-        <button @click="toggleEditMode">Edit</button>
+        <button class="text-red-400" @click="resetConfig">
+          Reset to Default
+        </button>
       </div>
     </div>
     <br />
-    <pre
-      v-if="mode === 'view'"
-    ><code>{{ JSON.stringify(accessConfig,null,'\t') }}</code></pre>
     <ConfigEditor
-      v-if="mode === 'edit'"
+      v-if="accessConfig"
+      :key="render_counter"
       :config="accessConfig"
-      @saved="onConfigChange"
-      @canceled="onEditorCanceled"
+      @save="updateConfig"
     />
   </div>
 </template>
@@ -33,8 +31,8 @@ export default {
   },
   data() {
     return {
-      accessConfig: {},
-      mode: "view",
+      accessConfig: null,
+      render_counter: 1,
     };
   },
   computed: {
@@ -46,10 +44,6 @@ export default {
     },
     project() {
       return this.$route.params.project;
-    },
-    alternateMode() {
-      if (this.mode === "edit") return "view";
-      return "edit";
     },
   },
   mounted() {
@@ -63,14 +57,6 @@ export default {
     toggleEditMode() {
       this.mode = this.alternateMode;
     },
-    async onConfigChange(config) {
-      await this.api.updateConfig(this.collection, config);
-      this.toggleEditMode();
-      this.fetchData();
-    },
-    onEditorCanceled() {
-      this.mode = "view";
-    },
     async resetConfig() {
       const { isConfirmed } = await swal.fire({
         title: "Reset Config",
@@ -83,7 +69,13 @@ export default {
       });
       if (!isConfirmed) return;
       await this.api.resetConfig(this.collection);
-      this.fetchData();
+      await this.fetchData();
+      this.render_counter++;
+    },
+    async updateConfig(config) {
+      await this.api.updateConfig(this.collection, config);
+      await this.fetchData();
+      this.render_counter++;
     },
   },
 };
@@ -91,6 +83,6 @@ export default {
 
 <style lang="scss">
 .AccessConfig {
-  @apply absolute inset-0;
+  @apply absolute inset-0 px-4;
 }
 </style>

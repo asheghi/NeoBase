@@ -25,7 +25,7 @@ app.get("/access-config/:collection", async (req, res, next) => {
   const { collection } = req.params;
   let config = await AccessConfig.findOne({ project, collection });
   if (!config) config = defaultAccessConfig;
-  else config = config.toObject();
+  else config = config.toObject().roles;
   ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
     (it) => {
       delete config[it];
@@ -43,15 +43,15 @@ app.post("/access-config/:collection", async (req, res) => {
   const config = req.body;
   if (!existing)
     return res.json(
-      await AccessConfig.create({ ...config, project, collection })
+      await AccessConfig.create({ roles: config, project, collection })
     );
   ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
     (it) => {
       delete config[it];
     }
   );
-  await AccessConfig.updateOne(query, { $set: config });
-  res.json(await AccessConfig.findOne({ project, collection }));
+  await AccessConfig.updateOne(query, { $set: { roles: config } });
+  return res.json(await AccessConfig.findOne({ project, collection }));
 });
 
 app.delete("/access-config/:collection", async (req, res) => {
@@ -60,7 +60,7 @@ app.delete("/access-config/:collection", async (req, res) => {
   const { collection } = req.params;
   const query = { project, collection };
   const result = await AccessConfig.deleteMany(query);
-  res.json(result);
+  res.json(result.roles);
 });
 
 app.post("/", async (req, res) => {

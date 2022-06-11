@@ -2,7 +2,7 @@
   <div class="HomePage">
     <div class="cover">
       <img :src="logoImage" width="120" height="120" />
-      <h1 class="header-text">Wild Fire</h1>
+      <h1 class="header-text">NeoBase</h1>
       <p class="desc">
         flexible, scalable database for mobile, web, and server development
       </p>

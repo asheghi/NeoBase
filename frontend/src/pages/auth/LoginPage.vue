@@ -5,7 +5,7 @@
         <img :src="logoImage" width="120" height="120" />
         <h1 class="text-2xl text-center opacity-60">
           <span class="">Login to</span>
-          Wild Fire
+          NeoBase
         </h1>
       </div>
 
