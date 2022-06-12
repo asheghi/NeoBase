@@ -16,7 +16,9 @@ export async function getCollection(dbName, colName) {
     conn.model(
       colName,
       new Mongoose.Schema(
-        {},
+        {
+          __v: { type: Number, select: false },
+        },
         {
           strict: false,
           validateBeforeSave: false,

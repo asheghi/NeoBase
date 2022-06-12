@@ -7,6 +7,7 @@ import { getUserFilter } from "./access-control.js";
 import { getCollection } from "../../lib/db/connector.js";
 
 const logger = getLogger("documents.api");
+const FIND_LIMIT = 100;
 
 const app = Express.Router();
 
@@ -16,10 +17,11 @@ app.use((req, res, next) => {
 
 app.use(authenticateAccountRequest);
 app.use(authenticateUserRequest);
+app.use(bodyParser.json());
 
 const canUserDo = (operation) => async (req, res, next) => {
   if (req.user && req.user.auth_provider === "account") {
-    req.filter = {};
+    req.access_filter = {};
     return next();
   }
   const filter = await getUserFilter({
@@ -29,28 +31,40 @@ const canUserDo = (operation) => async (req, res, next) => {
     operation,
   });
   if (filter) {
-    req.filter = filter;
+    req.access_filter = filter;
     return next();
   }
   return res.status(403).json({ msg: "403 Forbidden, you can't touch this!" });
 };
 
-app.get("/find", canUserDo("read"), async (req, res) => {
-  const filter = { ...req.query, ...req.filter };
-  res.send(await req.Collection.find(filter));
+app.post("/find", canUserDo("read"), async (req, res) => {
+  const filter = { ...(req.body.filter || {}), ...req.access_filter };
+  const projection = req.body.projection || {};
+  const opt = req.body.options || {};
+  const options = {
+    sort: opt.sort,
+    skip: opt.skip,
+    limit: opt.limit || FIND_LIMIT,
+  };
+  res.send(await req.Collection.find(filter, projection, options));
 });
 
-app.get("/findOne", canUserDo("read"), async (req, res) => {
-  const filter = { ...req.query, ...req.filter };
-  res.send(await req.Collection.findOne(filter));
+app.post("/findOne", canUserDo("read"), async (req, res) => {
+  const filter = { ...(req.body.filter || {}), ...req.access_filter };
+  const projection = req.body.projection || {};
+  const opt = req.body.options || {};
+  const options = {
+    sort: opt.limit,
+    limit: opt.limit || FIND_LIMIT,
+    skip: opt.skip,
+  };
+  res.send(await req.Collection.findOne(filter, projection, options));
 });
 
 app.get("/count", canUserDo("read"), async (req, res) => {
-  const filter = { ...req.query, ...req.filter };
+  const filter = { ...req.query, ...req.access_filter };
   res.json(await req.Collection.count(filter));
 });
-
-app.use(bodyParser.json());
 
 app.post("/create", canUserDo("create"), async (req, res) => {
   const payload = req.body;
@@ -65,17 +79,17 @@ app.post("/create", canUserDo("create"), async (req, res) => {
 });
 
 app.post("/deleteOne", canUserDo("delete"), async (req, res) => {
-  const filter = { ...req.body, ...req.filter };
+  const filter = { ...req.body, ...req.access_filter };
   res.json(await req.Collection.deleteOne(filter));
 });
 
 app.post("/deleteMany", canUserDo("delete"), async (req, res) => {
-  const filter = { ...req.body, ...req.filter };
+  const filter = { ...req.body, ...req.access_filter };
   res.json(await req.Collection.deleteMany(filter));
 });
 
 app.put("/updateOne", canUserDo("update"), async (req, res) => {
-  const filter = { ...req.query, ...req.filter };
+  const filter = { ...req.query, ...req.access_filter };
   const payload = req.body;
   delete payload.createdBy;
   res.json(await req.Collection.updateOne(filter, payload));

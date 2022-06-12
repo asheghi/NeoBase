@@ -74,9 +74,7 @@ export default {
   methods: {
     async fetchDocument() {
       const { data } = await this.api.findOne({
-        params: {
-          _id: this.$route.params._id,
-        },
+        _id: this.$route.params._id,
       });
       this.doc = data;
     },

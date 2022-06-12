@@ -1,7 +1,10 @@
 <template>
   <div class="Documents">
     <div class="side-bar">
-      <h1 class="head">Documents</h1>
+      <div class="head flex justify-between items-center w-full">
+        <h1 class="">Documents</h1>
+        <div v-if="count" class="count">{{ count }}#</div>
+      </div>
       <button class="btn btn-sm btn-text" @click="$refs.modal.show()">
         New Document
       </button>
@@ -68,6 +71,7 @@ export default {
     return {
       documents: [],
       newDoc: "",
+      count: null,
     };
   },
   computed: {
@@ -79,13 +83,10 @@ export default {
     this.fetchData();
   },
   methods: {
-    onNewDocument() {
-      this.$refs.modal.show();
-    },
     onNewDocumentCreated(doc) {
       this.fetchData();
       this.$refs.modal.hide();
-      this.$router.replace({name:"document",params:{_id:doc._id}})
+      this.$router.replace({ name: "document", params: { _id: doc._id } });
     },
     async submit() {
       const { data, status } = await this.api.create(JSON.parse(this.newDoc));
@@ -94,8 +95,9 @@ export default {
       await this.fetchData();
     },
     async fetchData() {
-      const { data } = await this.api.find();
+      const { data } = await this.api.find({}, {}, { sort: { createdAt: -1 } });
       this.documents = data;
+      this.fetchCount();
     },
     async removeDocument(p) {
       const { data } = await this.api.deleteOne({ _id: p._id });
@@ -104,6 +106,10 @@ export default {
         .replace({ name: "documents", params: { project, collection } })
         .then();
       await this.fetchData();
+    },
+    async fetchCount() {
+      const { data } = await this.api.count();
+      this.count = data;
     },
   },
 };

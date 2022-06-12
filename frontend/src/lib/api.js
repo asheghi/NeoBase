@@ -1,7 +1,6 @@
 import { ax } from "../plugins/axios";
 import { getLogger } from "../plugins/log";
 const log = getLogger("API");
-
 export const Api = {
   Projects: {
     async create(payload) {
@@ -76,18 +75,27 @@ export const Api = {
         );
         return { data, status };
       },
-      async find({ params } = {}) {
-        const { data, status } = await ax.get(
+      async find(filter, projection, options) {
+        const query = {
+          filter,
+          projection,
+          options,
+        };
+        const { data, status } = await ax.post(
           `documents/${project}/${collection}/find`,
-          { params }
+          query
         );
         return { data, status };
       },
-      async findOne({ params } = {}) {
-        log.debug("find one doc called with", params);
-        const { data, status } = await ax.get(
+      async findOne(filter, projection, options) {
+        const query = {
+          filter,
+          projection,
+          options,
+        };
+        const { data, status } = await ax.post(
           `documents/${project}/${collection}/findOne`,
-          { params }
+          query
         );
         return { data, status };
       },
