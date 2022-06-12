@@ -32,9 +32,9 @@
           :value="getUserMode(conf)"
           @change="onUserModeChanged(conf, $event)"
         >
-          <option value="role">User with Role</option>
-          <option value="authed">Authenticated Users</option>
-          <option value="un_authed">un authenticated users</option>
+          <option value="role">users with role</option>
+          <option value="authed">authenticated users</option>
+          <option value="un_authed">un-authenticated users</option>
         </select>
         <input
           v-if="getUserMode(conf) === 'role'"
