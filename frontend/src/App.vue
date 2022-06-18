@@ -12,4 +12,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+html {
+  transition: background-color ease 250ms;
+}
+.dark {
+  @apply bg-gray-700 text-white fill-white;
+}
+</style>

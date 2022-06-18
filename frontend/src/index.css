@@ -5,6 +5,7 @@
 *{
     font-family: 'Open Sans',sans-serif;
 }
+
 .btn-sm{
     @apply text-sm;
 }

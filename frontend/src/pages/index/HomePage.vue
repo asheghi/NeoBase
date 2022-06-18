@@ -1,7 +1,9 @@
 <template>
   <div class="HomePage">
+    <NavBar />
     <div class="cover">
-      <img :src="logoImage" width="120" height="120" />
+      <div class="logo">
+      </div>
       <h1 class="header-text">NeoBase</h1>
       <p class="desc">
         flexible, scalable database for mobile, web, and server development
@@ -13,21 +15,17 @@
     </div>
   </div>
 </template>
+<script setup>
+import IconServer from "ionicons/dist/svg/server.svg";
+import NavBar from "./views/NavBar.vue";
+</script>
 <script>
-import logoImage from "../assets/logo.png?url";
-
 export default {
   name: "HomePage",
-  data() {
-    return {
-      logoImage,
-    };
-  },
 };
 </script>
 <style lang="scss">
 .HomePage {
-  @apply bg-gray-800;
   .cover {
     @apply min-h-screen  container mx-auto px-4 flex flex-col gap-6 justify-center items-center;
   }
@@ -37,11 +35,11 @@ export default {
   }
 
   .desc {
-    @apply text-white text-lg text-center;
+    @apply text-lg text-center;
     max-width: 400px;
   }
   .btn {
-    @apply text-white bg-gradient-to-t from-red-600 to-yellow-600 px-4 py-2 rounded font-bold;
+    @apply bg-gradient-to-t from-red-600 to-yellow-600 px-4 py-2 rounded font-bold;
   }
 }
 </style>

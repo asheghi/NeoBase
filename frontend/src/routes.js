@@ -1,7 +1,7 @@
 export const routes = [
   {
     path: "/",
-    component: () => import("./pages/HomePage.vue"),
+    component: () => import("./pages/index/HomePage.vue"),
   },
   {
     path: "/login",
