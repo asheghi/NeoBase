@@ -1,0 +1,1 @@
+.tabs{display:flex;gap:1rem;padding-top:.5rem;padding-bottom:1.5rem}.tabs a{--tw-text-opacity: 1;color:rgb(107 114 128 / var(--tw-text-opacity))}.tabs a.router-link-active{font-weight:700;--tw-text-opacity: 1;color:rgb(96 165 250 / var(--tw-text-opacity));-webkit-text-decoration-line:underline;text-decoration-line:underline;text-underline-offset:4px}
