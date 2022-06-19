@@ -1,12 +1,23 @@
 <template>
-  <nav class="NavBar">
-    <div class="brand">
+  <nav class="NavBar container mx-auto">
+    <router-link to="/" class="brand">
       <div class="logo">
         <IconServer width="22" height="22" />
       </div>
       <h2 class="name">NeoBase</h2>
-    </div>
+    </router-link>
     <div class="end">
+      <ul class="nav-links">
+        <li>
+          <router-link to="/why">Why NeoBase</router-link>
+        </li>
+        <li>
+          <router-link to="/updated">Updates</router-link>
+        </li>
+        <li>
+          <router-link to="/documentations">Documentations</router-link>
+        </li>
+      </ul>
       <div class="light-switch">
         <button @click="toggleDarkMode">
           <component
@@ -28,12 +39,14 @@
     <div class="bg-shadow" @click="toggleExpanded"></div>
     <div class="slider content">
       <div class="header">
-        <div class="brand">
-          <div class="logo">
-            <IconServer width="22" height="22" />
+        <router-link to="/">
+          <div class="brand">
+            <div class="logo">
+              <IconServer width="22" height="22" />
+            </div>
+            <h2 class="name">NeoBase</h2>
           </div>
-          <h2 class="name">NeoBase</h2>
-        </div>
+        </router-link>
         <button class="close" @click="toggleExpanded">
           <IconClose />
         </button>
@@ -63,7 +76,7 @@ import IconLightMode from "ionicons/dist/svg/sunny.svg";
 import { isDarkMode, toggleDarkMode } from "../../../lib/theme";
 import IconClose from "ionicons/dist/svg/close.svg";
 import { ref } from "vue";
-const expanded = ref(true);
+const expanded = ref(false);
 const toggleExpanded = () => (expanded.value = !expanded.value);
 </script>
 
@@ -100,10 +113,23 @@ export default {
     .menu {
       width: 28px;
       height: 21px;
-      @apply flex flex-col justify-between;
+      @apply flex flex-col justify-between md:hidden;
       .line {
         height: 3px;
         @apply bg-gray-500 w-full dark:bg-gray-300;
+      }
+    }
+    .nav-links {
+      @apply hidden md:flex flex-row gap-2 items-center;
+      li {
+        a {
+          @apply px-2 py-2 rounded font-bold text-primary-800 dark:text-white;
+        }
+        &:last-child {
+          a {
+            @apply bg-primary-500 text-white shadow;
+          }
+        }
       }
     }
   }
@@ -133,6 +159,9 @@ export default {
       height: 76px;
       .brand {
         @apply flex gap-1;
+      }
+      .logo {
+        @apply fill-primary-400 dark:fill-white;
       }
     }
     .links {

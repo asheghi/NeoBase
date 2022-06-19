@@ -1,23 +1,46 @@
 <template>
   <div class="HomePage">
     <NavBar />
-    <div class="cover">
-      <div class="logo">
+    <div class="cover container mx-auto px-6">
+      <div class="big-text">
+        <h1 class="whitespace-nowrap">
+          The
+          <span class="supertext">SuperPowered </span>
+          <br />
+          Backend for developers
+        </h1>
       </div>
-      <h1 class="header-text">NeoBase</h1>
-      <p class="desc">
-        flexible, scalable database for mobile, web, and server development
-      </p>
-      <router-link to="/register" class="btn"> Get Started </router-link>
-      <router-link to="/login" class="text-gray-400"
-        >already have an account</router-link
-      >
+      <div class="desc text-2xl leading-9 opacity-60">
+        <p>
+          NeoBase helps you build faster and scale further than any other
+          Serverless Platform or App Framework. Just create a Project, and get a
+          powerful Rest API & beautiful Management UI for content and data.
+        </p>
+        <p class="mt-8">
+          No dev-ops or server – just elegant APIs to help you ship what that
+          matters without sacrificing the flexibility or power of a bespoke
+          back-end.
+        </p>
+      </div>
+      <div class="access sm:flex justify-start gap-4 mt-16 text-lg">
+        <input
+          id="email"
+          class=""
+          placeholder="Enter your Email Address"
+          type="email"
+          name="email"
+        />
+        <a href="mailto:access@neobase.uk"
+          >Request Access
+          <ChevRight />
+        </a>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
-import IconServer from "ionicons/dist/svg/server.svg";
 import NavBar from "./views/NavBar.vue";
+import ChevRight from "ionicons/dist/svg/chevron-forward.svg";
 </script>
 <script>
 export default {
@@ -27,19 +50,44 @@ export default {
 <style lang="scss">
 .HomePage {
   .cover {
-    @apply min-h-screen  container mx-auto px-4 flex flex-col gap-6 justify-center items-center;
-  }
-  .header-text {
-    @apply text-6xl font-extrabold text-transparent
-    bg-clip-text bg-gradient-to-r from-yellow-300 to-red-400;
-  }
-
-  .desc {
-    @apply text-lg text-center;
-    max-width: 400px;
-  }
-  .btn {
-    @apply bg-gradient-to-t from-red-600 to-yellow-600 px-4 py-2 rounded font-bold;
+    @apply flex flex-col justify-center mx-auto xl:px-64 pb-16;
+    .big-text {
+      @apply mt-16 text-4xl tracking-tighter md:text-6xl lg:text-6xl xl:text-7xl mb-8 text-gray-800 font-extrabold
+      dark:text-white;
+      line-height: 1.25;
+    }
+    .supertext {
+      @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-primary-300;
+    }
+    .desc {
+      max-width: 49rem;
+    }
+    .access {
+      @apply mx-auto sm:mx-0;
+      max-width: 320px;
+      input {
+        @apply px-4 py-2 outline-primary-500 border-gray-100 border bg-gray-100
+        dark:bg-gray-600 dark:border-gray-500 text-white shadow dark:outline-white;
+        min-width: 320px;
+        max-width: 420px;
+        transition: all ease 250ms;
+        &:focus {
+          @apply transform shadow-lg;
+        }
+      }
+      a {
+        @apply justify-center;
+        @apply mt-4 w-full sm:mt-0 whitespace-nowrap w-auto outline-primary inline-block flex pl-5 rounded
+        text-primary px-2 py-2 rounded items-center gap-1
+        dark:outline-primary-300 dark:text-primary-300 shadow border-primary-300;
+        border-width: 1px !important;
+        transition: all ease 250ms;
+        &:hover,
+        &:focus {
+          @apply bg-primary-500 text-white fill-white transform scale-105 shadow-lg;
+        }
+      }
+    }
   }
 }
 </style>
