@@ -67,7 +67,7 @@ export default {
       max-width: 320px;
       input {
         @apply px-4 py-2 outline-primary-500 border-gray-100 border bg-gray-100
-        dark:bg-gray-600 dark:border-gray-500 text-white shadow dark:outline-white;
+        dark:bg-gray-600 dark:border-gray-500 dark:text-white shadow dark:outline-white;
         min-width: 320px;
         max-width: 420px;
         transition: all ease 250ms;
