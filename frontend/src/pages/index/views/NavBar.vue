@@ -14,7 +14,7 @@
         <li>
           <router-link to="/updated">Updates</router-link>
         </li>
-        <li>
+        <li class="docs">
           <router-link to="/documentations">Documentations</router-link>
         </li>
       </ul>
@@ -28,6 +28,9 @@
           />
         </button>
       </div>
+      <a target="_blank" href="https://github.com/asheghi/neobase">
+        <IconGithub width="28" height="28" />
+      </a>
       <button class="menu" @click="toggleExpanded">
         <div class="line" />
         <div class="line" />
@@ -75,6 +78,7 @@ import IconDarkMode from "ionicons/dist/svg/moon-sharp.svg";
 import IconLightMode from "ionicons/dist/svg/sunny.svg";
 import { isDarkMode, toggleDarkMode } from "../../../lib/theme";
 import IconClose from "ionicons/dist/svg/close.svg";
+import IconGithub from "ionicons/dist/svg/logo-github.svg";
 import { ref } from "vue";
 const expanded = ref(false);
 const toggleExpanded = () => (expanded.value = !expanded.value);
@@ -125,7 +129,7 @@ export default {
         a {
           @apply px-2 py-2 rounded font-bold text-primary-800 dark:text-white;
         }
-        &:last-child {
+        &.docs {
           a {
             @apply bg-primary-500 text-white shadow;
           }
@@ -135,6 +139,7 @@ export default {
   }
 }
 .NavDrawer {
+  z-index: 100;
   @apply fixed inset-y-0;
   transition: all ease-out 360ms;
   width: 100vw;
