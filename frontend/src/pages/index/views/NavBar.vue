@@ -15,7 +15,7 @@
           <router-link to="/updated">Updates</router-link>
         </li>
         <li class="docs">
-          <router-link to="/documentations">Documentations</router-link>
+          <router-link to="/docs">Documentations</router-link>
         </li>
       </ul>
       <div class="light-switch">

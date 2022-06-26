@@ -1,3 +1,6 @@
+import { ApiDocs } from "./pages/dash/views/api-docs/api-docs";
+import { ApiDocuments } from "./pages/docs/apis/apis";
+
 export const routes = [
   {
     path: "/",
@@ -10,6 +13,18 @@ export const routes = [
   {
     path: "/register",
     component: () => import("./pages/auth/RegisterPage.vue"),
+  },
+  {
+    path: "/docs",
+    name: "docs",
+    component: () => import("./pages/docs/DocumentsPage.vue"),
+    children: [
+      ...ApiDocuments.map((it) => ({
+        path: it.path,
+        component: it.page,
+        name: "docs-api-" + it.path,
+      })),
+    ],
   },
   {
     path: "/dash",
