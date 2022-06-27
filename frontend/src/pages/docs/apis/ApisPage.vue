@@ -1,7 +1,7 @@
 <template>
   <div class="ApisPage">
     <div class="header-text"></div>
-    <h1 class="font-extrabold text-2xl mb-8">APIs</h1>
+    <h1 class="font-extrabold dark:text-white text-2xl mb-8">APIs</h1>
     <div class="items">
       <router-link
         v-for="it in ApiDocuments.filter((it) => !it.isLarge)"
@@ -25,15 +25,18 @@ export default {
 </script>
 <style lang="scss">
 .ApisPage {
+  @apply dark:text-white;
   .items {
-    @apply grid gap-8 grid-cols-2;
+    @apply grid gap-8 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3;
     .item {
-      @apply transition-all bg-white dark:bg-gray-700 rounded shadow border px-6 py-4;
+      @apply transition-all bg-white dark:bg-gray-700 rounded
+      no-underline
+      shadow border px-6 py-4;
       .name {
-        @apply text-2xl mb-4 font-extrabold capitalize;
+        @apply dark:text-white text-2xl mb-4 font-extrabold capitalize;
       }
       .desc {
-        @apply opacity-75;
+        @apply opacity-75 dark:text-white;
       }
       &:hover {
         @apply transform scale-[1.05] shadow-lg border-primary;
