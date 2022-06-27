@@ -1,6 +1,6 @@
 <template>
-  <nav-bar />
   <div class="DocumentsPage">
+    <nav-bar />
     <div class="cover px-6">
       <div class="side-bar">
         <router-link
@@ -49,14 +49,39 @@ export default {
       }
     }
     .content {
-      @apply w-full xl:min-w-[800px] self-stretch;
+      @apply w-full xl:min-w-[800px] self-stretch dark:text-white;
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      strong,
+      a,
+      code {
+        @apply dark:text-white;
+      }
       table {
         thead {
-          @apply whitespace-nowrap;
+          tr {
+            th {
+              @apply whitespace-nowrap dark:text-white;
+            }
+          }
         }
       }
       max-width: 100vw;
     }
+  }
+
+  .prose :where(code):not(:where([class~="not-prose"] *))::before {
+    content: "";
+  }
+  .prose :where(code):not(:where([class~="not-prose"] *))::after {
+    content: "";
+  }
+  .prose code {
+    @apply font-normal bg-gray-200 px-1 py-1 rounded dark:text-white dark:bg-gray-500;
   }
 }
 </style>

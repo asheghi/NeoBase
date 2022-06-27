@@ -1,8 +1,10 @@
 <template>
   <div class="cover-router-view">
-    <transition name="fade">
-      <router-view></router-view>
-    </transition>
+    <router-view v-slot="{ Component }">
+      <transition class="" name="fade">
+        <component :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -18,5 +20,11 @@ html {
 }
 .dark {
   @apply bg-gray-700 text-white fill-white;
+}
+.cover-router-view{
+  @apply relative;
+  & > * {
+    @apply absolute inset-0;
+  }
 }
 </style>
