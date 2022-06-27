@@ -66,12 +66,9 @@ export const Api = {
         return { data, status };
       },
       async updateOne(filter, payload) {
-        const { data, status } = await ax.put(
+        const { data, status } = await ax.post(
           `documents/${project}/${collection}/updateOne`,
-          payload,
-          {
-            params: filter,
-          }
+          { filter, update: payload }
         );
         return { data, status };
       },
@@ -99,9 +96,10 @@ export const Api = {
         );
         return { data, status };
       },
-      async count() {
-        const { data, status } = await ax.get(
-          `documents/${project}/${collection}/count`
+      async count(filter = {}) {
+        const { data, status } = await ax.post(
+          `documents/${project}/${collection}/count`,
+          { filter }
         );
         return { data, status };
       },
