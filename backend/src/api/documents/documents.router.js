@@ -52,17 +52,11 @@ app.post("/find", canUserDo("read"), async (req, res) => {
 app.post("/findOne", canUserDo("read"), async (req, res) => {
   const filter = { ...(req.body.filter || {}), ...req.access_filter };
   const projection = req.body.projection || {};
-  const opt = req.body.options || {};
-  const options = {
-    sort: opt.limit,
-    limit: opt.limit || FIND_LIMIT,
-    skip: opt.skip,
-  };
-  res.send(await req.Collection.findOne(filter, projection, options));
+  res.send(await req.Collection.findOne(filter, projection));
 });
 
-app.get("/count", canUserDo("read"), async (req, res) => {
-  const filter = { ...req.query, ...req.access_filter };
+app.post("/count", canUserDo("read"), async (req, res) => {
+  const filter = { ...(req.body.filter || {}), ...req.access_filter };
   res.json(await req.Collection.count(filter));
 });
 
@@ -88,9 +82,9 @@ app.post("/deleteMany", canUserDo("delete"), async (req, res) => {
   res.json(await req.Collection.deleteMany(filter));
 });
 
-app.put("/updateOne", canUserDo("update"), async (req, res) => {
-  const filter = { ...req.query, ...req.access_filter };
-  const payload = req.body;
+app.post("/updateOne", canUserDo("update"), async (req, res) => {
+  const filter = { ...req.body.filter, ...req.access_filter };
+  const payload = req.body.update;
   delete payload.createdBy;
   res.json(await req.Collection.updateOne(filter, payload));
 });
