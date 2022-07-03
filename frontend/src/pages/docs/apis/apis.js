@@ -11,6 +11,24 @@ export const ApiDocuments = [
     level: 1,
   },
   {
+    path: "login",
+    name: "login",
+    desc: "authenticate users",
+    level: 2,
+    page: () => import("./login.md"),
+  },
+  {
+    path: "register",
+    name: "register",
+    desc: "register new users",
+    level: 2,
+    page: () => import("./register.md"),
+  },
+  {
+    name: "Data Operations",
+    level: 1,
+  },
+  {
     path: "create",
     name: "create",
     desc: "create new documents",
