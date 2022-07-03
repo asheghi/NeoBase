@@ -18,10 +18,12 @@ a,button{
 }
 .fade-enter-active,
 .fade-leave-active {
-    transition: opacity 360ms ease;
+    transition: all 240ms ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;
+    height: 0;
+    overflow: hidden;
 }

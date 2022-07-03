@@ -1,4 +1,3 @@
-import { ApiDocs } from "./pages/dash/views/api-docs/api-docs";
 import { ApiDocuments } from "./pages/docs/apis/apis";
 
 export const routes = [
@@ -19,10 +18,13 @@ export const routes = [
     name: "docs",
     component: () => import("./pages/docs/DocumentsPage.vue"),
     children: [
-      ...ApiDocuments.map((it) => ({
+      ...ApiDocuments.filter((it) => it.page).map((it) => ({
         path: it.path,
         component: it.page,
-        name: "docs-api-" + it.path,
+        name: "docs-" + it.path,
+        meta: {
+          level: it.level,
+        },
       })),
     ],
   },
@@ -96,3 +98,5 @@ export const routes = [
     component: () => import("./pages/404/PageNotFound.vue"),
   },
 ];
+
+export const sideBarItems = [...ApiDocuments];

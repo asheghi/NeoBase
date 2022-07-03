@@ -2,7 +2,7 @@
   <div class="cover-router-view">
     <router-view v-slot="{ Component }">
       <transition class="" name="fade">
-        <component :is="Component" />
+        <component :is="Component" class="routed-view" />
       </transition>
     </router-view>
   </div>
@@ -21,10 +21,10 @@ html {
 .dark {
   @apply bg-gray-700 text-white fill-white;
 }
-.cover-router-view{
-  @apply relative;
-  & > * {
-    @apply absolute inset-0;
+/*.cover-router-view {
+  @apply relative h-full;
+  & > .routed-view {
+    @apply absolute inset-0 h-full;
   }
-}
+}*/
 </style>

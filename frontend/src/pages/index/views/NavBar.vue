@@ -91,7 +91,8 @@ export default {
 </script>
 <style lang="scss">
 .NavBar {
-  height: 85px;
+  height: 85px!important;
+  z-index: 50;
   @apply flex justify-between p-6 h-full;
   .brand {
     @apply flex gap-1 items-center h-full;
