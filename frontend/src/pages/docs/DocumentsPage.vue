@@ -42,7 +42,9 @@
         </router-view>
       </div>
       <div v-if="doc_level" class="table-of-content">
-        <div class="text-gray-500 uppercase font-bold">on this page</div>
+        <div class="text-gray-500 uppercase font-bold text-xs">
+          on this page
+        </div>
         <router-link
           v-for="(it, index) in tableOfContent"
           :key="index"
@@ -178,8 +180,12 @@ export default {
       a {
         @apply no-underline;
       }
-      code {
+      code,
+      p {
         @apply max-w-[100vw] overflow-x-auto block;
+      }
+      p > code {
+        @apply inline;
       }
       table {
         @apply max-w-[100vw] overflow-x-auto block;

@@ -141,7 +141,7 @@ export default {
 }
 .NavDrawer {
   z-index: 100;
-  @apply fixed inset-y-0;
+  @apply md:hidden fixed inset-y-0;
   transition: all ease-out 360ms;
   width: 100vw;
   left: 100vw;
