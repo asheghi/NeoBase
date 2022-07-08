@@ -13,6 +13,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@headlessui/vue": "^1.6.2",
+    "@mdi/svg": "^6.9.96",
     "axios": "^0.27.2",
     "debug-level": "^2.1.2",
     "ionicons": "^6.0.2",

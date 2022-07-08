@@ -1,34 +1,68 @@
 <template>
   <div class="Project">
     <div class="tabs">
-      <router-link :to="{ name: 'collections' }">Data</router-link>
-      <router-link :to="{ name: 'auth' }">Authentication</router-link>
-      <router-link :to="{ name: 'access' }">Access Control</router-link>
+      <router-link
+        v-for="(tab, index) in tabs"
+        :key="index"
+        class="tab"
+        :to="tab.to"
+      >
+        <component :is="tab.icon" v-if="tab.icon" />
+        <div class="label" v-text="tab.label" />
+      </router-link>
     </div>
     <router-view />
   </div>
 </template>
 
+<script setup>
+import IconData from "@mdi/svg/svg/database.svg";
+import IconUsers from "@mdi/svg/svg/account-group.svg";
+import IconAccess from "@mdi/svg/svg/account-lock.svg";
+import IconPlayground from "@mdi/svg/svg/gamepad.svg";
+const tabs = [
+  {
+    label: "Data",
+    icon: IconData,
+    to: { name: "collections" },
+  },
+  {
+    label: "Authentication",
+    icon: IconUsers,
+    to: { name: "auth" },
+  },
+  {
+    label: "Access Control",
+    icon: IconAccess,
+    to: { name: "access" },
+  },
+  {
+    label: "Playground",
+    icon: IconPlayground,
+    to: { name: "playground" },
+  },
+];
+</script>
 <script>
 export default {
-  name: "Project",
+  name: "ProjectView",
   components: {},
-  data() {
-    return {
-      currentTab: "Data",
-      tabItems: ["Data", "Auth", "Access Control", "Usage"],
-    };
-  },
 };
 </script>
 
 <style lang="scss">
 .tabs {
-  @apply flex gap-4 pt-2 pb-6;
+  @apply flex flex-wrap pt-2 py-4;
   a {
-    @apply text-gray-500;
+    @apply text-gray-500 flex gap-1 border-b
+    transition-all border-gray-200 px-4 py-2 font-bold
+    opacity-75;
     &.router-link-active {
-      @apply font-bold underline underline-offset-4 text-blue-400;
+      @apply text-primary opacity-100
+      border-b-4 border-primary;
+      svg {
+        @apply fill-primary;
+      }
     }
   }
 }

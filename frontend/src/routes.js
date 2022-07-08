@@ -88,6 +88,12 @@ export const routes = [
               },
             ],
           },
+          {
+            name: "playground",
+            path: "playground",
+            component: () =>
+              import("./pages/dash/views/playground/Playground.vue"),
+          },
         ],
       },
     ],
