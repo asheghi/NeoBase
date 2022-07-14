@@ -53,8 +53,8 @@ export default {
 <style lang="scss">
 .tabs {
   @apply flex flex-wrap pt-2 py-4;
-  a {
-    @apply text-gray-500 flex gap-1 border-b
+  .tab {
+    @apply text-gray-500 flex items-center gap-1 border-b
     transition-all border-gray-200 px-4 py-2 font-bold
     opacity-75;
     &.router-link-active {
@@ -63,6 +63,12 @@ export default {
       svg {
         @apply fill-primary;
       }
+      &:hover {
+        @apply opacity-100;
+      }
+    }
+    &:hover {
+      @apply fill-primary text-primary opacity-50 border-b-4 border-primary;
     }
   }
 }

@@ -2,7 +2,7 @@ import axios from "axios";
 import { getAccountToken } from "../lib/auth";
 import { getLogger } from "./log";
 import { toast } from "./alert";
-const baseUrl = "http://localhost:7585/api/";
+export const baseUrl = import.meta.env.API_BASE_URL || "http://localhost:7585/api/";
 
 const log = getLogger("axios");
 

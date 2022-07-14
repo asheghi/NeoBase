@@ -39,13 +39,15 @@ const canUserDo = (operation) => async (req, res, next) => {
 
 app.post("/find", canUserDo("read"), async (req, res) => {
   const filter = { ...(req.body.filter || {}), ...req.access_filter };
+  console.log('body', req.body);
   const projection = req.body.projection || {};
   const opt = req.body.options || {};
   const options = {
     sort: opt.sort,
-    skip: opt.skip,
-    limit: opt.limit || FIND_LIMIT,
+    skip: +(opt.skip || 0),
+    limit: +(opt.limit || FIND_LIMIT),
   };
+  console.log("opt", options);
   res.send(await req.Collection.find(filter, projection, options));
 });
 
