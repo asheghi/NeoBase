@@ -16,7 +16,14 @@
 
         <div class="ml-auto">
           <div class="">status:</div>
-          <div class="res-code">{{ execution.status }}</div>
+          <div
+            class="res-code"
+            :class="{
+              'text-red-500': execution.status && execution.status >= 400,
+            }"
+          >
+            {{ execution.status }}
+          </div>
         </div>
         <div class="">
           <div>time:</div>
@@ -46,6 +53,8 @@
 <script setup></script>
 
 <script>
+import { parseAxiosError } from "../../../../plugins/axios";
+
 const tabs = {
   response_body: "Response",
   headers: "Headers",

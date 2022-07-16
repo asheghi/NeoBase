@@ -27,7 +27,7 @@ const tabs = [
     to: { name: "collections" },
   },
   {
-    label: "Authentication",
+    label: "Users",
     icon: IconUsers,
     to: { name: "auth" },
   },

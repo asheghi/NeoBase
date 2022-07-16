@@ -125,4 +125,52 @@ export const document_actions = {
       },
     },
   },
+  register: {
+    name: "register",
+    url: "auth/:project/register",
+    method: "post",
+    hideAuthToken: true,
+    options: {
+      body: {
+        type: "json",
+        fields: {
+          email: {
+            type: "string",
+            value: "",
+          },
+          password: {
+            type: "string",
+            value: "",
+          },
+        },
+      },
+    },
+  },
+  login: {
+    name: "login",
+    url: "auth/:project/login",
+    method: "post",
+    hideAuthToken: true,
+    options: {
+      body: {
+        type: "json",
+        fields: {
+          email: {
+            type: "string",
+            value: "",
+          },
+          password: {
+            type: "string",
+            value: "",
+          },
+        },
+      },
+    },
+  },
+  me: {
+    name: "me",
+    url: "auth/:project/me",
+    method: "get",
+    options: {},
+  },
 };

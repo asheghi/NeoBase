@@ -2,7 +2,8 @@ import axios from "axios";
 import { getAccountToken } from "../lib/auth";
 import { getLogger } from "./log";
 import { toast } from "./alert";
-export const baseUrl = import.meta.env.API_BASE_URL || "http://localhost:7585/api/";
+export const baseUrl =
+  import.meta.env.API_BASE_URL || "http://localhost:7585/api/";
 
 const log = getLogger("axios");
 
@@ -12,7 +13,8 @@ export const ax = axios.create({
 });
 
 ax.interceptors.request.use((config) => {
-  config.headers["x-account-token"] = getAccountToken();
+  if (!config.skipAccountToken)
+    config.headers["x-account-token"] = getAccountToken();
   return config;
 });
 

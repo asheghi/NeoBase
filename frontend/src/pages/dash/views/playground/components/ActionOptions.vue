@@ -1,7 +1,7 @@
 <template>
   <div v-for="(val, key) in options" :key="key" class="option">
     <div v-if="!val.fields && checkOptional(val)" class="row">
-      <div class="label flex gap-1">
+      <div class="label flex gap-1 whitespace-nowrap">
         <div class="text" v-text="key"></div>
         <div class="type opacity-50" v-text="'(' + val.type + ')'"></div>
       </div>
@@ -62,9 +62,9 @@ export default {
 
 <style lang="scss">
 .option {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col;
   .row {
-    @apply grid grid-cols-8 gap-2;
+    @apply grid grid-cols-8 gap-2 mb-2;
     .label {
       @apply col-span-1;
     }

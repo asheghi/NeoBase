@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-import { ax, baseUrl } from "../../../../plugins/axios";
+import { ax, baseUrl, parseAxiosError } from "../../../../plugins/axios";
 import { computed, reactive, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
@@ -61,6 +61,23 @@ import ActionOptions from "./components/ActionOptions.vue";
 import ExecutionResult from "./ExecutonResult.vue";
 import IconExecute from "@mdi/svg/svg/play.svg";
 const all_actions = reactive(document_actions);
+const authToken = ref("");
+Object.keys(document_actions).forEach((actionKey) => {
+  if (all_actions[actionKey].hideAuthToken) return;
+  if (!all_actions[actionKey].options) {
+    all_actions[actionKey].options = {};
+  }
+  all_actions[actionKey].options.headers = {
+    type: "json",
+    fields: {
+      "x-auth-token": {
+        optional: true,
+        type: "string",
+        value: authToken,
+      },
+    },
+  };
+});
 const route = useRoute();
 const project = computed(() => route.params.project);
 const collection = computed(() => route.params.collection);
@@ -75,14 +92,19 @@ function getValueOfOptions(arg) {
   let value = {};
   if (typeof arg === "object" && arg) {
     Object.keys(arg).forEach((key) => {
+      if (!arg[key]) return;
       let fields = arg[key].fields;
       if (fields) {
         Object.keys(fields).forEach((field) => {
           if (fields[field].fields) {
             value[field] = getValueOfOptions({ [field]: fields[field] });
           } else {
-            let valField = fields[field].value;
-            value[field] = valField;
+            let val = fields[field].value;
+            if (val.__v_isRef) {
+              value[field] = val.value;
+            } else {
+              value[field] = val;
+            }
           }
         });
       } else {
@@ -103,6 +125,8 @@ const executeAction = async () => {
     .replace(":project", project.value)
     .replace(":collection", collection.value);
   let body = getValueOfOptions({ body: options.body });
+
+  const headers = getValueOfOptions({ headers: options.headers });
   if (typeof body === "string" && options.body.type === "json") {
     try {
       body = JSON.parse(body);
@@ -111,22 +135,38 @@ const executeAction = async () => {
     }
   }
   execution.loading = true;
+  const startTime = new Date().getTime();
   try {
-    const startTime = new Date().getTime();
-    const { data, status, headers, request } = await ax({
+    const {
+      data,
+      status,
+      headers: resHeaders,
+      request,
+    } = await ax({
       url: reqUrl,
       data: body,
       method,
       params: {},
+      headers,
+      skipAccountToken: true,
     });
     execution.responseTime = new Date().getTime() - startTime;
     execution.data = data;
     execution.status = status;
     execution.body = body;
-    execution.res_headers = headers;
+    execution.res_headers = resHeaders;
+    execution.req_headers = headers;
     // execution.req_headers = request.headers;
   } catch (e) {
+    const { status, data, msg, headers: resHeaders } = parseAxiosError(e);
     execution.error = e.message;
+    execution.responseTime = new Date().getTime() - startTime;
+    execution.data = data;
+    execution.status = status;
+    execution.body = body;
+    execution.res_headers = resHeaders;
+    execution.req_headers = headers;
+    execution.error_msg = msg;
     // eslint-disable-next-line no-console
     console.error(e);
   } finally {
