@@ -25,15 +25,16 @@
       <div class="access sm:flex justify-start gap-4 mt-16 text-lg">
         <input
           id="email"
+          v-model="email"
           class=""
           placeholder="Enter your Email Address"
           type="email"
           name="email"
         />
-        <a href="mailto:access@neobase.uk"
-          >Request Access
+        <router-link :to="'/register?' + 'email=' + email">
+          Get started
           <ChevRight />
-        </a>
+        </router-link>
       </div>
     </div>
   </div>
@@ -41,6 +42,8 @@
 <script setup>
 import NavBar from "./views/NavBar.vue";
 import ChevRight from "ionicons/dist/svg/chevron-forward.svg";
+import { ref } from "vue";
+const email = ref("");
 </script>
 <script>
 export default {

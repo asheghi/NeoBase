@@ -14,6 +14,7 @@
           <label for="email">Email</label>
           <input
             id="email"
+            ref="email"
             v-model="form.email"
             name="email"
             placeholder="john@doe.com"
@@ -23,6 +24,7 @@
           <label for="password">Password</label>
           <input
             id="password"
+            ref="password"
             v-model="form.password"
             type="password"
             placeholder="secure password"
@@ -58,6 +60,15 @@ export default {
         password: "",
       },
     };
+  },
+  mounted() {
+    const email = this.$route.query.email;
+    if (email) this.form.email = email;
+    if (this.form.email) {
+      this.$refs.password.focus();
+    } else {
+      this.$refs.email.focus();
+    }
   },
   methods: {
     async submit() {

@@ -22,6 +22,10 @@ app.get("/", (req, res) => {
   res.send("hello from the other side!");
 });
 
-app.listen(7585, "0.0.0.0", () => {
-  console.log("Backend is listening on http://0.0.0.0:7585");
+const hostname = config.listen_host;
+const port = config.listen_port;
+
+app.listen(port, hostname, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Backend is listening on http://${hostname}:${port}`);
 });
