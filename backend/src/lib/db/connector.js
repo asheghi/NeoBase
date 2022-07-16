@@ -5,7 +5,7 @@ import { config } from "../../config/index.js";
 const log = getLogger("db-connector");
 
 export async function getDatabase(name) {
-  const uri = config.mongoUriBase + name;
+  const uri = config.mongodb_base_url + name;
   return Mongoose.createConnection(uri);
 }
 

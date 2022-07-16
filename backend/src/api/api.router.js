@@ -6,13 +6,13 @@ import { ProjectsApiRouter } from "./projects/projects.router.js";
 import { ProjectAuthRouter } from "./auth/auth.router.js";
 import { DocumentsApiRouter } from "./documents/documents.router.js";
 import { ProjectUsersApiRouter } from "./projects/users.router.js";
+import { CommonSlowDown } from "./slow-downs.middleware.js";
 
 const app = Express.Router();
 
-// simulate slow network on dev mode
 if (config.simulate_slow_network) {
   app.use((req, res, next) => {
-    setTimeout(next, +config.simulate_slow_network || 1500);
+    setTimeout(next, Math.round(Math.random() * 1500) + 500);
   });
 }
 
@@ -21,16 +21,21 @@ const setProject = (req, res, next) => {
   next();
 };
 
-app.use("/accounts", AccountsRouter);
-app.use("/projects", ProjectsApiRouter);
-app.use("/users/:project", setProject, ProjectUsersApiRouter);
-app.use("/collections/:project", setProject, CollectionsApiRouter);
+app.use("/accounts", CommonSlowDown, AccountsRouter);
+app.use("/projects", CommonSlowDown, ProjectsApiRouter);
+app.use("/users/:project", CommonSlowDown, setProject, ProjectUsersApiRouter);
+app.use(
+  "/collections/:project",
+  CommonSlowDown,
+  setProject,
+  CollectionsApiRouter
+);
 app.use("/documents", DocumentsApiRouter);
-app.use("/auth/:project", setProject, ProjectAuthRouter);
+app.use("/auth/:project", CommonSlowDown, setProject, ProjectAuthRouter);
 
 app.get("/", (req, res) => {
   res.json({
-    name: "FireStore Api",
+    name: "NeoBase Api",
     version: "1.0.0",
   });
 });

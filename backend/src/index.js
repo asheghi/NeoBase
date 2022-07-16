@@ -12,6 +12,10 @@ if (config.log_access) {
 
 app.use(cors());
 
+if (config.trust_proxy) {
+  app.enable("trust proxy");
+}
+
 app.use("/api", ApiRouter);
 
 app.get("/", (req, res) => {

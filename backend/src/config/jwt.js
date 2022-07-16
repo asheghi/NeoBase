@@ -1,6 +1,7 @@
 export default {
+  // dynamic jwt secret invalidates tokens after restart
   jwtSecret:
-    "devmode" ||
-    import.meta.JWT_SECRET ||
-    (Math.random() + 1).toString(36).substring(7),
+    process.env.JWT_SECRET || process.env.NODE_ENV === "development"
+      ? "dev-mode-jwt-token"
+      : (Math.random() + 1).toString(36).substring(7),
 };

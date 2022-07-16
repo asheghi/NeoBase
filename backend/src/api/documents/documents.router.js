@@ -5,6 +5,7 @@ import { authenticateAccountRequest } from "../accounts/accounts.middleware.js";
 import { getLogger } from "../../lib/debug.js";
 import { getUserFilter } from "./access-control.js";
 import { getCollection } from "../../lib/db/connector.js";
+import { SlowDownDocumentsRouter } from "../slow-downs.middleware.js";
 
 const logger = getLogger("documents.api");
 const FIND_LIMIT = 100;
@@ -39,7 +40,7 @@ const canUserDo = (operation) => async (req, res, next) => {
 
 app.post("/find", canUserDo("read"), async (req, res) => {
   const filter = { ...(req.body.filter || {}), ...req.access_filter };
-  console.log('body', req.body);
+  console.log("body", req.body);
   const projection = req.body.projection || {};
   const opt = req.body.options || {};
   const options = {
@@ -99,6 +100,6 @@ const setCollection = async (req, res, next) => {
   next();
 };
 const cover = Express.Router();
-cover.use("/:project/:collection", setCollection, app);
+cover.use("/:project/:collection", setCollection, SlowDownDocumentsRouter, app);
 export const DocumentsApiRouter = cover;
 export default { DocumentsApiRouter };
