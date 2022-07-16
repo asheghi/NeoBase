@@ -73,7 +73,7 @@ export default {
     }
   }
   input {
-    @apply border border-gray-200 mx-2;
+    @apply border border-gray-200 mx-2 px-2 py-1 rounded outline-gray-300;
   }
 }
 </style>

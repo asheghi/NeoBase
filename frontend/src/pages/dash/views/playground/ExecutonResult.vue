@@ -3,8 +3,18 @@
     <div v-if="execution.loading" class="loading">Loading ...</div>
     <template v-if="!execution.loading && Object.keys(execution).length">
       <div class="row">
-        <div class="head">Response</div>
-        <div>
+        <div class="tabs">
+          <button
+            v-for="(tab, key) in tabs"
+            :key="key"
+            class="tab"
+            :class="{ active: tab === currentTab }"
+            @click="currentTab = tab"
+            v-text="tab"
+          ></button>
+        </div>
+
+        <div class="ml-auto">
           <div class="">status:</div>
           <div class="res-code">{{ execution.status }}</div>
         </div>
@@ -13,15 +23,33 @@
           <div>{{ execution.responseTime }}ms</div>
         </div>
       </div>
-      <div class="body">
-        <pre><code>{{JSON.stringify(execution.data,null,'\t')}}</code></pre>
-      </div>
+      <template v-if="currentTab === tabs.response_body">
+        <div class="body">
+          <pre><code>{{JSON.stringify(execution.data,null,'\t')}}</code></pre>
+        </div>
+      </template>
+      <template v-if="currentTab === tabs.headers">
+        <div class="headers border border-gray-100 rounded p-2">
+          <div
+            v-for="(val, name) in execution.res_headers"
+            :key="name"
+            class="header flex gap-2 py-2"
+          >
+            <div class="header-name opacity-50 font-bold">{{ name }}:</div>
+            <div class="header-value">{{ val }}</div>
+          </div>
+        </div>
+      </template>
     </template>
   </div>
 </template>
 <script setup></script>
 
 <script>
+const tabs = {
+  response_body: "Response",
+  headers: "Headers",
+};
 export default {
   name: "ExecutionResult",
   props: {
@@ -29,6 +57,12 @@ export default {
       type: Object,
       default: () => ({}),
     },
+  },
+  data() {
+    return {
+      tabs,
+      currentTab: Object.values(tabs)[0],
+    };
   },
 };
 </script>
@@ -49,8 +83,13 @@ export default {
       }
     }
   }
-  .body{
+  .body {
     @apply max-h-[50vh] overflow-auto rounded border border-gray-200 p-2;
+  }
+  .tabs {
+    @apply flex;
+    .tab {
+    }
   }
 }
 </style>

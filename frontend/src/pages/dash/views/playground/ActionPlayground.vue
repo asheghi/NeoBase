@@ -1,8 +1,13 @@
 <template>
   <div class="ActionPlayground">
     <div class="api">
-      <div class="url flex gap-2">
-        <div class="label" v-text="'url: '"></div>
+      <div class="url flex gap-2 px-2 items-center">
+        <div
+          class="method text-lg font-bold uppercase"
+          :class="all_actions[actionName].method"
+        >
+          {{ all_actions[actionName].method }}
+        </div>
         <div class="value">
           <span class="opacity-75 p-1">{{ baseUrl }}</span>
           <span class="p-1 rounded bg-gray-200">{{
@@ -18,7 +23,10 @@
         </button>
       </div>
     </div>
-    <div :key="actionName" class="options relative p-2 border border-gray-200">
+    <div
+      :key="actionName"
+      class="options pt-4 relative p-2 border border-gray-200"
+    >
       <div class="font-bold mb-2">options</div>
       <ActionOptions
         :show-optionals="showOptionals"
@@ -32,9 +40,12 @@
         {{ showOptionals ? "less" : "more" }} options
       </button>
     </div>
-
     <div class="row flex items-center justify-between py-4"></div>
-    <ExecutionResult :execution="execution" />
+    <ExecutionResult
+      v-for="(execution, index) in executions"
+      :key="index + renderCounter"
+      :execution="execution"
+    />
   </div>
 </template>
 
@@ -58,6 +69,7 @@ const action = computed(() => document_actions[actionName.value]);
 const api = computed(() => Api.Documents(project, collection));
 
 const renderCounter = ref(0);
+//todo rewrite this IMPORTANT
 function getValueOfOptions(arg) {
   if (!arg) return {};
   let value = {};
@@ -73,22 +85,35 @@ function getValueOfOptions(arg) {
             value[field] = valField;
           }
         });
+      } else {
+        value = arg[key].value;
       }
     });
   }
   return value;
 }
-const execution = reactive({});
+const executions = reactive([]);
 const executeAction = async () => {
+  const execution = {
+    action: actionName.value,
+  };
+  executions.splice(0, 0, execution);
   const { url, options, method } = action.value;
   const reqUrl = url
     .replace(":project", project.value)
     .replace(":collection", collection.value);
-  const body = getValueOfOptions({ body: options.body });
+  let body = getValueOfOptions({ body: options.body });
+  if (typeof body === "string" && options.body.type === "json") {
+    try {
+      body = JSON.parse(body);
+    } catch (e) {
+      console.error(e);
+    }
+  }
   execution.loading = true;
   try {
     const startTime = new Date().getTime();
-    const { data, status } = await ax({
+    const { data, status, headers, request } = await ax({
       url: reqUrl,
       data: body,
       method,
@@ -97,12 +122,19 @@ const executeAction = async () => {
     execution.responseTime = new Date().getTime() - startTime;
     execution.data = data;
     execution.status = status;
+    execution.body = body;
+    execution.res_headers = headers;
+    // execution.req_headers = request.headers;
   } catch (e) {
     execution.error = e.message;
     // eslint-disable-next-line no-console
     console.error(e);
   } finally {
     execution.loading = false;
+    if (executions.length > 3) {
+      executions.splice(2, executions.length - 3);
+    }
+    renderCounter.value++;
   }
 };
 const showOptionals = ref(false);
@@ -114,7 +146,6 @@ watch(
   () => all_actions,
   () => {
     renderCounter.value = renderCounter.value + 1;
-    console.log("counter ++", renderCounter.value);
   },
   { deep: true, immediate: true }
 );
@@ -126,9 +157,14 @@ export default {
 </script>
 <style lang="scss">
 .ActionPlayground {
-  @apply flex flex-col gap-4;
+  @apply flex flex-col gap-4 pb-16;
   .toggle-options-btn {
-    @apply flex gap-2 px-4 py-2 text-primary absolute top-4 right-4 bg-white;
+    @apply flex gap-2 px-4 py-2 text-primary absolute top-0 right-4 bg-white;
+  }
+  .method {
+    &.post {
+      @apply text-green-700;
+    }
   }
 }
 </style>
