@@ -11,7 +11,11 @@
         <div class="label" v-text="ac.name"></div>
       </router-link>
     </div>
-    <router-view />
+    <div v-if="!actions || !collection" class="text-center py-32">
+      <div v-if="!collection">select a collection first</div>
+      <div v-if="!action">select a action</div>
+    </div>
+    <router-view :key="collection" />
   </div>
 </template>
 <script setup>
@@ -29,6 +33,7 @@ const actions = Object.values(document_actions).map((it) => {
 });
 
 const collection = computed(() => route.params.collection);
+const action = computed(() => route.params.action);
 </script>
 <script>
 export default {

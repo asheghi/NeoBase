@@ -20,11 +20,19 @@ import IconData from "@mdi/svg/svg/database.svg";
 import IconUsers from "@mdi/svg/svg/account-group.svg";
 import IconAccess from "@mdi/svg/svg/account-lock.svg";
 import IconPlayground from "@mdi/svg/svg/gamepad.svg";
-const tabs = [
+import { useRoute } from "vue-router";
+import { computed } from "vue";
+const route = useRoute();
+const collection = computed(() => route.params.collection);
+const tabs = computed(() => [
   {
     label: "Data",
     icon: IconData,
-    to: { name: "collections" },
+    to: (() => {
+      if (collection.value)
+        return { name: "documents", params: { collection: collection.value } };
+      return { name: "collections" };
+    })(),
   },
   {
     label: "Users",
@@ -34,14 +42,28 @@ const tabs = [
   {
     label: "Access Control",
     icon: IconAccess,
-    to: { name: "access" },
+    to: (() => {
+      if (collection.value)
+        return {
+          name: "access-config",
+          params: { collection: collection.value },
+        };
+      return { name: "access" };
+    })(),
   },
   {
     label: "Playground",
     icon: IconPlayground,
-    to: { name: "playground" },
+    to: (() => {
+      if (collection.value)
+        return {
+          name: "collection-playground",
+          params: { collection: collection.value },
+        };
+      return { name: "playground" };
+    })(),
   },
-];
+]);
 </script>
 <script>
 export default {
