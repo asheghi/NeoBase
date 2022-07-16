@@ -47,6 +47,7 @@
     "prettier": "^2.6.2",
     "sinon": "^14.0.0",
     "supertest": "^6.2.3",
-    "vite-svg-loader": "^3.3.0"
+    "vite-svg-loader": "^3.3.0",
+    "@dotenv/cli": "^2.2.2"
   }
 }
