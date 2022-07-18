@@ -40,22 +40,46 @@ const canUserDo = (operation) => async (req, res, next) => {
 
 app.post("/find", canUserDo("read"), async (req, res) => {
   const filter = { ...(req.body.filter || {}), ...req.access_filter };
-  console.log("body", req.body);
   const projection = req.body.projection || {};
+  const populate = req.body.populate || [];
   const opt = req.body.options || {};
   const options = {
     sort: opt.sort,
     skip: +(opt.skip || 0),
     limit: +(opt.limit || FIND_LIMIT),
   };
-  console.log("opt", options);
-  res.send(await req.Collection.find(filter, projection, options));
+  let query = req.Collection.find(filter, projection, options);
+  if (populate && populate.length)
+    await Promise.all(
+      populate
+        .filter((it) => it.model)
+        .map(async (population) => {
+          const { model: modelName, path, ...rest } = population;
+          const model = await getCollection(req.project, modelName);
+          query = query.populate({ model, path, ...rest });
+        })
+    );
+  res.send(await query);
 });
 
 app.post("/findOne", canUserDo("read"), async (req, res) => {
   const filter = { ...(req.body.filter || {}), ...req.access_filter };
   const projection = req.body.projection || {};
-  res.send(await req.Collection.findOne(filter, projection));
+  const populate = req.body.populate || [];
+
+  let query = req.Collection.findOne(filter, projection);
+
+  if (populate && populate.length)
+    await Promise.all(
+      populate
+        .filter((it) => it.model)
+        .map(async (population) => {
+          const { model: modelName, path, ...rest } = population;
+          const model = await getCollection(req.project, modelName);
+          query = query.populate({ model, path, ...rest });
+        })
+    );
+  res.send(await query);
 });
 
 app.post("/count", canUserDo("read"), async (req, res) => {

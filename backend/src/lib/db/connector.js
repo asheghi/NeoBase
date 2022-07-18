@@ -23,6 +23,7 @@ export async function getCollection(dbName, colName) {
           strict: false,
           validateBeforeSave: false,
           timestamps: true,
+          strictPopulate: false,
         }
       ),
       colName
