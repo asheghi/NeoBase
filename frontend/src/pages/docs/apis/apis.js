@@ -5,6 +5,7 @@ export const ApiDocuments = [
     isLarge: true,
     level: 0,
     page: () => import("./ApisPage.vue"),
+    hideToC: true,
   },
   {
     name: "Authentication",

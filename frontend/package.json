@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.js,.vue",
     "lint-fix": "eslint . --ext .ts,.js,.vue --fix",
-    "deploy": "vite build && node build/deploy.js"
+    "deploy": "npm run build && dotenv node build/deploy.js"
   },
   "dependencies": {
     "@codemirror/commands": "^6.0.1",
@@ -21,6 +21,7 @@
     "axios": "^0.27.2",
     "codemirror": "^6.0.1",
     "debug-level": "^2.1.2",
+    "highlight.js": "^11.6.0",
     "ionicons": "^6.0.2",
     "sass": "^1.51.0",
     "scss": "^0.2.4",
@@ -32,6 +33,7 @@
     "@tailwindcss/typography": "^0.5.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "^10.4.7",
+    "dotenv-cli": "^6.0.0",
     "eslint": "^8.16.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-no-loops": "^0.3.0",

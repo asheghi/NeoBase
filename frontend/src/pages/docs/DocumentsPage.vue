@@ -7,7 +7,7 @@
           <h3
             v-if="!it.page"
             :key="it.name"
-            class="opacity-40 text-sm font-bold"
+            class="opacity-50 font-normal text-sm "
             :class="'level-' + it.level"
             v-text="it.name"
           ></h3>
@@ -41,7 +41,7 @@
           </transition>
         </router-view>
       </div>
-      <div v-if="doc_level" class="table-of-content">
+      <div v-if="showTableOfContent" class="table-of-content">
         <div class="text-gray-500 uppercase font-bold text-xs">
           on this page
         </div>
@@ -59,6 +59,7 @@
   </div>
 </template>
 <script setup>
+import "highlight.js/styles/intellij-light.css";
 import NavBar from "../index/views/NavBar.vue";
 import { sideBarItems as docs } from "../../routes";
 import { useRoute, useRouter } from "vue-router";
@@ -68,6 +69,7 @@ const router = useRouter();
 const route = useRoute() || { meta: {} };
 const doc_name = computed(() => route.name);
 const doc_level = computed(() => route.meta.level);
+const showTableOfContent = computed(() => !route.meta.hideToC);
 const doc_index = computed(() =>
   docs.findIndex((it) => doc_name.value === "docs-" + it.path)
 );
@@ -85,9 +87,6 @@ const next_doc = computed(() => {
     .find((it) => it.page && it.level);
 });
 const tableOfContent = ref([]);
-onMounted(() => {
-  tableOfContent.value = getTableOfContent();
-});
 watch(
   () => doc_name.value,
   (n, o) => {
@@ -96,6 +95,19 @@ watch(
     });
   }
 );
+
+onMounted(async () => {
+  tableOfContent.value = getTableOfContent();
+  try {
+    const it = await import("highlight.js");
+    const highlight = it.default || it;
+    highlight.highlightAll();
+  } catch (e) {
+    console.error(e);
+  }
+  const anchor = document.querySelector(route.hash);
+  if (anchor) anchor.scrollIntoView({ behavior: "smooth" });
+});
 
 function getTableOfContent() {
   const matches = document.querySelectorAll(
@@ -129,6 +141,7 @@ function getUniqueIdForEl(el, counter = 0) {
   if (document.getElementById(text + "-" + counter)) {
     return getUniqueIdForEl(el, ++counter);
   }
+  if (!counter) return text.replaceAll(" ", "-");
   return text.replaceAll(" ", "-") + "-" + counter;
 }
 
@@ -144,7 +157,7 @@ export default {
     .side-bar {
       @apply hidden md:flex min-w-[240px] flex-col gap-1;
       .item {
-        @apply px-2 py-1 font-semibold
+        @apply px-2 py-1 font-normal
         capitalize text-sm no-underline;
         text-decoration: none;
         &:hover {
@@ -178,11 +191,35 @@ export default {
         @apply dark:text-white;
       }
       a {
-        @apply no-underline;
+        @apply no-underline text-primary font-bold;
+      }
+      pre {
+        @apply bg-transparent p-0 rounded;
+        code {
+          * {
+            font-family: "JetBrains Mono", monospace !important;
+          }
+
+          @apply bg-gray-50 dark:bg-gray-600 border border-gray-200
+        text-gray-600 opacity-100;
+
+          &.language-bash,
+          &.language-js {
+            @apply font-normal border border-gray-200 dark:border-gray-500 px-4 py-2;
+          }
+          &.language-bash {
+          }
+        }
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
       }
       code,
       p {
-        @apply max-w-[100vw] overflow-x-auto block;
+        @apply max-w-[100vw] overflow-x-auto;
       }
       p > code {
         @apply inline;
@@ -226,7 +263,7 @@ export default {
       .item:nth-child(2) {
         @apply pl-0;
       }
-      @apply top-0;
+      @apply top-4;
       height: fit-content;
     }
   }
@@ -239,6 +276,17 @@ export default {
   }
   .prose code {
     @apply font-normal bg-gray-200 px-1 py-1 rounded dark:text-white dark:bg-gray-500;
+  }
+}
+.dark {
+  .DocumentsPage {
+    @import "highlight.js/scss/github-dark";
+    .hljs-comment {
+      @apply text-gray-300;
+    }
+    .hljs-property {
+      @apply text-purple-400;
+    }
   }
 }
 </style>

@@ -1,9 +1,20 @@
-function getClient(project, {baseurl} = {}) {
+function getClient(project, {baseurl} = {},getToken) {
   if (!project) throw new Error('project must be defined.')
   const axios = require('axios');
-  const ax = axios.create({
+  let ax = axios.create({
     baseURL: baseurl,
-  })
+  });
+
+  // set user token
+  ax.interceptors.request.use((config) => {
+    try {
+      if (getToken && !config.dontSetToken) config.headers["x-auth-token"] = getToken();
+    } catch (e) {
+      console.error(e);
+    }
+    return config;
+  });
+
   return {
     Collection(collection) {
       if (!collection) throw new Error('collection must be defined.')
@@ -89,23 +100,27 @@ function getClient(project, {baseurl} = {}) {
             exec
           }
         },
+        //no exec
         count(filter) {
           const body = {};
           if (filter) {
             body.filter = filter;
           }
-          const exec = async () => ax.post(`documents/${project}/${collection}/count`, body)
-          return {
-            exec
-          }
+          return ax.post(`documents/${project}/${collection}/count`, body)
         },
-        //no exec
         create: async (document) => ax.post(`documents/${project}/${collection}/findOne`, document),
         deleteOne: (payload) => ax.post(`documents/${project}/${collection}/deleteOne`, payload),
         updateOne: (filter, update) => ax.post(`documents/${project}/${collection}/updateOne`, {filter, update}),
         deleteMany: (filter) => ax.post(`documents/${project}/${collection}/deleteOne`, filter),
       }
-    }
+    },
+    Auth:{
+      login: (payload) => ax.post(`auth/${project}/login`, payload),
+      register: (payload) => ax.post(`auth/${project}/register`, payload),
+      me: (token) => ax.get(`auth/${project}/me`,{headers:{'x-auth-token' : token, dontSetToken: true}}),
+    },
+    axiosClient: ax,
+    setAxiosClient:(arg) => ax = arg,
   }
 }
 

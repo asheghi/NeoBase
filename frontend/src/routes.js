@@ -1,4 +1,4 @@
-import { ApiDocuments } from "./pages/docs/apis/apis";
+import { Docs } from "./pages/docs/docs";
 
 export const routes = [
   {
@@ -18,12 +18,13 @@ export const routes = [
     name: "docs",
     component: () => import("./pages/docs/DocumentsPage.vue"),
     children: [
-      ...ApiDocuments.filter((it) => it.page).map((it) => ({
+      ...Docs.filter((it) => it.page).map((it) => ({
         path: it.path,
         component: it.page,
         name: "docs-" + it.path,
         meta: {
           level: it.level,
+          hideToC: it.hideToC,
         },
       })),
     ],
@@ -123,4 +124,4 @@ export const routes = [
   },
 ];
 
-export const sideBarItems = [...ApiDocuments];
+export const sideBarItems = [...Docs];
