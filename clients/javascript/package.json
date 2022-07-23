@@ -1,6 +1,6 @@
 {
   "name": "@neobase/client",
-  "version": "1.0.0",
+  "version": "1.2.1",
   "description": "NeoBase js client",
   "main": "dist/client.cjs.js",
   "module": "dist/client.esm.js",

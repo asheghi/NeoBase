@@ -1,4 +1,4 @@
-function getClient(project, {baseurl} = {},getToken) {
+function getClient(project, {baseurl,getToken} = {}) {
   if (!project) throw new Error('project must be defined.')
   const axios = require('axios');
   let ax = axios.create({
@@ -108,7 +108,7 @@ function getClient(project, {baseurl} = {},getToken) {
           }
           return ax.post(`documents/${project}/${collection}/count`, body)
         },
-        create: async (document) => ax.post(`documents/${project}/${collection}/findOne`, document),
+        create: async (document) => ax.post(`documents/${project}/${collection}/create`, document),
         deleteOne: (payload) => ax.post(`documents/${project}/${collection}/deleteOne`, payload),
         updateOne: (filter, update) => ax.post(`documents/${project}/${collection}/updateOne`, {filter, update}),
         deleteMany: (filter) => ax.post(`documents/${project}/${collection}/deleteOne`, filter),

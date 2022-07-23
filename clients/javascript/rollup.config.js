@@ -19,8 +19,9 @@ function generateConfig(format, minify) {
   };
 }
 module.exports = [
-  generateConfig('umd', true),
+  // generateConfig('umd', true),
   generateConfig('umd', false),
   generateConfig('cjs', false),
-  generateConfig('esm', true),
+  // generateConfig('esm', true),
+  generateConfig('esm', false),
 ];
