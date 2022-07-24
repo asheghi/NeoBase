@@ -36,6 +36,10 @@
           <ChevRight />
         </router-link>
       </div>
+      <div class="login py-4 text-lg">
+        <router-link class="text-primary dark:text-primary-300 font-bold" to="/login"> login </router-link>
+        <span class="text-gray-500"> if you already have an account. </span>
+      </div>
     </div>
   </div>
 </template>

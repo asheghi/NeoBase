@@ -14,7 +14,7 @@ module.exports = {
     "no-console": 1,
     "no-loops/no-loops": 2,
     "prettier/prettier": "error",
-    "vue/multi-word-component-names": "warn",
+    "vue/multi-word-component-names": 0,
   },
   env: {
     browser: true,

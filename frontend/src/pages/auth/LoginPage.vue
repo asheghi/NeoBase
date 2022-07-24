@@ -2,7 +2,7 @@
   <div class="LoginPage">
     <div class="cover">
       <div class="header">
-        <img :src="logoImage" width="120" height="120" />
+        <Logo class="logo" width="180" height="180" />
         <h1 class="text-2xl text-center opacity-60">
           <span class="">Login to</span>
           NeoBase
@@ -34,7 +34,7 @@
       <div class="msg opacity-75">
         <p>
           New here?
-          <router-link class="text-blue-700 font-bold" to="/register"
+          <router-link class="text-blue-700 dark:text-primary-200 font-bold" to="/register"
             >Register Here</router-link
           >
         </p>
@@ -44,16 +44,15 @@
 </template>
 
 <script>
-import logoImage from "../../assets/logo.png?url";
-import { ax } from "../../plugins/axios";
+import Logo from "../../components/Logo.vue";
 import { Api } from "../../lib/api";
 import { setAccountToken } from "../../lib/auth";
 
 export default {
   name: "LoginPage",
+  components: { Logo },
   data() {
     return {
-      logoImage,
       form: {
         email: "",
         password: "",
