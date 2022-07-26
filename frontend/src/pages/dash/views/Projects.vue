@@ -1,60 +1,45 @@
 <template>
   <div class="ManageProjects">
-    <div class="head">
-      <h1 class="header-text">Projects</h1>
-    </div>
     <div class="list">
-      <div class="item">
-        <button class="btn" @click="onNewProject">New Project</button>
-      </div>
-      <div v-for="p in projects" :key="p._id" class="item">
+      <button class="card" @click="onNewProject">
+        <IconPlus viewBox="0 0 20 20" class="icon" />
+        <span>New Project</span>
+      </button>
+      <template v-if="fetching">
+        <div v-for="i in 3" :key="i" class="card skeloading"></div>
+      </template>
+      <template v-if="!fetching">
         <router-link
+          v-for="p in projects"
+          :key="p._id"
           :to="{ name: 'collections', params: { project: p.name } }"
-          class="name"
+          class="card"
         >
+          <IconFolder class="icon" viewBox="0 0 24 24" />
           {{ p.name }}
         </router-link>
-        <button class="btn btn-danger" @click="removeProject(p)">Drop</button>
-      </div>
-      <div v-if="!projects || !projects.length" class="no-data">
-        you have no projects.
-      </div>
-    </div>
-    <Modal ref="modal" @onClose="form.name = ''">
-      <div class="new-project">
-        <div class="form" @keydown.enter="submit">
-          <div class="form-group">
-            <label for="email">Project Name</label>
-            <input
-              id="email"
-              v-model="form.name"
-              name="email"
-              placeholder="what's the name of your app?"
-            />
-          </div>
-          <button class="btn" @click="submit">Submit</button>
+        <div v-if="!projects || !projects.length" class="no-data">
+          you have no projects.
         </div>
-      </div>
-    </Modal>
+      </template>
+    </div>
+    <NewProjectModal ref="newProjectModal" />
   </div>
 </template>
 
 <script>
-import Modal from "../../../components/Modal.vue";
 import { Api } from "../../../lib/api";
-import { toast } from "../../../plugins/alert";
-import swal from "sweetalert2";
+import IconPlus from "@mdi/svg/svg/plus.svg";
+import IconFolder from "@mdi/svg/svg/folder.svg";
+import NewProjectModal from "./components/NewProjectModal.vue";
 
 export default {
   name: "ManageProjects",
-  components: { Modal },
+  components: { NewProjectModal, IconPlus, IconFolder },
   data() {
     return {
-      form: {
-        name: "",
-      },
       projects: [],
-      loading: false,
+      fetching: null,
     };
   },
   mounted() {
@@ -62,62 +47,17 @@ export default {
   },
   methods: {
     onNewProject() {
-      this.$refs.modal.show();
-    },
-    async submit() {
-      if (this.loading) {
-        console.log("already running");
-        return;
-      }
-      this.loading = true;
-      try {
-        const { data, status } = await Api.Projects.create({
-          name: this.form.name,
-        });
-        this.$refs.modal.hide();
-        this.form.name = "";
-        await this.fetchData();
-        toast("New project created");
-      } catch (e) {
-        console.error(e);
-        toast("Failed to create project", {
-          text: e.response.data.msg,
-          icon: "error",
-        });
-      } finally {
-        this.loading = false;
-      }
+      this.$refs.newProjectModal.show();
     },
     async fetchData() {
-      const { data } = await Api.Projects.list();
-      this.projects = data;
-    },
-    async removeProject(p) {
+      this.fetching = true;
       try {
-        const result = await swal.fire({
-          title: "Delete Project",
-          icon: "warning",
-          text: `Are you sure? project "${p.name}" will be wiped out!`,
-          showCancelButton: true,
-          confirmButtonText: "yes, delete project",
-          confirmButtonColor: "red",
-          customClass: {
-            cancelButton: "bg-green-500 text-white",
-          },
-        });
-        if (!result.isConfirmed) {
-          return;
-        }
-        const { data } = await Api.Projects.delete(p.name);
-        await this.fetchData();
-        toast(`Deleted Project "${p.name}"`);
+        const { data } = await Api.Projects.list();
+        this.projects = data;
       } catch (e) {
         console.error(e);
-        toast("Failed to delete project", {
-          text: e.response.data.msg,
-          icon: "warning",
-        });
       } finally {
+        this.fetching = false;
       }
     },
   },
@@ -134,21 +74,27 @@ export default {
   }
 
   .list {
-    @apply mt-4;
-    .item {
-      @apply py-2 flex items-center gap-16 items-center;
-      a {
-        min-width: 120px;
+    @apply mt-4 grid py-4 lg:grid-cols-4 grid-cols-1 sm:grid-cols-2
+    md:grid-cols-3 gap-8 fill-primary-700;
+    .card {
+      @apply bg-white dark:bg-gray-600 transition transform
+      p-8 flex flex-col gap-8 justify-center items-center rounded
+      shadow;
+
+      &:hover,
+      &:focus {
+        @apply outline-0 shadow-lg scale-105;
       }
 
-      .btn {
-        @apply text-blue-400 px-4 -mx-4 py-2
-        font-bold text-sm;
+      &:active {
+        @apply scale-95 shadow bg-gray-300 dark:bg-gray-700;
       }
-
-      .btn-danger {
-        @apply -mx-4 px-4 text-red-500 font-bold;
+      .icon {
+        @apply w-[54px] h-[54px] dark:fill-white fill-primary-400;
       }
+    }
+    .skeloading {
+      @apply bg-gray-200;
     }
   }
 
@@ -159,7 +105,7 @@ export default {
     }
 
     .form {
-      @apply flex items-center gap-4 w-full;
+      @apply flex flex-col items-center gap-4 w-full;
       .form-group {
         @apply flex flex-col gap-2 w-full;
         label {

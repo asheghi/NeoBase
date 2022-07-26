@@ -1,39 +1,20 @@
 <template>
   <div class="DashboardPage">
-    <div
-      class="navbar container mx-auto flex gap-4 py-2 text-lg opacity-50 px-4"
-    >
-      <div class="left">
-        <router-link v-if="showHome" to="/dash" class="link">
-          <icon-home />
-          Home
-        </router-link>
-        <ChevronRight v-if="project" width="16" height="16" />
-        <template v-if="project"> {{ project }} </template>
-      </div>
-      <router-link to="/login" class="ml-auto" @click="logout"
-        >Logout</router-link
-      >
-    </div>
-    <div class="nested-route-cover">
-      <router-view />
+    <DashNavBar />
+    <div class="dash-content-wrapper" :class="{ 'hide-nav': !project }">
+      <router-view class="dash-content" />
     </div>
   </div>
 </template>
 
 <script setup>
-import IconHome from "@mdi/svg/svg/home.svg";
+import DashNavBar from "./views/components/DashNavbar.vue";
 </script>
 <script>
-import { ax } from "../../plugins/axios";
 import { Api } from "../../lib/api";
 import { removeAccountToken } from "../../lib/auth";
-import ChevronRight from "ionicons/dist/svg/chevron-forward.svg";
 
 export default {
-  components: {
-    ChevronRight,
-  },
   async beforeRouteEnter(to, from, next) {
     try {
       const { data, status } = await Api.me();
@@ -63,17 +44,24 @@ export default {
 
 <style lang="scss">
 .DashboardPage {
-  .left {
-    @apply flex items-center gap-1;
-    .link {
-      @apply flex gap-1 items-center transition-all;
-      &:hover {
-        @apply fill-primary text-primary;
+  @apply bg-gray-200 dark:bg-gray-700;
+  --nav-height: 57px;
+  --side-width: 256px;
+
+  .dash-content-wrapper {
+    @apply left-0 bg-gray-100 w-full fixed right-0 px-4 bottom-0 z-0 dark:bg-gray-500;
+    top: var(--nav-height);
+    @screen lg {
+      left: var(--side-width);
+      width: calc(100vw - var(--side-width));
+      &.hide-nav {
+        @apply left-0 w-full;
       }
     }
-  }
-  .nested-route-cover {
-    @apply container mx-auto px-4;
+
+    .dash-content {
+      @apply container w-full mx-auto;
+    }
   }
 }
 </style>

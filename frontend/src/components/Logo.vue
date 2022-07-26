@@ -1,12 +1,12 @@
 <template>
-  <IconServer class="application-logo" />
+  <IconServer class="application-logo" :class="$attrs.class" />
 </template>
 <script setup>
 import IconServer from "../assets/logo.svg";
 </script>
 <script>
 export default {
-  name: "Logo",
+  name: "AppLogo",
 };
 </script>
 

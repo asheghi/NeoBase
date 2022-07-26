@@ -16,6 +16,7 @@
             id="email"
             ref="email"
             v-model="form.email"
+            :disabled="loading"
             name="email"
             placeholder="john@doe.com"
           />
@@ -26,17 +27,22 @@
             id="password"
             ref="password"
             v-model="form.password"
+            :disabled="loading"
             type="password"
             placeholder="secure password"
           />
         </div>
-        <button class="" @click="submit">Continue</button>
+        <NButton :loading="loading" class="primary mt-4 w-full font-bold" @click="submit">
+          {{ loading ? "Registering" : "Register" }}
+        </NButton>
       </div>
 
       <div class="msg opacity-75">
         <p>
           Already registered?
-          <router-link class="text-blue-700 dark:text-primary-200 font-bold" to="/login"
+          <router-link
+            class="text-blue-700 dark:text-primary-200 font-bold"
+            to="/login"
             >Login Here</router-link
           >
         </p>
@@ -50,9 +56,10 @@ import logoImage from "../../assets/logo.png?url";
 import { Api } from "../../lib/api";
 import { setAccountToken } from "../../lib/auth";
 import Logo from "../../components/Logo.vue";
+import NButton from "../../components/design-system/N-Button.vue";
 export default {
   name: "RegisterPage",
-  components: { Logo },
+  components: { NButton, Logo },
   data() {
     return {
       logoImage,
@@ -60,6 +67,7 @@ export default {
         email: "",
         password: "",
       },
+      loading: null,
     };
   },
   mounted() {
@@ -73,9 +81,16 @@ export default {
   },
   methods: {
     async submit() {
-      const { data, status } = await Api.register(this.form);
-      setAccountToken(data.token);
-      await this.$router.replace("/dash");
+      try {
+        this.loading = true;
+        const { data, status } = await Api.register(this.form);
+        setAccountToken(data.token);
+        await this.$router.replace("/dash");
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
@@ -98,10 +113,6 @@ export default {
       input {
         @apply px-4 py-2 rounded bg-gray-100 outline-blue-600;
       }
-    }
-    button {
-      @apply px-4 w-full focus:bg-blue-700 active:bg-blue-800 transition-all
-      outline-0 py-2  active:bg-blue-800 mt-4 rounded text-white bg-blue-600 font-bold;
     }
   }
 }

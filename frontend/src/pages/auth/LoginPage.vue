@@ -15,6 +15,7 @@
           <input
             id="email"
             v-model="form.email"
+            :disabled="loading"
             name="email"
             placeholder="john@doe.com"
           />
@@ -24,17 +25,26 @@
           <input
             id="password"
             v-model="form.password"
+            :disabled="loading"
             type="password"
             placeholder="secure password"
           />
         </div>
-        <button class="" @click="submit">Sign in</button>
+        <NButton
+          :loading="loading"
+          class="primary mt-4 w-full font-bold"
+          @click="submit"
+        >
+          {{ loading ? "Signing in" : "Sign in" }}
+        </NButton>
       </div>
 
       <div class="msg opacity-75">
         <p>
           New here?
-          <router-link class="text-blue-700 dark:text-primary-200 font-bold" to="/register"
+          <router-link
+            class="text-blue-700 dark:text-primary-200 font-bold"
+            to="/register"
             >Register Here</router-link
           >
         </p>
@@ -47,23 +57,32 @@
 import Logo from "../../components/Logo.vue";
 import { Api } from "../../lib/api";
 import { setAccountToken } from "../../lib/auth";
+import NButton from "../../components/design-system/N-Button.vue";
 
 export default {
   name: "LoginPage",
-  components: { Logo },
+  components: { NButton, Logo },
   data() {
     return {
       form: {
         email: "",
         password: "",
       },
+      loading: false,
     };
   },
   methods: {
     async submit() {
-      const { data } = await Api.login(this.form);
-      setAccountToken(data.token);
-      await this.$router.replace("/dash");
+      try {
+        this.loading = true;
+        const { data } = await Api.login(this.form);
+        setAccountToken(data.token);
+        await this.$router.replace("/dash");
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
@@ -88,11 +107,6 @@ export default {
       input {
         @apply px-4 py-2 rounded bg-gray-100 outline-blue-600;
       }
-    }
-
-    button {
-      @apply px-4 w-full focus:bg-blue-700 active:bg-blue-800 transition-all
-      outline-0 py-2  active:bg-blue-800 mt-4 rounded text-white bg-blue-600 font-bold;
     }
   }
 }

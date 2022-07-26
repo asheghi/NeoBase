@@ -9,7 +9,11 @@ a,button{
     @apply outline-primary;
 }
 
+input,textarea{
+    @apply dark:text-gray-700;
+}
 
+/* todo refactor this to NButton */
 .btn-sm{
     @apply text-sm;
 }
@@ -26,4 +30,24 @@ a,button{
     opacity: 0;
     height: 0;
     overflow: hidden;
+}
+
+@keyframes skeloading {
+    from{
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+.skeloading{
+    @apply relative bg-gray-200 rounded overflow-hidden;
+}
+.skeloading::after{
+    content: '';
+    @apply inset-0 absolute cursor-progress;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+    background-repeat: no-repeat;
+    animation: skeloading 1s linear infinite;
 }

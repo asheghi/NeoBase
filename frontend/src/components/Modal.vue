@@ -29,7 +29,7 @@ export default {
       required: false,
     },
   },
-  emits: ["onClose"],
+  emits: ["closed"],
   data() {
     return {
       open: false,
@@ -52,7 +52,7 @@ export default {
     },
     hide() {
       this.open = false;
-      this.$emit("onClose");
+      this.$emit("closed");
     },
   },
 };

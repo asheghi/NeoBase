@@ -3,7 +3,7 @@ const toastMixin = swal.mixin({
   toast: true,
   animation: true,
   icon: "success",
-  position: "top-right",
+  position: "bottom-right",
   showConfirmButton: false,
   timer: 5000,
   timerProgressBar: true,

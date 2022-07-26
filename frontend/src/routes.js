@@ -34,6 +34,7 @@ export const routes = [
     component: () => import("./pages/dash/DashboardPage.vue"),
     children: [
       {
+        name: "projects",
         path: "",
         component: () => import("./pages/dash/views/Projects.vue"),
       },
