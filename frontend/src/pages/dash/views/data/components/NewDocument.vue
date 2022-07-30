@@ -2,7 +2,11 @@
   <div class="NewDocument" :class="'mode-' + currentMode">
     <JsonInput v-model="document" />
     <div class="buttons">
-      <button class="text-primary dark:text-white" @click="onCancel" v-text="'cancel'" />
+      <button
+        class="text-primary dark:text-white"
+        @click="onCancel"
+        v-text="'cancel'"
+      />
       <NButton :loading="loading" class="primary" @click="onSave">
         {{ loading ? "Saving" : "Save" }}
       </NButton>
@@ -47,6 +51,7 @@ export default {
     delete doc._id;
     delete doc.createdAt;
     delete doc.updatedAt;
+    delete doc.createdBy;
     delete doc.__v;
     const document = ref(doc);
     return {

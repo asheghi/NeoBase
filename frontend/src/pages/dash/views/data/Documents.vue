@@ -122,14 +122,24 @@ export default {
         customClass: { confirmButton: "danger", cancelButton: "secondary" },
         confirmButtonText: "Yes, Delete it",
         showCancelButton: true,
+        preConfirm: async (inputValue) => {
+          if (inputValue) {
+            swal.showLoading(swal.getConfirmButton());
+            try {
+              const { data } = await this.api.deleteOne({ _id: p._id });
+              let { collection, project } = this;
+              this.$router
+                .replace({ name: "documents", params: { project, collection } })
+                .then();
+              await this.fetchData();
+              swal.close();
+            } finally {
+              swal.hideLoading();
+            }
+          }
+        },
       });
       if (!isConfirmed) return;
-      const { data } = await this.api.deleteOne({ _id: p._id });
-      let { collection, project } = this;
-      this.$router
-        .replace({ name: "documents", params: { project, collection } })
-        .then();
-      await this.fetchData();
     },
     async fetchCount() {
       const { data } = await this.api.count();
