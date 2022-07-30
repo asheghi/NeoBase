@@ -49,7 +49,7 @@ export default {
 .JsonEditor {
   @apply w-full;
   textarea {
-    @apply w-full border rounded border-gray-400 outline-0 px-2 py-1;
+    @apply w-full border  border-gray-400 outline-0 px-2 py-1;
     &.invalid {
       @apply border-red-400;
     }

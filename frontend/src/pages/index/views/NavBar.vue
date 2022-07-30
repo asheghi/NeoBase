@@ -128,7 +128,7 @@ export default {
       @apply hidden md:flex flex-row gap-2 items-center;
       li {
         a {
-          @apply px-2 py-2 rounded font-bold text-primary-800 dark:text-white;
+          @apply px-2 py-2  font-bold text-primary-800 dark:text-white;
         }
         &.docs {
           a {

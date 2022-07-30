@@ -106,7 +106,7 @@ export default {
     }
 
     .item {
-      @apply relative flex items-center transition-all ease-linear w-full rounded-lg text-gray-600 px-2 py-2;
+      @apply relative flex items-center transition-all ease-linear w-full   text-gray-600 px-2 py-2;
       &.router-link-active {
         @apply bg-gray-100 text-black;
         &:hover {

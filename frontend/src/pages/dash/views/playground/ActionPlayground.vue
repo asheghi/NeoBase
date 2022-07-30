@@ -10,12 +10,12 @@
         </div>
         <div class="value">
           <span class="opacity-75 p-1">{{ baseUrl }}</span>
-          <span class="p-1 rounded bg-gray-200">{{
+          <span class="p-1  bg-gray-200">{{
             all_actions[actionName].url
           }}</span>
         </div>
         <button
-          class="ml-auto flex gap-2 px-4 font-bold items-center py-2 rounded bg-primary text-white"
+          class="ml-auto flex gap-2 px-4 font-bold items-center py-2  bg-primary text-white"
           @click="executeAction"
         >
           Execute

@@ -85,7 +85,7 @@ export default {
       a {
         @apply justify-center;
         @apply mt-4 w-full sm:mt-0 whitespace-nowrap w-auto outline-primary inline-block flex pl-5 rounded
-        text-primary px-2 py-2 rounded items-center gap-1
+        text-primary px-2 py-2  items-center gap-1
         dark:outline-primary-300 dark:text-primary-300 shadow border-primary-300;
         border-width: 1px !important;
         transition: all ease 250ms;

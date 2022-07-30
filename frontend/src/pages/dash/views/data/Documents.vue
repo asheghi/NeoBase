@@ -1,16 +1,14 @@
 <template>
   <div class="Documents">
-    <div class="side-bar">
-      <div class="head flex justify-between items-center w-full">
-        <h1 class="">Documents</h1>
-        <div v-if="count" class="count">{{ count }}#</div>
-      </div>
+    <div class="side-bar card">
+      <div class="header">Documents</div>
       <button class="btn btn-sm btn-text" @click="$refs.modal.show()">
         New Document
       </button>
       <div class="items">
         <router-link
           v-for="doc in documents"
+          :key="doc._id"
           class="item"
           :to="{
             name: 'document',
@@ -117,7 +115,8 @@ export default {
 
 <style lang="scss">
 .Documents {
-  @apply flex w-full absolute inset-0;
+  @apply flex flex-col lg:flex-row gap-4 w-full;
+  min-height: 200px;
 
   .document {
     @apply w-full;

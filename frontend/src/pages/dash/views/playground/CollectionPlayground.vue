@@ -45,7 +45,7 @@ export default {
   .actions {
     @apply flex justify-start gap-4 py-2;
     .action {
-      @apply capitalize px-2 py-2 rounded font-bold;
+      @apply capitalize px-2 py-2  font-bold;
       &.router-link-active {
         @apply text-primary;
       }

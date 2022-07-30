@@ -36,7 +36,7 @@
         </div>
       </template>
       <template v-if="currentTab === tabs.headers">
-        <div class="headers border border-gray-100 rounded p-2">
+        <div class="headers border border-gray-100  p-2">
           <div
             v-for="(val, name) in execution.res_headers"
             :key="name"
@@ -93,7 +93,7 @@ export default {
     }
   }
   .body {
-    @apply max-h-[50vh] overflow-auto rounded border border-gray-200 p-2;
+    @apply max-h-[50vh] overflow-auto  border border-gray-200 p-2;
   }
   .tabs {
     @apply flex;

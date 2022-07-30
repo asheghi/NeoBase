@@ -1,7 +1,7 @@
 <template>
   <div class="FireStore">
-    <div class="side-bar">
-      <div class="head">Collections</div>
+    <div class="card side-bar">
+      <div class="header">Collections</div>
       <button class="btn btn-text btn-sm" @click="showNewCollectionModal">
         New Collection
       </button>
@@ -30,10 +30,12 @@
       </transition>
     </div>
     <div v-if="!collection" class="select-document">
-      <div v-if="collections && collections.length">
-        select a collection first
+      <div v-if="collections && collections.length">Select a Collection</div>
+      <div v-else class="">
+        <NButton class="primary" @click="showNewCollectionModal">
+          Create a New Collection
+        </NButton>
       </div>
-      <div v-else class="">create a collection first</div>
     </div>
     <Modal ref="modal">
       <div class="new-project">
@@ -59,10 +61,11 @@ import Modal from "../../../../components/Modal.vue";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import CreateIcon from "ionicons/dist/svg/pencil.svg";
+import NButton from "../../../../components/design-system/N-Button.vue";
 
 export default {
   name: "Collections",
-  components: { Modal, DeleteIcon, CreateIcon },
+  components: { NButton, Modal, DeleteIcon, CreateIcon },
   data() {
     return {
       form: {
@@ -108,27 +111,21 @@ export default {
 
 <style lang="scss">
 .FireStore {
-  @apply flex gap-2;
+  @apply flex flex-col md:flex-row gap-4;
   .side-bar {
     min-width: 240px;
-    @apply flex flex-col gap-2 items-start;
-    .head {
-      @apply bg-gray-100 w-full flex gap-1 px-2 py-2 rounded;
-      .icon {
-        @apply fill-gray-500;
-      }
-    }
+    @apply flex flex-col gap-2 items-start p-0;
     .btn {
-      @apply flex items-center justify-between gap-1 w-full;
+      @apply flex items-center justify-between gap-1 w-full px-4;
     }
     .items {
       @apply w-full flex flex-col gap-2;
     }
 
     .item {
-      @apply relative flex items-center transition-all ease-linear w-full rounded-lg text-gray-600 px-2 py-2;
+      @apply relative flex items-center transition-all ease-linear w-full text-gray-600 px-4 py-2 dark:text-white;
       &.router-link-active {
-        @apply bg-gray-100 text-black;
+        @apply bg-gray-100 text-black dark:text-white dark:bg-gray-500;
         &:hover {
           .drop {
             @apply block opacity-75;
@@ -143,7 +140,7 @@ export default {
   }
 
   .select-document {
-    @apply w-full flex justify-center items-center opacity-50;
+    @apply w-full flex justify-center items-center;
     min-height: 400px;
   }
 
@@ -162,17 +159,16 @@ export default {
         }
 
         input {
-          @apply px-4 w-full py-2 rounded bg-gray-100 outline-blue-500;
+          @apply px-4 w-full py-2 bg-gray-100 outline-blue-500;
         }
       }
 
       .btn {
-        @apply bg-blue-500 text-white px-4 py-2 rounded mt-auto m-0;
+        @apply bg-blue-500 text-white px-4 py-2  mt-auto m-0;
       }
     }
   }
   .document {
-    min-height: calc(100vh - 80px);
   }
 }
 </style>

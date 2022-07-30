@@ -126,7 +126,7 @@ export default {
   }
   input,
   select {
-    @apply px-2 py-1 text-gray-500 drop-shadow rounded outline-blue-600 border;
+    @apply px-2 py-1 text-gray-500 drop-shadow  outline-blue-600 border;
     background: white;
   }
   &.mode-json {

@@ -275,7 +275,7 @@ export default {
     content: "";
   }
   .prose code {
-    @apply font-normal bg-gray-200 px-1 py-1 rounded dark:text-white dark:bg-gray-500;
+    @apply font-normal bg-gray-200 px-1 py-1  dark:text-white dark:bg-gray-500;
   }
 }
 .dark {

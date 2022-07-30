@@ -49,7 +49,7 @@ export default {
   --side-width: 256px;
 
   .dash-content-wrapper {
-    @apply left-0 bg-gray-100 w-full fixed right-0 px-4 bottom-0 z-0 dark:bg-gray-500;
+    @apply left-0 bg-gray-100 w-full fixed right-0 px-4 bottom-0 z-0 dark:bg-gray-700;
     top: var(--nav-height);
     @screen lg {
       left: var(--side-width);
@@ -61,6 +61,14 @@ export default {
 
     .dash-content {
       @apply container w-full mx-auto;
+    }
+  }
+  .card {
+    @apply bg-white shadow dark:bg-gray-600
+    dark:text-white dark:border-gray-500 rounded-sm;
+
+    .header {
+      @apply bg-primary font-bold tracking-wide uppercase rounded-sm text-white w-full px-4 py-2;
     }
   }
 }

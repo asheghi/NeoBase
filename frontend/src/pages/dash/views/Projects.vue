@@ -113,12 +113,12 @@ export default {
         }
 
         input {
-          @apply px-4 w-full py-2 rounded bg-gray-100 outline-blue-500;
+          @apply px-4 w-full py-2  bg-gray-100 outline-blue-500;
         }
       }
 
       .btn {
-        @apply bg-blue-500 text-white px-4 py-2 rounded mt-auto m-0;
+        @apply bg-blue-500 text-white px-4 py-2  mt-auto m-0;
       }
     }
   }

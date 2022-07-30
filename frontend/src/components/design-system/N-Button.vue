@@ -50,14 +50,11 @@ export default {
       return it;
     },
   },
-  mounted() {
-    console.log("check", this);
-  },
 };
 </script>
 <style lang="scss">
 .NButton {
-  @apply outline-0 px-4 rounded  py-2 relative transition-all;
+  @apply outline-0 px-4   py-2 relative transition-all;
   &.primary {
     @apply transition-all bg-primary text-white;
     &:focus {
@@ -95,6 +92,9 @@ export default {
 
   &:active {
     @apply bg-gray-200 dark:bg-gray-400;
+  }
+  &.icon {
+    @apply p-0;
   }
 }
 </style>

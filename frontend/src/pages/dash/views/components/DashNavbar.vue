@@ -28,6 +28,17 @@
         <IconLogo />
         NeoBase
       </NButton>
+      <div v-if="project" class="links">
+        <router-link
+          v-for="(tab, index) in sidebarItems"
+          :key="index"
+          class="item"
+          :to="tab.to"
+        >
+          <component :is="tab.icon" v-if="tab.icon" class="icon" />
+          <div class="label" v-text="tab.label" />
+        </router-link>
+      </div>
     </div>
     <transition name="fade">
       <div
@@ -42,6 +53,7 @@
 import IconDarkMode from "ionicons/dist/svg/moon-sharp.svg";
 import IconLightMode from "ionicons/dist/svg/sunny.svg";
 import { isDarkMode, toggleDarkMode } from "../../../../lib/theme";
+import { sidebarItems } from "./sidebar-items.js";
 </script>
 <script>
 import IconMenu from "@mdi/svg/svg/menu.svg";
@@ -89,7 +101,7 @@ export default {
   }
 
   .nav-drawer {
-    @apply fixed bg-white inset-y-0 z-50 py-4 px-2;
+    @apply fixed bg-white inset-y-0 z-50 py-4;
     width: var(--side-width);
     transition: all ease 350ms;
     left: -100%;
@@ -103,6 +115,24 @@ export default {
     &.hide-nav {
       @apply hidden;
     }
+    .links {
+      @apply flex flex-col gap-2;
+      .item {
+        @apply flex gap-4 transition-all items-center px-4 py-2;
+        .icon {
+          @apply dark:fill-white fill-gray-500 rounded;
+        }
+        &.router-link-active {
+          @apply bg-gray-200 text-primary-500 dark:bg-gray-500 dark:text-white;
+          .icon {
+            @apply fill-primary-500 dark:fill-primary-200;
+          }
+        }
+        &:hover,
+        &:focus {
+        }
+      }
+    }
   }
   .nav-drawer-shadow {
     @apply bg-black opacity-25 fixed inset-0 z-0;
@@ -115,7 +145,7 @@ export default {
   .DashNavBar {
     @apply bg-gray-600 fill-white;
     .nav-drawer {
-      @apply bg-gray-500;
+      @apply bg-gray-600;
     }
   }
 }

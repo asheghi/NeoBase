@@ -54,7 +54,7 @@ export default {
   }
 }
 .cm-editor {
-  @apply rounded border border-gray-100;
+  @apply  border border-gray-100;
 }
 .ͼ1 .cm-lineNumbers .cm-gutterElement {
   @apply text-gray-500;

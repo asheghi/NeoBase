@@ -2,21 +2,21 @@
   <div class="ConfigEditor">
     <div class="flex gap-4 items-center">
       <button
-        class="text-white bg-blue-500 rounded px-20 py-1 mb-4"
+        class="text-white bg-blue-500  px-20 py-1 mb-4"
         @click="addRole"
       >
         Add Role
       </button>
       <button
         v-if="configChanged"
-        class="text-white bg-gray-500 rounded px-8 py-1 mb-4"
+        class="text-white bg-gray-500  px-8 py-1 mb-4"
         @click="discardChanges"
       >
         discard changes
       </button>
       <button
         v-if="configChanged"
-        class="ml-auto text-white bg-green-500 rounded px-2 py-1 mb-4"
+        class="ml-auto text-white bg-green-500  px-2 py-1 mb-4"
         @click="saveChanges"
       >
         Save Changes
@@ -25,7 +25,7 @@
     <div
       v-for="(conf, index) in tempConfig"
       :key="index"
-      class="config mb-4 border px-2 rounded py-4"
+      class="config mb-4 border px-2  py-4"
     >
       <div class="user w-full flex gap-2 items-center mb-2">
         <select
@@ -210,7 +210,7 @@ export default {
 .ConfigEditor {
   input,
   select {
-    @apply rounded bg-gray-200 border border-gray-200 px-2 py-1;
+    @apply  bg-gray-200 border border-gray-200 px-2 py-1;
   }
   .access {
     max-width: 400px;

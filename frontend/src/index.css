@@ -23,6 +23,7 @@ input,textarea{
 .fade-enter-active,
 .fade-leave-active {
     transition: all 240ms ease;
+    @apply absolute inset-0;
 }
 
 .fade-enter-from,
