@@ -54,7 +54,7 @@ export default {
 </script>
 <style lang="scss">
 .NButton {
-  @apply outline-0 px-4   py-2 relative transition-all;
+  @apply outline-0 px-4 flex gap-2 items-center justify-center  py-2 relative transition-all;
   &.primary {
     @apply transition-all bg-primary text-white;
     &:focus {
@@ -69,13 +69,11 @@ export default {
   }
   @keyframes spin {
     100% {
-      transform: translateY(-50%) rotate(360deg);
+      transform: rotate(360deg);
     }
   }
   .icon-loading {
-    @apply absolute right-4 fill-white;
-    top: 50%;
-    transform: translateY(-50%);
+    @apply fill-white;
     animation: spin 0.75s linear infinite;
   }
 
@@ -95,6 +93,16 @@ export default {
   }
   &.icon {
     @apply p-0;
+  }
+
+  &.primary-text {
+    @apply font-bold text-primary fill-primary;
+    .icon-loading {
+      @apply fill-primary;
+    }
+    .disabled {
+      @apply text-opacity-75;
+    }
   }
 }
 </style>

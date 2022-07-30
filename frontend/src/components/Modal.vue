@@ -73,7 +73,7 @@ export default {
       .close-icon {
         @apply absolute top-1 right-1 cursor-pointer;
       }
-      @apply relative bg-white px-4 py-6   shadow-xl;
+      @apply relative bg-white dark:bg-gray-600 dark:text-white px-4 py-6   shadow-xl;
       max-height: 90vh;
       overflow-y: auto;
       max-width: 92vw;

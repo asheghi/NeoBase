@@ -60,7 +60,8 @@ export default {
     }
 
     .dash-content {
-      @apply container w-full mx-auto;
+      @apply container w-full mx-auto overflow-auto;
+      max-height: calc(100vh - var(--nav-height));
     }
   }
   .card {

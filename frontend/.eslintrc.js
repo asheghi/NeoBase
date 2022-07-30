@@ -12,6 +12,7 @@ module.exports = {
     // override/add rules settings here, such as:
     // 'vue/no-unused-vars': 'error'
     "no-console": 1,
+    "no-unused-vars": 1,
     "no-loops/no-loops": 2,
     "prettier/prettier": "error",
     "vue/multi-word-component-names": 0,

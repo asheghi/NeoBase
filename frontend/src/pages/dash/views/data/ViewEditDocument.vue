@@ -31,7 +31,7 @@
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
-import CreateDocument from "./NewDocument.vue";
+import CreateDocument from "./components/NewDocument.vue";
 import NButton from "../../../../components/design-system/N-Button.vue";
 import IconEdit from "@mdi/svg/svg/pen.svg";
 

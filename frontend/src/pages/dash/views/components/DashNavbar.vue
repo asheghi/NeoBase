@@ -1,12 +1,16 @@
 <template>
   <nav class="DashNavBar">
-    <NButton class="gap-2 px-0 hidden lg:flex mr-4">
-      <IconLogo />
-      NeoBase
-    </NButton>
-    <NButton class="lg:hidden square" @click="expanded = !expanded">
-      <IconMenu />
-    </NButton>
+    <div class="hidden lg:flex">
+      <NButton class="gap-2 px-0 mr-4">
+        <IconLogo />
+        NeoBase
+      </NButton>
+    </div>
+    <div class="lg:hidden">
+      <NButton class="square" @click="expanded = !expanded">
+        <IconMenu />
+      </NButton>
+    </div>
     <div class="title" v-text="title"></div>
 
     <NButton class="square ml-auto" @click="toggleDarkMode">
@@ -24,16 +28,19 @@
       <IconAccount />
     </NButton>
     <div class="nav-drawer" :class="{ expanded, 'hide-nav': !project }">
-      <NButton class="flex lg:hidden gap-2 px-0">
-        <IconLogo />
-        NeoBase
-      </NButton>
+      <div class="flex lg:hidden mb-6">
+        <NButton class="gap-2 px-0">
+          <IconLogo />
+          NeoBase
+        </NButton>
+      </div>
       <div v-if="project" class="links">
         <router-link
           v-for="(tab, index) in sidebarItems"
           :key="index"
           class="item"
           :to="tab.to"
+          @click="expanded = false"
         >
           <component :is="tab.icon" v-if="tab.icon" class="icon" />
           <div class="label" v-text="tab.label" />
@@ -43,7 +50,7 @@
     <transition name="fade">
       <div
         v-if="expanded"
-        class="nav-drawer-shadow"
+        class="nav-drawer-shadow lg:hidden"
         @click="expanded = false"
       ></div>
     </transition>

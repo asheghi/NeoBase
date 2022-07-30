@@ -1,45 +1,33 @@
 <template>
   <div class="NewDocument" :class="'mode-' + currentMode">
-    <div v-if="!hideId" class="document-id">
-      <label for="document_id">Document ID</label>
-      <input
-        id="document_id"
-        disabled="disabled"
-        type="text"
-        :value="document_id"
-        placeholder="document id"
-      />
-    </div>
-    <DocumentEditor v-if="currentMode === 'editor'" v-model="document" />
-    <JsonEditor v-if="currentMode === 'json'" v-model="document" />
+    <JsonInput v-model="document" />
     <div class="buttons">
-      <button
-        class="btn btn-text btn-sm mr-auto"
-        @click="toggleMode"
-        v-text="alternateMode"
-      />
-      <button class="btn btn-text btn-sm" @click="onCancel" v-text="'cancel'" />
-      <button class="btn save" @click="onSave" v-text="'Save'" />
+      <button class="text-primary dark:text-white" @click="onCancel" v-text="'cancel'" />
+      <NButton :loading="loading" class="primary" @click="onSave">
+        {{ loading ? "Saving" : "Save" }}
+      </NButton>
     </div>
-    <div class="border-left"></div>
   </div>
 </template>
 <script>
-import DocumentEditor from "./components/DocumentEditor.vue";
+import DocumentEditor from "./DocumentEditor.vue";
 import { useRoute } from "vue-router";
-import { Api } from "../../../../lib/api";
-import { getLogger } from "../../../../plugins/log";
+import { Api } from "../../../../../lib/api.js";
+import { getLogger } from "../../../../../plugins/log.js";
 import { computed, ref } from "vue";
-import JsonEditor from "./components/JsonEditor.vue";
+import JsonEditor from "./JsonEditor.vue";
+import JsonInput from "../../playground/components/JsonInput.vue";
+import NButton from "../../../../../components/design-system/N-Button.vue";
+import { toast } from "../../../../../plugins/alert.js";
 
 const log = getLogger("create-document");
 export default {
   name: "CreateDocument",
-  components: { JsonEditor, DocumentEditor },
+  components: { NButton, JsonInput, JsonEditor, DocumentEditor },
   props: {
     doc: {
       type: Object,
-      default: () => ({ "": "" }),
+      default: () => ({ foo: "bar" }),
     },
     hideId: { type: Boolean, default: false, required: false },
   },
@@ -73,6 +61,11 @@ export default {
       toggleMode,
     };
   },
+  data() {
+    return {
+      loading: false,
+    };
+  },
   computed: {
     document_id() {
       return this.mode === "create" ? "new ObjectId()" : this.document_id;
@@ -85,19 +78,34 @@ export default {
         return;
       }
       if ("" in this.document) delete this.document[""];
-      const { data, status } = await this.api.create(this.document);
-      this.$emit("created", data);
+      try {
+        this.loading = true;
+        const { data } = await this.api.create(this.document);
+        this.$emit("created", data);
+        toast("created new document");
+      } catch (e) {
+        log.error(e);
+      } finally {
+        this.loading = false;
+      }
     },
     async updateDocument() {
       if (!this.document) {
         log.error("this.document is not defined!", this.document);
         return;
       }
-      if ("" in this.document) delete this.document[""];
-      console.log("before update", this.document);
-      const filter = { _id: this.document_id };
-      const { data, status } = await this.api.updateOne(filter, this.document);
-      this.$emit("updated", this.document_id);
+      try {
+        if ("" in this.document) delete this.document[""];
+        const filter = { _id: this.document_id };
+        this.loading = true;
+        await this.api.updateOne(filter, this.document);
+        this.$emit("updated", this.document_id);
+        toast("updated document");
+      } catch (e) {
+        log.error(e);
+      } finally {
+        this.loading = false;
+      }
     },
     onCancel() {
       this.$emit("cancel", true);
@@ -112,15 +120,16 @@ export default {
         this.createDocument();
       }
     },
+    updatedJson(arg) {
+      console.log("check arg", arg);
+    },
   },
 };
 </script>
 <style lang="scss">
 .NewDocument {
   @apply relative;
-  min-width: 600px;
-  min-height: 220px;
-  overflow: hidden;
+  min-width: min(90vh, 500px);
   label {
     @apply text-xs opacity-50;
   }
@@ -152,9 +161,6 @@ export default {
   }
   .buttons {
     @apply flex gap-4 items-center justify-end mt-8;
-    .save {
-      @apply bg-blue-600 text-white px-2 py-1 rounded;
-    }
   }
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <div class="Documents">
-    <div class="side-bar card">
-      <div class="header">Documents</div>
+    <div class="side-bar card" :class="{ hide: !!doc }">
+      <div class="header">
+        Documents
+        <span class="opacity-50"> #{{ count }} </span>
+      </div>
       <button class="btn btn-sm btn-text" @click="$refs.modal.show()">
         New Document
       </button>
@@ -20,7 +23,7 @@
               },
             }"
           >
-            {{ doc._id.substring(10) }}
+            {{ doc._id.substr(8) }}
             <div class="drop" @click="removeDocument(doc)">
               <DeleteIcon
                 class="fill-red-500 opacity-75"
@@ -42,14 +45,7 @@
         <router-view :key="doc" @deleteDocument="removeDocument" />
       </transition>
     </div>
-    <Modal ref="modal">
-      <div class="new-document">
-        <CreateDocument
-          @created="onNewDocumentCreated"
-          @cancel="$refs.modal.hide()"
-        />
-      </div>
-    </Modal>
+    <NewDocumentModal ref="modal" @created="onNewDocumentCreated" />
   </div>
 </template>
 
@@ -58,12 +54,13 @@ import Modal from "../../../../components/Modal.vue";
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
-import CreateDocument from "./NewDocument.vue";
+import CreateDocument from "./components/NewDocument.vue";
 import swal from "sweetalert2";
+import NewDocumentModal from "./components/NewDocumentModal.vue";
 
 export default {
   name: "ManageDocuments",
-  components: { CreateDocument, Modal, DeleteIcon },
+  components: { NewDocumentModal, CreateDocument, Modal, DeleteIcon },
   setup() {
     const { project, collection } = useRoute().params;
     const api = Api.Documents(project, collection);

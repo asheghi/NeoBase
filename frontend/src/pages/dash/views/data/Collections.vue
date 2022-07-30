@@ -39,22 +39,11 @@
     <div v-if="!collection" class="select-document">
       <div v-if="collections && collections.length">Select a Collection</div>
     </div>
-    <Modal ref="modal">
-      <div class="new-project">
-        <div class="form" @keydown.enter="submit">
-          <div class="form-group">
-            <label for="email">Collection Name</label>
-            <input
-              id="email"
-              v-model="form.name"
-              name="email"
-              placeholder="Choose a plural name"
-            />
-          </div>
-          <button class="btn" @click="submit">Create</button>
-        </div>
-      </div>
-    </Modal>
+    <NewCollectionModal
+      ref="newCollectionModal"
+      :project="project"
+      @created="onNewCollectionCreated"
+    />
   </div>
 </template>
 
@@ -66,10 +55,11 @@ import CreateIcon from "ionicons/dist/svg/pencil.svg";
 import NButton from "../../../../components/design-system/N-Button.vue";
 import swal from "sweetalert2";
 import { toast } from "../../../../plugins/alert.js";
+import NewCollectionModal from "./components/NewCollectionModal.vue";
 
 export default {
   name: "Collections",
-  components: { NButton, Modal, DeleteIcon, CreateIcon },
+  components: { NewCollectionModal, NButton, Modal, DeleteIcon, CreateIcon },
   data() {
     return {
       form: {
@@ -92,15 +82,7 @@ export default {
   },
   methods: {
     showNewCollectionModal() {
-      this.$refs.modal.show();
-    },
-    async submit() {
-      const { data, status } = await Api.Collections(this.project).create({
-        name: this.form.name,
-      });
-      this.$refs.modal.hide();
-      this.form.name = "";
-      await this.fetchData();
+      this.$refs.newCollectionModal.show();
     },
     async fetchData() {
       this.fetching = true;
@@ -126,8 +108,12 @@ export default {
             swal.showLoading(swal.getConfirmButton());
             try {
               await Api.Collections(this.project).delete(p.name);
-              toast("Deleted Collection " + p.name);
               await this.fetchData();
+              await this.$router.push({
+                name: "collections",
+                params: { project: this.project },
+              });
+              toast("Deleted Collection " + p.name);
               swal.close();
             } catch (e) {
               console.error(e);
@@ -137,6 +123,9 @@ export default {
           return false;
         },
       });
+    },
+    onNewCollectionCreated() {
+      this.fetchData();
     },
   },
 };
@@ -152,7 +141,7 @@ export default {
       @apply flex items-center justify-between gap-1 w-full px-4;
     }
     .items {
-      @apply w-full flex flex-col gap-2;
+      @apply w-full flex flex-col gap-2 overflow-y-auto;
     }
 
     .item {
@@ -169,6 +158,9 @@ export default {
       .drop {
         @apply absolute right-4 hidden text-red-500 text-sm font-bold;
       }
+    }
+    &.hide {
+      @apply xl:flex hidden;
     }
   }
 

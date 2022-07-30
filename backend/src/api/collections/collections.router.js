@@ -65,10 +65,17 @@ app.delete("/access-config/:collection", async (req, res) => {
 
 app.post("/", async (req, res) => {
   try {
-    const connection = await getDatabase(req.project);
-    const db = connection.client.db();
-    const { name } = req.body;
-    await db.createCollection(name);
+    let name = "";
+    // todo check if collection exists
+    // ignore exception for now
+    try {
+      const connection = await getDatabase(req.project);
+      const db = connection.client.db();
+      name = req.body.name;
+      await db.createCollection(name);
+    } catch (e) {
+      console.error(e);
+    }
     return res.json({ name });
   } catch (e) {
     res.status(500).json({ msg: e.message });

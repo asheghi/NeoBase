@@ -24,17 +24,20 @@ export default {
     };
   },
   mounted() {
+    let it = this.modelValue;
+    if (typeof it !== "string") it = JSON.stringify(it, null, "\t");
     let editor = new EditorView({
       extensions: [basicSetup, javascript()],
       parent: this.$refs.parent,
-      doc: this.modelValue,
+      doc: it,
     });
     let updateValue = async () => {
       await this.$nextTick();
-      let value = editor.state.doc.toString();
       try {
-        value = JSON.parse(value);
-        this.$emit("change", value);
+        let value = editor.state.doc.toString();
+        // value = JSON.parse(value);
+        value = eval(`( ${value} )`);
+        this.$emit("update:modelValue", value);
         this.invalid = false;
       } catch (e) {
         this.invalid = true;
@@ -54,18 +57,18 @@ export default {
   }
 }
 .cm-editor {
-  @apply  border border-gray-100;
+  @apply border border-gray-100;
 }
 .ͼ1 .cm-lineNumbers .cm-gutterElement {
-  @apply text-gray-500;
+  @apply text-gray-500 dark:text-white;
 }
 .ͼ2 .cm-activeLine {
-  @apply bg-white;
+  @apply bg-white dark:bg-gray-600;
 }
 .ͼ2 .cm-gutters {
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-gray-500;
 }
 .ͼ2 .cm-activeLineGutter {
-  @apply bg-gray-200;
+  @apply bg-gray-200 bg-gray-400;
 }
 </style>
