@@ -42,7 +42,7 @@ input,textarea{
     }
 }
 .skeloading{
-    @apply relative bg-gray-200 rounded overflow-hidden;
+    @apply relative bg-gray-200 dark:bg-gray-500 overflow-hidden;
 }
 .skeloading::after{
     content: '';
@@ -51,4 +51,7 @@ input,textarea{
     background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
     background-repeat: no-repeat;
     animation: skeloading 1s linear infinite;
+}
+.dark .skeloading::after{
+    background: linear-gradient(90deg, rgba(70, 70, 70, 0) 0%, rgba(255, 255, 255, 0.36) 50%, rgba(81, 81, 81, 0) 100%);
 }

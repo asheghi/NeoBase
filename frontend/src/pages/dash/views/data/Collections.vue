@@ -6,22 +6,29 @@
         New Collection
       </button>
       <div class="items">
-        <router-link
-          v-for="col in collections"
-          :key="col"
-          :to="{ name: 'documents', params: { collection: col.name } }"
-          class="item name"
-          :class="{ selected: col.name === collection }"
-        >
-          {{ col.name }}
-          <div class="drop" @click="removeCollection(col)">
-            <DeleteIcon
-              class="fill-red-500 opacity-75"
-              width="24"
-              height="24"
-            />
-          </div>
-        </router-link>
+        <template v-if="!fetching">
+          <router-link
+            v-for="col in collections"
+            :key="col"
+            :to="{ name: 'documents', params: { collection: col.name } }"
+            class="item name"
+            :class="{ selected: col.name === collection }"
+          >
+            {{ col.name }}
+            <div class="drop" @click="removeCollection(col)">
+              <DeleteIcon
+                class="fill-red-500 opacity-75"
+                width="24"
+                height="24"
+              />
+            </div>
+          </router-link>
+        </template>
+        <template v-if="fetching">
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+        </template>
       </div>
     </div>
     <div v-if="collection" class="document w-full h-full relative">
@@ -31,11 +38,6 @@
     </div>
     <div v-if="!collection" class="select-document">
       <div v-if="collections && collections.length">Select a Collection</div>
-      <div v-else class="">
-        <NButton class="primary" @click="showNewCollectionModal">
-          Create a New Collection
-        </NButton>
-      </div>
     </div>
     <Modal ref="modal">
       <div class="new-project">
@@ -62,6 +64,8 @@ import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import CreateIcon from "ionicons/dist/svg/pencil.svg";
 import NButton from "../../../../components/design-system/N-Button.vue";
+import swal from "sweetalert2";
+import { toast } from "../../../../plugins/alert.js";
 
 export default {
   name: "Collections",
@@ -72,6 +76,7 @@ export default {
         name: "",
       },
       collections: [],
+      fetching: false,
     };
   },
   computed: {
@@ -98,12 +103,40 @@ export default {
       await this.fetchData();
     },
     async fetchData() {
-      const { data } = await Api.Collections(this.project).list();
-      this.collections = data;
+      this.fetching = true;
+      try {
+        const { data } = await Api.Collections(this.project).list();
+        this.collections = data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.fetching = false;
+      }
     },
     async removeCollection(p) {
-      const { data } = await Api.Collections(this.project).delete(p.name);
-      await this.fetchData();
+      const { isConfirmed } = await swal.fire({
+        title: "Drop Collection " + p.name,
+        html: "Are you sure? <br/> collection will be dropped and all document will be lost.",
+        cancelButtonText: "cancel",
+        customClass: { confirmButton: "danger", cancelButton: "secondary" },
+        confirmButtonText: "Yes, Drop it",
+        showCancelButton: true,
+        preConfirm: async (confirmed) => {
+          if (confirmed) {
+            swal.showLoading(swal.getConfirmButton());
+            try {
+              await Api.Collections(this.project).delete(p.name);
+              toast("Deleted Collection " + p.name);
+              await this.fetchData();
+              swal.close();
+            } catch (e) {
+              console.error(e);
+            }
+            return false;
+          }
+          return false;
+        },
+      });
     },
   },
 };

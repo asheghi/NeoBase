@@ -66,9 +66,35 @@ export default {
   .card {
     @apply bg-white shadow dark:bg-gray-600
     dark:text-white dark:border-gray-500 rounded-sm;
+    height: fit-content;
 
     .header {
       @apply bg-primary font-bold tracking-wide uppercase rounded-sm text-white w-full px-4 py-2;
+    }
+  }
+}
+.swal2-container {
+  .swal2-modal {
+    width: fit-content;
+    @apply px-4 py-2 dark:bg-gray-700 dark:text-white;
+    min-width: 400px;
+  }
+  .swal2-title {
+    @apply text-base text-left m-0 px-0 py-4;
+  }
+  .swal2-html-container {
+    @apply text-left m-0 p-0 text-base font-normal opacity-75;
+  }
+  .swal2-actions {
+    @apply justify-start w-full flex-row-reverse;
+    button {
+      @apply px-2 py-1 font-bold capitalize;
+    }
+    .danger {
+      @apply bg-transparent text-red-500;
+    }
+    .secondary {
+      @apply text-gray-500 dark:text-gray-300 bg-transparent outline-gray-400;
     }
   }
 }

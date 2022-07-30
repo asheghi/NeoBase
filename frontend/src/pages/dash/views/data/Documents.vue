@@ -6,28 +6,35 @@
         New Document
       </button>
       <div class="items">
-        <router-link
-          v-for="doc in documents"
-          :key="doc._id"
-          class="item"
-          :to="{
-            name: 'document',
-            params: {
-              project,
-              collection,
-              _id: doc._id,
-            },
-          }"
-        >
-          {{ doc._id.substring(10) }}
-          <div class="drop" @click="removeDocument(doc)">
-            <DeleteIcon
-              class="fill-red-500 opacity-75"
-              width="24"
-              height="24"
-            />
-          </div>
-        </router-link>
+        <template v-if="!fetching">
+          <router-link
+            v-for="doc in documents"
+            :key="doc._id"
+            class="item"
+            :to="{
+              name: 'document',
+              params: {
+                project,
+                collection,
+                _id: doc._id,
+              },
+            }"
+          >
+            {{ doc._id.substring(10) }}
+            <div class="drop" @click="removeDocument(doc)">
+              <DeleteIcon
+                class="fill-red-500 opacity-75"
+                width="24"
+                height="24"
+              />
+            </div>
+          </router-link>
+        </template>
+        <template v-if="fetching">
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+        </template>
       </div>
     </div>
     <div class="document relative">
@@ -52,6 +59,7 @@ import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
 import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import CreateDocument from "./NewDocument.vue";
+import swal from "sweetalert2";
 
 export default {
   name: "ManageDocuments",
@@ -70,6 +78,7 @@ export default {
       documents: [],
       newDoc: "",
       count: null,
+      fetching: false,
     };
   },
   computed: {
@@ -93,11 +102,31 @@ export default {
       await this.fetchData();
     },
     async fetchData() {
-      const { data } = await this.api.find({}, {}, { sort: { createdAt: -1 } });
-      this.documents = data;
-      this.fetchCount();
+      this.fetching = true;
+      try {
+        const { data } = await this.api.find(
+          {},
+          {},
+          { sort: { createdAt: -1 } }
+        );
+        this.documents = data;
+        this.fetchCount();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.fetching = false;
+      }
     },
     async removeDocument(p) {
+      const { isConfirmed } = await swal.fire({
+        title: "Delete Document",
+        text: "Are you sure?",
+        cancelButtonText: "cancel",
+        customClass: { confirmButton: "danger", cancelButton: "secondary" },
+        confirmButtonText: "Yes, Delete it",
+        showCancelButton: true,
+      });
+      if (!isConfirmed) return;
       const { data } = await this.api.deleteOne({ _id: p._id });
       let { collection, project } = this;
       this.$router

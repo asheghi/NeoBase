@@ -2,19 +2,21 @@
   <div class="ViewEditDocument card">
     <div class="header flex gap-4">
       Document
-      <span class="opacity-50 -ml-2">
-        {{ doc && "(" + doc._id + ")" }}
-      </span>
+      <span class="opacity-50 -ml-2"> ({{ docId }}) </span>
       <span class="ml-auto"></span>
-      <NButton class="" @click="toggleEditMode">
+      <NButton v-if="doc" class="" @click="toggleEditMode">
         <IconEdit />
       </NButton>
-      <NButton class="" @click="$emit('deleteDocument', doc)">
-        <DeleteIcon v-if="doc" />
+      <NButton v-if="doc" class="" @click="$emit('deleteDocument', doc)">
+        <DeleteIcon />
       </NButton>
     </div>
-    <div v-if="currentMode === ModeView" class="p-4">
-      <pre v-if="doc"><code>{{ JSON.stringify(doc, null, '\t') }}</code></pre>
+    <div v-if="currentMode === ModeView">
+      <pre
+        v-if="doc"
+        class="p-4"
+      ><code>{{ JSON.stringify(doc, null, '\t') }}</code></pre>
+      <div v-if="!doc" class="skeloading"></div>
     </div>
     <CreateDocument
       v-if="currentMode === ModeEdit"
@@ -59,6 +61,7 @@ export default {
       currentMode: ModeView,
       ModeEdit,
       ModeView,
+      fetching: false,
     };
   },
   computed: {
@@ -66,16 +69,26 @@ export default {
       if (this.currentMode === ModeEdit) return ModeView;
       return ModeEdit;
     },
+    docId() {
+      return this.$route?.params?._id;
+    },
   },
   mounted() {
     this.fetchDocument();
   },
   methods: {
     async fetchDocument() {
-      const { data } = await this.api.findOne({
-        _id: this.$route.params._id,
-      });
-      this.doc = data;
+      try {
+        this.fetching = true;
+        const { data } = await this.api.findOne({
+          _id: this.docId,
+        });
+        this.doc = data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        // this.fetching = false;
+      }
     },
     toggleEditMode() {
       this.currentMode = this.alternateMode;
@@ -90,7 +103,6 @@ export default {
 
 <style lang="scss">
 .ViewEditDocument {
-  min-height: 200px;
   @apply flex flex-col;
   .header {
     svg {
@@ -99,6 +111,9 @@ export default {
     button {
       @apply p-0 m-0 opacity-50 hover:opacity-100 fill-white;
     }
+  }
+  .skeloading {
+    @apply w-full min-h-[180px];
   }
 }
 </style>
