@@ -1,29 +1,33 @@
 <template>
   <div class="CollectionsAccessControl">
-    <div class="side-bar">
-      <div class="head">Access Collection</div>
+    <div class="card side-bar">
+      <div class="header">Collections</div>
       <div class="items">
-        <router-link
-          v-for="col in collections"
-          :key="col"
-          :to="{ name: 'access-config', params: { collection: col.name } }"
-          class="item name"
-          :class="{ selected: col.name === collection }"
-        >
-          {{ col.name }}
-        </router-link>
+        <template v-if="!fetching">
+          <router-link
+            v-for="col in collections"
+            :key="col"
+            :to="{ name: 'access-config', params: { collection: col.name } }"
+            class="item name"
+            :class="{ selected: col.name === collection }"
+          >
+            {{ col.name }}
+          </router-link>
+          <div v-if="!collections.length" class="text-center text-gray-500">
+            No Collection yet
+          </div>
+        </template>
+        <template v-if="fetching">
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+        </template>
       </div>
     </div>
     <div v-if="collection" class="document w-full h-full relative">
       <transition name="fade">
         <router-view :key="collection" />
       </transition>
-    </div>
-    <div v-if="!collection" class="select-document">
-      <div v-if="collections && collections.length">
-        select a collection first
-      </div>
-      <div v-else class="">create a collection first</div>
     </div>
   </div>
 </template>
@@ -39,6 +43,7 @@ export default {
         name: "",
       },
       collections: [],
+      fetching: false,
     };
   },
   computed: {
@@ -54,8 +59,15 @@ export default {
   },
   methods: {
     async fetchData() {
-      const { data } = await Api.Collections(this.project).list();
-      this.collections = data;
+      this.fetching = true;
+      try {
+        const { data } = await Api.Collections(this.project).list();
+        this.collections = data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.fetching = false;
+      }
     },
   },
 };

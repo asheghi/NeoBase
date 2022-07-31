@@ -1,33 +1,34 @@
 <template>
   <div class="ConfigEditor">
-    <div class="flex gap-4 items-center">
-      <button
-        class="text-white bg-blue-500  px-20 py-1 mb-4"
-        @click="addRole"
-      >
+    <div class="flex pb-4 gap-4 items-center">
+      <NButton class="primary" :disabled="loading" @click="addRole">
+        <IconAdd />
         Add Role
-      </button>
-      <button
+      </NButton>
+      <NButton
         v-if="configChanged"
-        class="text-white bg-gray-500  px-8 py-1 mb-4"
+        :disabled="loading"
+        class=""
         @click="discardChanges"
       >
-        discard changes
-      </button>
-      <button
+        Discard changes
+      </NButton>
+      <span class="ml-auto"></span>
+      <NButton
         v-if="configChanged"
-        class="ml-auto text-white bg-green-500  px-2 py-1 mb-4"
+        :loading="loading"
+        class="success"
         @click="saveChanges"
       >
         Save Changes
-      </button>
+      </NButton>
     </div>
     <div
       v-for="(conf, index) in tempConfig"
       :key="index"
-      class="config mb-4 border px-2  py-4"
+      class="config mb-4 border px-2 py-4 card"
     >
-      <div class="user w-full flex gap-2 items-center mb-2">
+      <div class="user w-full flex gap-4 items-center mb-2">
         <select
           :value="getUserMode(conf)"
           @change="onUserModeChanged(conf, $event)"
@@ -56,6 +57,7 @@
             v-model="conf.create"
             name="create"
             type="checkbox"
+            :disabled="loading"
             v-text="'can create'"
           />
           <label :for="'create_' + index">can create documents</label>
@@ -68,6 +70,7 @@
           <select
             :value="getFilterMode(conf[mode])"
             class="w-full"
+            :disabled="loading"
             @change="onFilterChanged(conf, mode, $event)"
           >
             <option value="all">can {{ mode }} all documents</option>
@@ -87,19 +90,25 @@
 </template>
 <script>
 import JsonEditor from "../../data/components/JsonEditor.vue";
+import IconAdd from "@mdi/svg/svg/plus.svg";
 const filterOwn = {
   createdBy: "$uid",
 };
 import { ref } from "vue";
+import NButton from "../../../../../components/design-system/N-Button.vue";
 export default {
   name: "ConfigEditor",
-  components: { JsonEditor },
+  components: { NButton, JsonEditor, IconAdd },
   props: {
     config: {
       type: Object,
       required: true,
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    loading: {
       type: Boolean,
       default: false,
     },
@@ -210,10 +219,13 @@ export default {
 .ConfigEditor {
   input,
   select {
-    @apply  bg-gray-200 border border-gray-200 px-2 py-1;
+    @apply bg-gray-100 px-2 dark:bg-gray-700 dark:text-gray-200 border-gray-200 py-1;
   }
   .access {
     max-width: 400px;
+  }
+  button {
+    @apply font-bold uppercase tracking-wide text-sm;
   }
 }
 </style>

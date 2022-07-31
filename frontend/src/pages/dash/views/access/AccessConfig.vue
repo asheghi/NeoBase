@@ -1,20 +1,25 @@
 <template>
   <div class="AccessConfig">
-    <div class="flex">
-      <div class="header">Access Config of {{ collection }}</div>
-      <div class="actions ml-auto flex gap-4">
-        <button class="text-red-400" @click="resetConfig">
-          Reset to Default
-        </button>
+    <div class="card mb-4">
+      <div class="flex header">
+        Access Config
+        <span class="pl-2 normal-case">
+          {{ collection }}
+        </span>
+        <span class="ml-auto"></span>
+        <NButton class="" @click="resetConfig">
+          <IconReset />
+        </NButton>
       </div>
     </div>
-    <br />
     <ConfigEditor
-      v-if="accessConfig"
+      v-if="!fetching"
       :key="render_counter"
       :config="accessConfig"
+      :loading="loading"
       @save="updateConfig"
     />
+    <div v-if="fetching" class="skeloading"></div>
   </div>
 </template>
 
@@ -22,10 +27,13 @@
 import { Api } from "../../../../lib/api";
 import ConfigEditor from "./components/ConfigEditor.vue";
 import swal from "sweetalert2";
+import IconReset from "@mdi/svg/svg/lock-reset.svg";
+import NButton from "../../../../components/design-system/N-Button.vue";
+import { toast } from "../../../../plugins/alert.js";
 
 export default {
   name: "AccessConfig",
-  components: { ConfigEditor },
+  components: { NButton, ConfigEditor, IconReset },
   beforeRouteUpdate() {
     this.fetchData();
   },
@@ -33,6 +41,8 @@ export default {
     return {
       accessConfig: null,
       render_counter: 1,
+      loading: false,
+      fetching: false,
     };
   },
   computed: {
@@ -51,11 +61,15 @@ export default {
   },
   methods: {
     async fetchData() {
-      const { data } = await this.api.getAccessConfig(this.collection);
-      this.accessConfig = data;
-    },
-    toggleEditMode() {
-      this.mode = this.alternateMode;
+      this.fetching = true;
+      try {
+        const { data } = await this.api.getAccessConfig(this.collection);
+        this.accessConfig = data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.fetching = false;
+      }
     },
     async resetConfig() {
       const { isConfirmed } = await swal.fire({
@@ -66,16 +80,36 @@ export default {
         confirmButtonText: "Yes, reset config",
         confirmButtonColor: "red",
         showCancelButton: true,
+        preConfirm: async (inputValue) => {
+          if (!inputValue) return inputValue;
+          swal.showLoading(swal.getConfirmButton());
+          try {
+            await this.api.resetConfig(this.collection);
+            await this.fetchData();
+            this.render_counter++;
+            swal.close();
+            toast("Config has been reset");
+          } catch (e) {
+            console.error(e);
+          } finally {
+            swal.hideLoading();
+          }
+        },
       });
       if (!isConfirmed) return;
-      await this.api.resetConfig(this.collection);
-      await this.fetchData();
-      this.render_counter++;
     },
     async updateConfig(config) {
-      await this.api.updateConfig(this.collection, config);
-      await this.fetchData();
-      this.render_counter++;
+      try {
+        this.loading = true;
+        await this.api.updateConfig(this.collection, config);
+        // await this.fetchData();
+        this.render_counter++;
+        toast("Saved Changes");
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };
@@ -84,5 +118,8 @@ export default {
 <style lang="scss">
 .AccessConfig {
   @apply absolute inset-0 px-4;
+  .skeloading {
+    @apply w-full min-h-[400px];
+  }
 }
 </style>

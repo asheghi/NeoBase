@@ -57,7 +57,7 @@ export default {
   @apply outline-0 px-4 flex gap-2 items-center justify-center  py-2 relative transition-all
     transition transform border border-transparent;
   &.primary {
-    @apply transition-all bg-primary text-white;
+    @apply transition-all bg-primary text-white fill-white;
     &:focus {
       @apply bg-blue-800 border-blue-400;
     }
@@ -108,6 +108,9 @@ export default {
     .disabled {
       @apply text-opacity-75;
     }
+  }
+  &.success {
+    @apply bg-green-500 text-white;
   }
 }
 </style>
