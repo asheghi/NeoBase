@@ -1,0 +1,1 @@
+.Documents{display:flex;width:100%;flex-direction:column;gap:1rem}@media (min-width: 1024px){.Documents{flex-direction:row}}.Documents{min-height:200px}.Documents .document{width:100%}
