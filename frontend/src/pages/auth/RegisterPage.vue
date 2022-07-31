@@ -32,7 +32,7 @@
             placeholder="secure password"
           />
         </div>
-        <NButton :loading="loading" class="primary mt-4 w-full font-bold" @click="submit">
+        <NButton :loading="loading" class="primary mt-4 w-full justify-between font-bold" @click="submit">
           {{ loading ? "Registering" : "Register" }}
         </NButton>
       </div>

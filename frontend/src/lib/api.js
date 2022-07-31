@@ -3,152 +3,108 @@ import { getLogger } from "../plugins/log";
 const log = getLogger("API");
 export const Api = {
   Projects: {
-    async create(payload) {
-      const { data, status } = await ax.post("projects", payload);
-      return { data, status };
+    create(payload) {
+      return ax.post("projects", payload);
     },
-    async list() {
-      const { data, status } = await ax.get("projects");
-      return { data, status };
+    list() {
+      return ax.get("projects");
     },
-    async delete(name) {
-      const { data, status } = await ax.delete("projects/" + name);
-      return { data, status };
+    delete(name) {
+      return ax.delete("projects/" + name);
     },
   },
   Collections: (project) => ({
-    async create(payload) {
-      const { data, status } = await ax.post("collections/" + project, payload);
-      return { data, status };
+    create(payload) {
+      return ax.post("collections/" + project, payload);
     },
-    async list() {
-      const { data, status } = await ax.get("collections/" + project);
-      return { data, status };
+    list() {
+      return ax.get("collections/" + project);
     },
-    async delete(name) {
-      const { data, status } = await ax.delete(
-        "collections/" + project + "/" + name
-      );
-      return { data, status };
+    delete(name) {
+      return ax.delete("collections/" + project + "/" + name);
     },
-    async saveAccessConfig(collection, payload) {
-      const { data, status } = await ax.post(
-        "collections/" + project + "/access-config/" + name
-      );
-      return { data, status };
+    saveAccessConfig(collection, payload) {
+      return ax.post("collections/" + project + "/access-config/" + name);
     },
-    async getAccessConfig(collection) {
-      const { data, status } = await ax.post(
-        "collections/" + project + "/access-config/" + name
-      );
-      return { data, status };
+    getAccessConfig(collection) {
+      return ax.post("collections/" + project + "/access-config/" + name);
     },
   }),
-  async login(payload) {
-    const { data, status } = await ax.post("accounts/login", payload);
-    return { data, status };
+  login(payload) {
+    return ax.post("accounts/login", payload);
   },
-  async register(payload) {
-    const { data, status } = await ax.post("accounts/register", payload);
-    return { data, status };
+  register(payload) {
+    return ax.post("accounts/register", payload);
   },
-  async me() {
-    const { data, status } = await ax.get("accounts/me");
-    return { data, status };
+  me() {
+    return ax.get("accounts/me");
   },
   Documents(project, collection) {
     return {
-      async create(payload) {
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/create`,
-          payload
-        );
-        return { data, status };
+      create(payload) {
+        return ax.post(`documents/${project}/${collection}/create`, payload);
       },
-      async updateOne(filter, payload) {
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/updateOne`,
-          { filter, update: payload }
-        );
-        return { data, status };
+      updateOne(filter, payload) {
+        return ax.post(`documents/${project}/${collection}/updateOne`, {
+          filter,
+          update: payload,
+        });
       },
-      async find(filter, projection, options) {
+      find(filter, projection, options) {
         const query = {
           filter,
           projection,
           options,
         };
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/find`,
-          query
-        );
-        return { data, status };
+        return ax.post(`documents/${project}/${collection}/find`, query);
       },
-      async findOne(filter, projection, options) {
+      findOne(filter, projection, options) {
         const query = {
           filter,
           projection,
           options,
         };
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/findOne`,
-          query
-        );
-        return { data, status };
+        return ax.post(`documents/${project}/${collection}/findOne`, query);
       },
-      async count(filter = {}) {
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/count`,
-          { filter }
-        );
-        return { data, status };
+      count(filter = {}) {
+        return ax.post(`documents/${project}/${collection}/count`, { filter });
       },
-      async deleteOne(payload) {
-        const { data, status } = await ax.post(
-          `documents/${project}/${collection}/deleteOne`,
-          payload
-        );
-        return { data, status };
+      deleteOne(payload) {
+        return ax.post(`documents/${project}/${collection}/deleteOne`, payload);
       },
     };
   },
   Users: (project) => ({
-    async find() {
-      const { data, status } = await ax.get(`users/${project}`);
-      return { data, status };
+    find() {
+      return ax.get(`users/${project}`);
     },
-    async newUser(payload) {
-      const { data, status } = await ax.post(`users/${project}`, payload);
-      return { data, status };
+    newUser(payload) {
+      return ax.post(`users/${project}`, payload);
     },
-    async deleteUser(user) {
-      const { data, status } = await ax.delete(`users/${project}/${user._id}`);
-      return { data, status };
+    deleteUser(user) {
+      return ax.delete(`users/${project}/${user._id}`);
     },
-    async fetchUser(uid) {
-      const { data, status } = await ax.get(`users/${project}/${uid}`);
-      return { data, status };
+    fetchUser(uid) {
+      return ax.get(`users/${project}/${uid}`);
+    },
+    updateUser(uid, payload) {
+      return ax.put(`users/${project}/${uid}`, payload);
     },
   }),
   AccessControl(project) {
     return {
-      async getAccessConfig(collection) {
-        const { data, status } = await ax.get(
-          `collections/${project}/access-config/${collection}`
-        );
-        return { data, status };
+      getAccessConfig(collection) {
+        return ax.get(`collections/${project}/access-config/${collection}`);
       },
-      async resetConfig(collection) {
+      resetConfig(collection) {
         let url = `collections/${project}/access-config/${collection}`;
-        const { data, status } = await ax.delete(url);
-        return { data, status };
+        return ax.delete(url);
       },
-      async updateConfig(collection, config) {
-        const { data, status } = await ax.post(
+      updateConfig(collection, config) {
+        return ax.post(
           `collections/${project}/access-config/${collection}`,
           config
         );
-        return { data, status };
       },
     };
   },

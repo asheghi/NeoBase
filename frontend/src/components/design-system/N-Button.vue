@@ -54,11 +54,12 @@ export default {
 </script>
 <style lang="scss">
 .NButton {
-  @apply outline-0 px-4 flex gap-2 items-center justify-center  py-2 relative transition-all;
+  @apply outline-0 px-4 flex gap-2 items-center justify-center  py-2 relative transition-all
+    transition transform border border-transparent;
   &.primary {
     @apply transition-all bg-primary text-white;
     &:focus {
-      @apply bg-blue-700;
+      @apply bg-blue-800 border-blue-400;
     }
     &:active {
       @apply bg-blue-800 bg-blue-800;
@@ -90,6 +91,10 @@ export default {
 
   &:active {
     @apply bg-gray-200 dark:bg-gray-400;
+  }
+
+  &:focus {
+    @apply border border-gray-500;
   }
   &.icon {
     @apply p-0;

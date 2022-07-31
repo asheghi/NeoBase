@@ -60,8 +60,8 @@ export default {
     }
 
     .dash-content {
-      @apply container w-full mx-auto overflow-auto;
-      max-height: calc(100vh - var(--nav-height));
+      @apply container w-full mx-auto overflow-auto pt-6;
+      height: calc(100vh - var(--nav-height));
     }
   }
   .card {
@@ -71,6 +71,13 @@ export default {
 
     .header {
       @apply bg-primary font-bold tracking-wide uppercase rounded-sm text-white w-full px-4 py-2;
+
+      svg {
+        @apply w-[24px] h-[24px];
+      }
+      button {
+        @apply p-0 m-0 opacity-50 hover:opacity-100 fill-white;
+      }
     }
   }
 }

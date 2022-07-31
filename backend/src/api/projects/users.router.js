@@ -17,14 +17,16 @@ app.use(bodyParser.json());
 
 app.get("/", async (req, res) => {
   const Users = await getCollection("auth", req.project);
-  res.json(await Users.find());
+  res.json(await Users.find({}, "-password"));
 });
 
 app.get("/:uid", async (req, res) => {
   const Users = await getCollection("auth", req.project);
   const { uid } = req.params;
   if (!uid) return res.status(422).json({ msg: "bad request!" });
-  res.json(await Users.findOne({ _id: new Mongoose.Types.ObjectId(uid) }));
+  res.json(
+    await Users.findOne({ _id: new Mongoose.Types.ObjectId(uid) }, "-password")
+  );
 });
 
 app.post("/", async (req, res) => {

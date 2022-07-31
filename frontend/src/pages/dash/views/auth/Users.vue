@@ -1,36 +1,35 @@
 <template>
   <div class="Users">
-    <div class="side-bar">
-      <div class="head">Users</div>
-      <button class="btn btn-text btn-sm" @click="showNewUserModal">
+    <div class="side-bar card" :class="{ showingUser: uid }">
+      <div class="header">Users</div>
+      <button
+        class="px-4 text-primary dark:text-primary-300 font-bold py-2"
+        @click="showNewUserModal"
+      >
         New User
       </button>
       <div class="items">
-        <router-link
-          v-for="user in users"
-          :key="user"
-          :to="{ name: 'user', params: { uid: user._id } }"
-          class="item name"
-        >
-          {{ user.email }}
-          <div class="drop" @click="deleteUser(user)">
-            <DeleteIcon
-              class="fill-red-500 opacity-75"
-              width="24"
-              height="24"
-            />
-          </div>
-        </router-link>
+        <template v-if="!fetching">
+          <router-link
+            v-for="user in users"
+            :key="user"
+            :to="{ name: 'user', params: { uid: user._id } }"
+            class="item name"
+          >
+            {{ user.email }}
+          </router-link>
+        </template>
+        <template v-if="fetching">
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+          <div class="item h-8 skeloading"></div>
+        </template>
       </div>
     </div>
-    <div v-if="uid" class="document w-full h-full relative">
+    <div v-if="uid" class="card user-info">
       <transition name="fade">
-        <router-view :key="uid" />
+        <router-view :key="uid" @delete="deleteUser($event)" />
       </transition>
-    </div>
-    <div v-if="!uid" class="select-document">
-      <div v-if="users && users.length">select a user first</div>
-      <div v-else class="">create a user first</div>
     </div>
     <Modal ref="modal">
       <NewUser @created="onCreated" />
@@ -44,6 +43,8 @@ import DeleteIcon from "ionicons/dist/svg/trash.svg";
 import NewUser from "./NewUser.vue";
 import Modal from "../../../../components/Modal.vue";
 import { computed } from "vue";
+import swal from "sweetalert2";
+import { toast } from "../../../../plugins/alert.js";
 
 export default {
   name: "Users",
@@ -60,6 +61,7 @@ export default {
   data() {
     return {
       users: [],
+      fetching: false,
     };
   },
   mounted() {
@@ -67,16 +69,44 @@ export default {
   },
   methods: {
     async fetchData() {
-      const { data } = await this.api.find();
-      this.users = data;
+      this.fetching = true;
+      try {
+        const { data } = await this.api.find();
+        this.users = data;
+      } catch (e) {
+        console.error(e);
+      } finally {
+        this.fetching = false;
+      }
     },
     showNewUserModal() {
       this.$refs.modal.show();
     },
     async deleteUser(user) {
-      const { data } = await this.api.deleteUser(user);
-      await this.fetchData();
-      await this.$router.replace({ name: "auth" });
+      await swal.fire({
+        title: "Delete User",
+        html: "Are you sure?",
+        cancelButtonText: "cancel",
+        customClass: { confirmButton: "danger", cancelButton: "secondary" },
+        confirmButtonText: "Yes, Delete it",
+        showCancelButton: true,
+        preConfirm: async (confirmed) => {
+          if (confirmed) {
+            swal.showLoading(swal.getConfirmButton());
+            try {
+              await this.api.deleteUser(user);
+              await this.fetchData();
+              await this.$router.replace({ name: "auth" });
+              toast("Deleted User");
+              swal.close();
+            } catch (e) {
+              console.error(e);
+            }
+            return false;
+          }
+          return false;
+        },
+      });
     },
     async onCreated(user) {
       this.$refs.modal.hide();
@@ -88,38 +118,31 @@ export default {
 </script>
 <style lang="scss">
 .Users {
-  @apply flex gap-2;
+  @apply flex gap-4 w-full h-full;
   .side-bar {
     min-width: 240px;
     @apply flex flex-col gap-2 items-start;
-    .head {
-      @apply bg-gray-100 w-full flex gap-1 px-2 py-2 rounded;
-      .icon {
-        @apply fill-gray-500;
-      }
-    }
-    .btn {
-      @apply flex items-center justify-between gap-1 w-full;
-    }
     .items {
       @apply w-full flex flex-col gap-2;
     }
 
     .item {
-      @apply relative flex items-center transition-all ease-linear w-full   text-gray-600 px-2 py-2;
+      @apply relative pr-12 flex items-center transition-all ease-linear w-full dark:text-white text-gray-600 pl-4 py-2;
       &.router-link-active {
-        @apply bg-gray-100 text-black;
+        @apply bg-gray-100 text-black dark:text-white dark:bg-gray-500;
         &:hover {
           .drop {
             @apply block opacity-75;
           }
         }
       }
-
-      .drop {
-        @apply absolute right-4 hidden text-red-500 text-sm font-bold;
-      }
     }
+    &.showingUser {
+      @apply hidden xl:flex;
+    }
+  }
+  .user-info {
+    @apply relative;
   }
 }
 </style>

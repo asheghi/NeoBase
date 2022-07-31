@@ -104,14 +104,7 @@ export default {
 <style lang="scss">
 .ViewEditDocument {
   @apply flex flex-col;
-  .header {
-    svg {
-      @apply w-[24px] h-[24px];
-    }
-    button {
-      @apply p-0 m-0 opacity-50 hover:opacity-100 fill-white;
-    }
-  }
+
   .skeloading {
     @apply w-full min-h-[180px];
   }

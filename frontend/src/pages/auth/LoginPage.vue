@@ -32,7 +32,7 @@
         </div>
         <NButton
           :loading="loading"
-          class="primary mt-4 w-full font-bold"
+          class="primary mt-4 w-full justify-between font-bold"
           @click="submit"
         >
           {{ loading ? "Signing in" : "Sign in" }}
@@ -98,14 +98,14 @@ export default {
     }
 
     .form-group {
-      @apply flex flex-col justify-start gap-2;
+      @apply flex flex-col justify-start gap-2 mt-4;
       label {
-        min-width: 80px;
-        opacity: 0.5;
+        @apply min-w-[80px] opacity-75;
       }
 
       input {
-        @apply px-4 py-2  bg-gray-100 outline-blue-600;
+        @apply px-4 py-2  bg-gray-100 dark:bg-gray-500 text-white dark:placeholder-gray-200
+        outline-blue-600;
       }
     }
   }

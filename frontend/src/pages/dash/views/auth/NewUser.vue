@@ -8,6 +8,7 @@
           v-model="form.email"
           name="email"
           type="email"
+          :disabled="loading"
           placeholder="enter your email address"
         />
       </div>
@@ -18,6 +19,7 @@
           v-model="form.password"
           name="password"
           type="password"
+          :disabled="loading"
           placeholder="enter a secure password"
         />
       </div>
@@ -28,19 +30,24 @@
           v-model="form.role"
           name="role"
           type="text"
+          :disabled="loading"
           placeholder="enter a user role"
         />
       </div>
-      <button :disabled="loading" class="btn" @click="submit">Submit</button>
+      <NButton :loading="loading" class="primary" @click="submit">
+        Submit
+      </NButton>
     </div>
   </div>
 </template>
 <script>
 import { useRoute } from "vue-router";
 import { Api } from "../../../../lib/api";
+import NButton from "../../../../components/design-system/N-Button.vue";
 
 export default {
   name: "NewUser",
+  components: { NButton },
   emits: ["created"],
   setup() {
     let route = useRoute();

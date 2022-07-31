@@ -13,7 +13,7 @@ const collection = computed(() => {
 });
 export const sidebarItems = computed(() => [
   {
-    label: "Data",
+    label: "Database",
     icon: IconData,
     to: (() => {
       if (collection.value)
