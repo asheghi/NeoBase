@@ -93,7 +93,7 @@ export default {
       }
 
       input {
-        @apply px-4 w-full py-2  bg-gray-100 outline-blue-500;
+        @apply px-4 w-full py-2 outline-blue-500;
       }
     }
 

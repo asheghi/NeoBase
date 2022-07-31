@@ -79,33 +79,23 @@ export default {
   .side-bar {
     min-width: 240px;
     @apply flex flex-col gap-2 items-start;
-    .head {
-      @apply bg-gray-100 w-full flex gap-1 px-2 py-2 rounded;
-      .icon {
-        @apply fill-gray-500;
-      }
-    }
-    .btn {
-      @apply flex items-center justify-between gap-1 w-full;
-    }
     .items {
       @apply w-full flex flex-col gap-2;
     }
 
     .item {
-      @apply relative flex items-center transition-all ease-linear w-full   text-gray-600 px-2 py-2;
+      @apply relative pr-12 flex items-center transition-all ease-linear w-full dark:text-white text-gray-600 pl-4 py-2;
       &.router-link-active {
-        @apply bg-gray-100 text-black;
+        @apply bg-gray-100 text-black dark:text-white dark:bg-gray-500;
         &:hover {
           .drop {
             @apply block opacity-75;
           }
         }
       }
-
-      .drop {
-        @apply absolute right-4 hidden text-red-500 text-sm font-bold;
-      }
+    }
+    &.showingUser {
+      @apply hidden xl:flex;
     }
   }
 }

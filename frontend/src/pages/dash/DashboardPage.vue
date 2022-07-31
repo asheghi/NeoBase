@@ -80,6 +80,10 @@ export default {
       }
     }
   }
+  input,
+  textarea {
+    @apply dark:bg-gray-500 dark:text-white;
+  }
 }
 .swal2-container {
   .swal2-modal {
