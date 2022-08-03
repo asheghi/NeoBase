@@ -259,7 +259,7 @@ export default {
 </script>
 <style lang="scss">
 .ActionPlayground {
-  @apply flex gap-4 pb-16 overflow-x-hidden;
+  @apply flex gap-4 pb-16 overflow-x-hidden max-w-[1320px];
   .toggle-options-btn {
     @apply flex gap-2 px-4 py-2 text-primary absolute top-0 right-4 bg-white;
   }
