@@ -73,7 +73,8 @@ export default {
     }
   }
   input {
-    @apply border border-gray-200 mx-2 px-2 py-1  outline-gray-300;
+    @apply border border-gray-200 dark:border-gray-500 mx-2 px-2 py-1 outline-gray-300
+    dark:outline-gray-400;
   }
 }
 </style>

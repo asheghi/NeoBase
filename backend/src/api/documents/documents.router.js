@@ -35,7 +35,9 @@ const canUserDo = (operation) => async (req, res, next) => {
     req.access_filter = filter;
     return next();
   }
-  return res.status(403).json({ msg: "403 Forbidden, you can't touch this!" });
+  return res.status(403).json({
+    msg: "Access Denied!, You do not have the appropriate permissions.",
+  });
 };
 
 app.post("/find", canUserDo("read"), async (req, res) => {

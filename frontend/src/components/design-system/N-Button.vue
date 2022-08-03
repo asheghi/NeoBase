@@ -112,5 +112,8 @@ export default {
   &.success {
     @apply bg-green-500 text-white;
   }
+  &.secondary {
+    @apply bg-gray-200 dark:bg-gray-600;
+  }
 }
 </style>

@@ -1,17 +1,20 @@
 <template>
-  <div class="ExecutionResult">
+  <div class="ExecutionResult max-w-[1200px]">
     <div v-if="execution.loading" class="loading">Loading ...</div>
     <template v-if="!execution.loading && Object.keys(execution).length">
       <div class="row">
         <div class="tabs">
-          <button
+          <NButton
             v-for="(tab, key) in tabs"
             :key="key"
             class="tab"
-            :class="{ active: tab === currentTab }"
+            :class="{
+              primary: tab === currentTab,
+              secondary: tab !== currentTab,
+            }"
             @click="currentTab = tab"
-            v-text="tab"
-          ></button>
+            >{{ tab }}</NButton
+          >
         </div>
 
         <div class="ml-auto">
@@ -31,16 +34,18 @@
         </div>
       </div>
       <template v-if="currentTab === tabs.response_body">
-        <div class="body">
+        <div class="body card overflow-x-auto">
           <pre><code>{{JSON.stringify(execution.data,null,'\t')}}</code></pre>
         </div>
       </template>
       <template v-if="currentTab === tabs.headers">
-        <div class="headers border border-gray-100  p-2">
+        <div
+          class="card overflow-x-auto border border-gray-100 p-2"
+        >
           <div
             v-for="(val, name) in execution.res_headers"
             :key="name"
-            class="header flex gap-2 py-2"
+            class="the-header flex gap-2 py-2"
           >
             <div class="header-name opacity-50 font-bold">{{ name }}:</div>
             <div class="header-value">{{ val }}</div>
@@ -54,6 +59,7 @@
 
 <script>
 import { parseAxiosError } from "../../../../plugins/axios";
+import NButton from "../../../../components/design-system/N-Button.vue";
 
 const tabs = {
   response_body: "Response",
@@ -61,6 +67,7 @@ const tabs = {
 };
 export default {
   name: "ExecutionResult",
+  components: { NButton },
   props: {
     execution: {
       type: Object,
@@ -77,6 +84,7 @@ export default {
 </script>
 <style lang="scss">
 .ExecutionResult {
+  @apply overflow-x-auto max-w-full;
   .row {
     .head {
       @apply mr-auto mt-8 font-bold text-lg mb-4;
