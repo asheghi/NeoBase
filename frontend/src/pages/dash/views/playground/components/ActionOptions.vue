@@ -9,7 +9,7 @@
         v-if="val.type === 'json'"
         class="input"
         :model-value="val.value"
-        @change="val.value = $event"
+        @update:model-value="val.value = $event"
       />
       <input
         v-if="val.type !== 'json'"

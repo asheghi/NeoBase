@@ -50,10 +50,11 @@ ax.interceptors.response.use(
     return res;
   },
   function (err) {
-    onError({
-      url: err.config.url,
-      ...parseAxiosError(err),
-    });
+    if (!err.config?.skipInterceptors)
+      onError({
+        url: err.config.url,
+        ...parseAxiosError(err),
+      });
     return Promise.reject(err);
   }
 );

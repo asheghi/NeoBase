@@ -155,7 +155,6 @@ const executeAction = async () => {
     .replace(":project", project.value)
     .replace(":collection", collection.value);
   let body = getValueOfOptions({ body: options.body });
-
   const headers = getValueOfOptions({ headers: options.headers });
   if (typeof body === "string" && options.body.type === "json") {
     try {
@@ -178,6 +177,7 @@ const executeAction = async () => {
       params: {},
       headers,
       skipAccountToken: true,
+      skipInterceptors: true,
     });
     execution.responseTime = new Date().getTime() - startTime;
     execution.data = data;

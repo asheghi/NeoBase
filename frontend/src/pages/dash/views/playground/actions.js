@@ -82,6 +82,7 @@ export const document_actions = {
     options: {
       body: {
         type: "json",
+        value: "",
       },
     },
   },
