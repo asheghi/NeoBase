@@ -56,6 +56,13 @@ export default {
       return this.$route.params.project;
     },
   },
+  watch: {
+    "$route.params.project": {
+      handler(n, o) {
+        this.$router.push({ name: "access", params: { project: n } });
+      },
+    },
+  },
   mounted() {
     this.fetchData();
   },

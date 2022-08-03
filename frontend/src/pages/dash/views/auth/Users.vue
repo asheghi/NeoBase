@@ -51,10 +51,8 @@ export default {
   components: { Modal, NewUser, DeleteIcon },
   setup() {
     const route = useRoute();
-    const project = route.params.project;
     const uid = computed(() => route.params.uid);
     return {
-      api: Api.Users(project),
       uid,
     };
   },
@@ -63,6 +61,18 @@ export default {
       users: [],
       fetching: false,
     };
+  },
+  computed: {
+    api() {
+      return Api.Users(this.$route.params.project);
+    },
+  },
+  watch: {
+    "$route.params.project": {
+      handler(n, o) {
+        this.fetchData();
+      },
+    },
   },
   mounted() {
     this.fetchData();

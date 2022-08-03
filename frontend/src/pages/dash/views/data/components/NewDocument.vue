@@ -73,7 +73,7 @@ export default {
   },
   computed: {
     document_id() {
-      return this.mode === "create" ? "new ObjectId()" : this.document_id;
+      return this.mode === "create" ? "new ObjectId()" : this.doc._id;
     },
   },
   methods: {

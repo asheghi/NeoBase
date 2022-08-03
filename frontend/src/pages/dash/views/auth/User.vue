@@ -119,6 +119,13 @@ export default {
       loading,
     };
   },
+  watch: {
+    "$route.params.project": {
+      handler(n, o) {
+        this.$router.push({ name: "auth", params: { project: n } });
+      },
+    },
+  },
 };
 </script>
 

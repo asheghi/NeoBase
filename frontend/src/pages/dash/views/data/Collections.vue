@@ -77,6 +77,13 @@ export default {
       return this.$route.params.collection;
     },
   },
+  watch: {
+    "$route.params.project": {
+      handler(n, o) {
+        this.fetchData();
+      },
+    },
+  },
   mounted() {
     this.fetchData();
   },

@@ -1,7 +1,10 @@
 <template>
   <nav class="DashNavBar">
     <div class="hidden lg:flex">
-      <NButton class="gap-2 px-0 mr-4">
+      <NButton
+        class="gap-2 px-0 mr-4"
+        @click="$router.push({ name: 'projects' })"
+      >
         <IconLogo />
         NeoBase
       </NButton>
@@ -13,7 +16,31 @@
     </div>
     <div class="title" v-text="title"></div>
 
-    <NButton class="square ml-auto" @click="toggleDarkMode">
+    <span class="ml-auto"></span>
+    <NButton
+      v-if="$route.name !== 'projects'"
+      class="projects"
+      @click="projectsDropped = !projectsDropped"
+    >
+      {{ $route.params?.project }}
+      <div
+        v-if="!project.fetching"
+        :class="{ block: projectsDropped, hidden: !projectsDropped }"
+        class="drop-down"
+      >
+        <NButton
+          v-for="p in projects.data?.filter(
+            (it) => it.name !== $route.params.project
+          )"
+          :key="p._id"
+          class="item"
+          @click.prevent.stop="onProjectSelected(p.name)"
+        >
+          {{ p.name }}
+        </NButton>
+      </div>
+    </NButton>
+    <NButton class="square" @click="toggleDarkMode">
       <component
         :is="isDarkMode ? IconLightMode : IconDarkMode"
         class="toggle"
@@ -61,6 +88,8 @@ import IconDarkMode from "ionicons/dist/svg/moon-sharp.svg";
 import IconLightMode from "ionicons/dist/svg/sunny.svg";
 import { isDarkMode, toggleDarkMode } from "../../../../lib/theme";
 import { sidebarItems } from "./sidebar-items.js";
+import { useProjects } from "../common.js";
+const projects = useProjects();
 </script>
 <script>
 import IconMenu from "@mdi/svg/svg/menu.svg";
@@ -80,6 +109,7 @@ export default {
   data() {
     return {
       expanded: false,
+      projectsDropped: false,
     };
   },
   computed: {
@@ -88,6 +118,16 @@ export default {
     },
     project() {
       return this.$route.params.project;
+    },
+  },
+  methods: {
+    onProjectSelected(projectName) {
+      this.projectsDropped = !this.projectsDropped;
+      this.$router.push({
+        name: this.$route.name,
+        params: { ...(this.$route?.params || {}), project: projectName },
+        query: this.$route.query,
+      });
     },
   },
 };
@@ -146,6 +186,15 @@ export default {
   }
   .title {
     @apply capitalize;
+  }
+  .projects {
+    @apply relative min-w-[140px];
+    .drop-down {
+      @apply absolute bg-gray-200 dark:bg-gray-700 top-[120%];
+      .item {
+        @apply w-full px-4 py-2;
+      }
+    }
   }
 }
 .dark {

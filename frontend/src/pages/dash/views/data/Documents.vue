@@ -83,6 +83,13 @@ export default {
       return this.$route.params._id;
     },
   },
+  watch: {
+    "$route.params.project": {
+      handler(n, o) {
+        this.$router.push({ name: "collections", params: { project: n } });
+      },
+    },
+  },
   mounted() {
     this.fetchData();
   },
