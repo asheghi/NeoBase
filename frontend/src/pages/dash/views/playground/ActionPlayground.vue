@@ -255,17 +255,6 @@ const onCollectionSelected = (arg) => {
 <script>
 export default {
   name: "ActionPlayground",
-  computed: {
-    actions: () =>
-      Object.values(this.document_actions).map((it) => {
-        it.to = {
-          name: "action-playground",
-          query: { ...this.$route.query, action: it.name },
-        };
-        return it;
-      }),
-    action: () => this.$route.query.action,
-  },
 };
 </script>
 <style lang="scss">
