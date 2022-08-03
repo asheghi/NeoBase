@@ -59,7 +59,7 @@ export default {
   watch: {
     "$route.params.project": {
       handler(n, o) {
-        this.$router.push({ name: "access", params: { project: n } });
+        if (n) this.$router.push({ name: "access", params: { project: n } });
       },
     },
   },

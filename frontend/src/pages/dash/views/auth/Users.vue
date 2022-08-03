@@ -70,7 +70,7 @@ export default {
   watch: {
     "$route.params.project": {
       handler(n, o) {
-        this.fetchData();
+        if (n) this.fetchData();
       },
     },
   },
