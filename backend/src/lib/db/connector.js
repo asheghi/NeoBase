@@ -4,9 +4,14 @@ import { config } from "../../config/index.js";
 
 const log = getLogger("db-connector");
 
+const connectionPool = {};
+
 export async function getDatabase(name) {
-  const uri = config.mongodb_base_url + name;
-  return Mongoose.createConnection(uri);
+  if (!connectionPool[name]) {
+    const uri = config.mongodb_base_url + name;
+    connectionPool[name] = Mongoose.createConnection(uri);
+  }
+  return connectionPool[name];
 }
 
 export async function getCollection(dbName, colName) {
@@ -39,6 +44,11 @@ export async function getProjectsCollection() {
   return getCollection("main", "projects");
 }
 
+let AccessConfigCollection = null;
 export async function getAccessConfigCollection() {
-  return getCollection("main", "access_config");
+  if (!AccessConfigCollection) {
+    AccessConfigCollection = await getCollection("main", "access_config");
+    await AccessConfigCollection.schema.index({ project: 1, collection: 1 });
+  }
+  return AccessConfigCollection;
 }
