@@ -93,9 +93,8 @@ export const routes = [
           {
             name: "playground",
             path: "playground",
-            component: import(
-              "./pages/dash/views/playground/ActionPlayground.vue"
-            ),
+            component: () =>
+              import("./pages/dash/views/playground/ActionPlayground.vue"),
           },
         ],
       },
