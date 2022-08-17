@@ -1,5 +1,5 @@
+import { getAuthCollection } from "../../lib/db/connector.js";
 import { getLogger } from "../../lib/debug.js";
-import { getCollection } from "../../lib/db/connector.js";
 import {
   comparePassword,
   generateTokenForPayload,
@@ -9,7 +9,7 @@ import {
 const log = getLogger("auth.service");
 
 export async function getAuthService(project) {
-  const Users = await getCollection("auth", project);
+  const Users = await getAuthCollection(project);
   return {
     Users,
     async login(email, password) {

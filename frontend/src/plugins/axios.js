@@ -1,9 +1,11 @@
 import axios from "axios";
 import { getAccountToken } from "../lib/auth";
-import { getLogger } from "./log";
 import { toast } from "./alert";
+import { getLogger } from "./log";
 export const baseUrl =
   import.meta.env.VITE_API_BASE_URL || "http://localhost:7585/api/";
+
+console.log("baseUrl is", baseUrl);
 
 const log = getLogger("axios");
 

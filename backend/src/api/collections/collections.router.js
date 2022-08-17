@@ -1,5 +1,5 @@
-import Express from "express";
 import bodyParser from "body-parser";
+import Express from "express";
 import {
   getAccessConfigCollection,
   getDatabase,
@@ -78,8 +78,8 @@ app.post("/", async (req, res) => {
     }
     return res.json({ name });
   } catch (e) {
-    res.status(500).json({ msg: e.message });
     console.error(e);
+    return res.status(500).json({ msg: e.message });
   }
 });
 

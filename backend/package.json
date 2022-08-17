@@ -4,13 +4,13 @@
   "description": "NeoBase",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenv node src/index.js",
-    "dev-debug": "dotenv node --inspect src/index.js",
-    "start": "dotenv node src/index.js",
+    "dev": "dotenv node --loader ts-node/esm src/index.ts",
+    "dev-debug": "dotenv node --loader ts-node/esm --inspect src/index.ts",
+    "start": "dotenv node --loader ts-node/esm src/index.ts",
     "test": "echo \"Error: no test written!\" && exit 1",
-    "lint": "eslint . --ext .js",
-    "lint-fix": "eslint . --ext .js --fix",
-    "console": "dotenv node src/bin/console.js"
+    "lint": "eslint . --ext .js,.ts",
+    "lint-fix": "eslint . --ext .js,.ts --fix",
+    "console": "dotenv node --loader ts-node/esm src/bin/console.js"
   },
   "author": "Bahman Asheghi",
   "license": "ISC",

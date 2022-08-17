@@ -1,10 +1,10 @@
 import Express from "express";
-import { config } from "../config/index.js";
-import { CollectionsApiRouter } from "./collections/collections.router.js";
+import { config } from "../config/index.ts";
 import { AccountsRouter } from "./accounts/accounts.router.js";
-import { ProjectsApiRouter } from "./projects/projects.router.js";
 import { ProjectAuthRouter } from "./auth/auth.router.js";
+import { CollectionsApiRouter } from "./collections/collections.router.js";
 import { DocumentsApiRouter } from "./documents/documents.router.js";
+import { ProjectsApiRouter } from "./projects/projects.router.js";
 import { ProjectUsersApiRouter } from "./projects/users.router.js";
 import { CommonSlowDown } from "./slow-downs.middleware.js";
 

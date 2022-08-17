@@ -1,6 +1,6 @@
 import Mongoose from "mongoose";
+import { config } from "../../config/index.ts";
 import { getLogger } from "../debug.js";
-import { config } from "../../config/index.js";
 
 const log = getLogger("db-connector");
 
@@ -42,6 +42,10 @@ export async function getAccountCollection() {
 
 export async function getProjectsCollection() {
   return getCollection("main", "projects");
+}
+
+export async function getAuthCollection(project) {
+  return getCollection(project, "users");
 }
 
 let AccessConfigCollection = null;

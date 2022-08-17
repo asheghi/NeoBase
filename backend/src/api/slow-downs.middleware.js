@@ -1,5 +1,5 @@
 import slowDown from "express-slow-down";
-import { config } from "../config/index.js";
+import { config } from "../config/index.ts";
 
 const realIpHeader = config.real_ip_header;
 

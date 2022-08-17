@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import { config } from "../config/index.ts";
 import { getLogger } from "./debug.js";
-import { config } from "../config/index.js";
 
 const log = getLogger("jwt-utils");
 

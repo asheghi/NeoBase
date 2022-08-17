@@ -1,3 +1,1 @@
-export function databaseStaticsJob() {
-
-}
+export function databaseStaticsJob() {}

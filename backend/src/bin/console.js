@@ -1,10 +1,10 @@
 import repl from "node:repl";
-import { config } from "../config/index.js";
-import * as JwtUtils from "../lib/jwt-utils.js";
-import { getLogger } from "../lib/debug.js";
-import * as DbConnector from "../lib/db/connector.js";
 import { AccountsService } from "../api/accounts/accounts.service.js";
 import { getAuthService } from "../api/auth/auth.service.js";
+import { config } from "../config/index.ts";
+import * as DbConnector from "../lib/db/connector.js";
+import { getLogger } from "../lib/debug.js";
+import * as JwtUtils from "../lib/jwt-utils.js";
 
 const context = {
   config,
