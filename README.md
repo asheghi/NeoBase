@@ -64,10 +64,6 @@ You can also [self-host](https://neobase.uk/docs/) and [develop locally](https:/
 only [javascript](https://neobase.uk/docs/client) client has been implemented sofar.
 you can contribute implementing the client of your desired language, by making a wrapper for our Rest-API.
 
-## Translations
-
-- [ ] translations capability
-
 ---
 
 ### Features
@@ -79,6 +75,8 @@ you can contribute implementing the client of your desired language, by making a
 - [x] Basic User Authentication
 - [x] User-Based Access Control
 - [x] User Management
+
+---
 
 ### Todos
 
@@ -92,3 +90,4 @@ you can contribute implementing the client of your desired language, by making a
 - [ ] Hosting
 - [ ] Storage
 - [ ] Add more documents
+- [ ] Translations
