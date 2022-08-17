@@ -34,14 +34,14 @@
         </div>
       </div>
       <template v-if="currentTab === tabs.response_body">
-        <div class="body card overflow-x-auto">
-          <pre><code>{{JSON.stringify(execution.data,null,'\t')}}</code></pre>
+        <div class="body card">
+          <pre
+            class="px-2 overflow-x-auto"
+          ><code>{{JSON.stringify(execution.data,null,'\t')}}</code></pre>
         </div>
       </template>
       <template v-if="currentTab === tabs.headers">
-        <div
-          class="card overflow-x-auto border border-gray-100 p-2"
-        >
+        <div class="card overflow-x-auto border border-gray-100 p-2">
           <div
             v-for="(val, name) in execution.res_headers"
             :key="name"
@@ -93,7 +93,7 @@ export default {
     & > div {
       @apply flex items-end gap-1;
       & > div:first-child {
-        @apply opacity-75 text-primary-800;
+        @apply opacity-75 dark:text-white text-primary-800;
       }
       & > div:nth-child(2) {
         @apply font-bold;
