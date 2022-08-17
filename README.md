@@ -34,16 +34,12 @@ To see how to Contribute, visit [Getting Started](./DEVELOPERS.md)
 
 ## Status
 
-NeoBase is under heavy development.
-
 - [x] Alpha: We are testing NeoBase with a closed set of customers
 - [x] Public Alpha: Anyone can sign up over at [neobase.uk](https://neobase.uk). But go easy on us, there are a few kinks
 - [ ] Public Beta: Stable enough for most non-enterprise use-cases
 - [ ] Public: Production-ready
 
-We are currently in Public Beta. Watch "releases" of this repo to get notified of major updates.
-
-<kbd><img src="https://gitcdn.link/repo/NeoBase/NeoBase/master/web/static/watch-repo.gif" alt="Watch this repo"/></kbd>
+NeoBase is under heavy development. Watch "releases" of this repo to get notified of major updates.
 
 ---
 
