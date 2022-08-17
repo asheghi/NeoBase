@@ -1,8 +1,8 @@
+import cors from "cors";
 import Express from "express";
 import morgan from "morgan";
-import cors from "cors";
-import { config } from "./config/index.js";
 import { ApiRouter } from "./api/api.router.js";
+import { config } from "./config/index.js";
 
 const app = Express();
 

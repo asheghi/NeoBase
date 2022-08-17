@@ -1,6 +1,6 @@
-import { dirname, join, basename } from "node:path";
-import { fileURLToPath } from "node:url";
 import fs from "node:fs";
+import { basename, dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { getLogger } from "../lib/debug.js";
 
 const log = getLogger("config");
@@ -12,8 +12,8 @@ const initialConfig = {
   rootPath: join(__dirname, "../../.."),
 };
 
-const proxy = new Proxy(initialConfig, {
-  get(t, key) {
+const proxy: any = new Proxy(initialConfig, {
+  get(t: any, key: string) {
     // env has higher priority over default values in files
     if (process.env[key.toUpperCase()]) {
       return process.env[key.toUpperCase()];
