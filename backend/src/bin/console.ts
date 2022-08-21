@@ -1,12 +1,13 @@
-import repl from "node:repl";
+import * as repl from "node:repl";
 import { AccountsService } from "../api/accounts/accounts.service.js";
 import { getAuthService } from "../api/auth/auth.service.js";
-import { config } from "../config/index.ts";
 import * as DbConnector from "../lib/db/connector.js";
 import { getLogger } from "../lib/debug.js";
 import * as JwtUtils from "../lib/jwt-utils.js";
+// eslint-disable-next-line import/no-unresolved
+import { config } from "../config/index.js";
 
-const context = {
+const context: any = {
   config,
   ...JwtUtils,
   getLogger,

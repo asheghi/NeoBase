@@ -1,13 +1,12 @@
-import Express from "express";
 import bodyParser from "body-parser";
-import { authenticateUserRequest } from "../auth/auth.middleware.js";
-import { authenticateAccountRequest } from "../accounts/accounts.middleware.js";
-import { getLogger } from "../../lib/debug.js";
-import { getUserFilter } from "./access-control.js";
+import Express from "express";
 import { getCollection } from "../../lib/db/connector.js";
+import { authenticateAccountRequest } from "../accounts/accounts.middleware.js";
+import { authenticateUserRequest } from "../auth/auth.middleware.js";
 import { SlowDownDocumentsRouter } from "../slow-downs.middleware.js";
+import { getUserFilter } from "./access-control.js";
 
-const logger = getLogger("documents.api");
+// const logger = getLogger("documents.api");
 const FIND_LIMIT = 100;
 
 const app = Express.Router();

@@ -4,13 +4,13 @@
   "description": "NeoBase",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenv node --loader ts-node/esm src/index.ts",
-    "dev-debug": "dotenv node --loader ts-node/esm --inspect src/index.ts",
-    "start": "dotenv node --loader ts-node/esm src/index.ts",
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "dev-debug": "node --loader ts-node/esm --inspect src/index.ts",
+    "start": "node --loader ts-node/esm src/index.ts",
     "test": "echo \"Error: no test written!\" && exit 1",
     "lint": "eslint . --ext .js,.ts",
     "lint-fix": "eslint . --ext .js,.ts --fix",
-    "console": "dotenv node --loader ts-node/esm src/bin/console.js"
+    "console": "node --loader ts-node/esm src/bin/console.js"
   },
   "author": "Bahman Asheghi",
   "license": "ISC",
@@ -61,6 +61,7 @@
     "sinon": "^14.0.0",
     "supertest": "^6.2.3",
     "ts-node": "^10.9.1",
+    "typescript": "^4.7.4",
     "vite-svg-loader": "^3.3.0"
   }
 }

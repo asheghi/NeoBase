@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "NodeNext",
+    "allowSyntheticDefaultImports": true,
     "outDir": "./built",
     "allowJs": true,
     "target": "ESNext",
