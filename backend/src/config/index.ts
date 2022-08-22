@@ -1,10 +1,9 @@
 // @ts-ignore
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 import fs from "node:fs";
-import { basename, dirname, join } from "node:path";
+import path, { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { getLogger } from "../lib/debug.js";
-import path from 'node:path';
 
 const log = getLogger("config");
 
@@ -12,12 +11,14 @@ const log = getLogger("config");
 const __dirname = dirname(fileURLToPath(import.meta.url));
 // @ts-ignore
 const __filename = basename(fileURLToPath(import.meta.url));
-const __rootdir = path.join(__dirname,'../..')
+const __rootdir = path.join(__dirname, "../..");
 
 const envFile = getEnvFilePath();
-envFile && dotenv.config({
-  path:getEnvFilePath(),
-})
+
+envFile &&
+  dotenv.config({
+    path: getEnvFilePath(),
+  });
 
 const initialConfig = {
   rootPath: join(__dirname, "../../.."),
@@ -62,14 +63,13 @@ await populateDefaults();
 
 export const config = proxy;
 
-
-function getEnvFilePath(){
- const mode = process.env.NODE_ENV || process.env.node_env;
+function getEnvFilePath() {
+  const mode = process.env.NODE_ENV || process.env.node_env;
   let p: any;
-  if (mode){
-    p = path.join(__rootdir, '.env.' + mode.toLowerCase());
-  }else{
-    p = path.join(__rootdir, '.env');
+  if (mode) {
+    p = path.join(__rootdir, ".env." + mode.toLowerCase());
+  } else {
+    p = path.join(__rootdir, ".env");
   }
   if (fs.existsSync(p)) return p;
   return null;
