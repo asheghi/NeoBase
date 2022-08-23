@@ -1,16 +1,13 @@
-import bodyParser from "body-parser";
-import Express from "express";
-import {
-  getAccessConfigCollection,
-  getDatabase,
-} from "../../lib/db/connector.js";
-import { getLogger } from "../../lib/debug.js";
+import * as bodyParser from "body-parser";
+import * as Express from "express";
+import { getAccessConfigCollection, getDatabase } from "../../lib/db/connector";
+import { getLogger } from "../../lib/debug";
 import {
   accountGuard,
   authenticateAccountRequest,
-} from "../accounts/accounts.middleware.js";
-import { projectOwnerGuard } from "../common/guards.middleware.js";
-import { defaultAccessConfig } from "../documents/access-control.js";
+} from "../accounts/accounts.middleware";
+import { projectOwnerGuard } from "../common/guards.middleware";
+import { defaultAccessConfig } from "../documents/access-control";
 
 const logger = getLogger("collection.api");
 const app = Express.Router();
@@ -21,7 +18,7 @@ app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
 
 app.get("/access-config/:collection", async (req, res, next) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req;
+  const { project } = req as any;
   const { collection } = req.params;
   let config = await AccessConfig.findOne({ project, collection });
   if (!config) config = defaultAccessConfig;
@@ -36,7 +33,7 @@ app.get("/access-config/:collection", async (req, res, next) => {
 
 app.post("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req;
+  const { project } = req as any;
   const { collection } = req.params;
   const query = { project, collection };
   const existing = await AccessConfig.findOne(query);
@@ -56,7 +53,7 @@ app.post("/access-config/:collection", async (req, res) => {
 
 app.delete("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req;
+  const { project } = req as any;
   const { collection } = req.params;
   const query = { project, collection };
   const result = await AccessConfig.deleteMany(query);
@@ -69,7 +66,7 @@ app.post("/", async (req, res) => {
     // todo check if collection exists
     // ignore exception for now
     try {
-      const connection = await getDatabase(req.project);
+      const connection = await getDatabase((req as any).project);
       const db = connection.client.db();
       name = req.body.name;
       await db.createCollection(name);
@@ -77,7 +74,7 @@ app.post("/", async (req, res) => {
       console.error(e);
     }
     return res.json({ name });
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     return res.status(500).json({ msg: e.message });
   }
@@ -85,13 +82,13 @@ app.post("/", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-    const connection = await getDatabase(req.project);
+    const connection = await getDatabase((req as any).project);
     const db = connection.client.db();
     const listCollections = (await db.listCollections().toArray()).map(
-      (it) => ({ name: it.name })
+      (it: any) => ({ name: it.name })
     );
     res.json(listCollections);
-  } catch (e) {
+  } catch (e: any) {
     res.status(500).json({ msg: e.message });
     console.error(e);
   }
@@ -100,12 +97,12 @@ app.get("/", async (req, res) => {
 app.delete("/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    const connection = await getDatabase(req.project);
+    const connection = await getDatabase((req as any).project);
     const db = connection.client.db();
     await db.dropCollection(name, () => {
       res.json({ name });
     });
-  } catch (e) {
+  } catch (e: any) {
     res.status(500).json({ msg: e.message });
     console.error(e);
   }

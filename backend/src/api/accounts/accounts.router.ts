@@ -1,11 +1,11 @@
-import Express from "express";
-import bodyParser from "body-parser";
-import { AccountsService } from "./accounts.service.js";
+import * as bodyParser from "body-parser";
+import * as Express from "express";
+import { getLogger } from "../../lib/debug";
 import {
-  authenticateAccountRequest,
   accountGuard,
-} from "./accounts.middleware.js";
-import { getLogger } from "../../lib/debug.js";
+  authenticateAccountRequest,
+} from "./accounts.middleware";
+import { AccountsService } from "./accounts.service";
 
 const log = getLogger("account:api");
 const app = Express.Router();
@@ -23,7 +23,7 @@ app.post("/register", bodyParser.json(), async (req, res) => {
     if (!user) return res.status(400).send("something is not right!");
     const token = AccountsService.generateToken(user);
     return res.json({ token });
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     return res.status(422).json({ msg: e.message });
   }
@@ -42,7 +42,7 @@ app.post("/login", bodyParser.json(), async (req, res) => {
 // private routes
 app.use(authenticateAccountRequest, accountGuard);
 
-app.get("/me", (req, res) => {
+app.get("/me", (req: any, res) => {
   const { email } = req.user;
   res.json({ email });
 });

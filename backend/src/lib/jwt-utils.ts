@@ -1,21 +1,21 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import { config } from "../config/index.ts";
-import { getLogger } from "./debug.js";
+import * as bcrypt from "bcryptjs";
+import * as jwt from "jsonwebtoken";
+import { config } from "../config/index";
+import { getLogger } from "./debug";
 
 const log = getLogger("jwt-utils");
 
-export function generateTokenForPayload(payload) {
+export function generateTokenForPayload(payload: any) {
   return jwt.sign(payload, config.jwtSecret);
 }
 
-function verifyToken(token) {
+function verifyToken(token: string) {
   if (!token) return false;
   let valid;
   try {
     jwt.verify(token, config.jwtSecret);
     valid = true;
-  } catch (e) {
+  } catch (e: any) {
     log.info("verify-token failed:", e.message);
     valid = false;
     // nothing
@@ -24,21 +24,21 @@ function verifyToken(token) {
 }
 
 // note decode does not validate token
-export function decodeToken(token) {
+export function decodeToken(token: string) {
   return jwt.decode(token);
 }
 
-export function extractToken(token) {
+export function extractToken(token: string): any {
   const valid = verifyToken(token);
   if (!valid) throw new Error("invalid token");
   return decodeToken(token);
 }
 
-export function hashPassword(password) {
+export function hashPassword(password: string) {
   const salt = bcrypt.genSaltSync(10);
   return bcrypt.hashSync(password, salt);
 }
 
-export function comparePassword(hash, password) {
+export function comparePassword(hash: string, password: string) {
   return bcrypt.compareSync(password, hash);
 }

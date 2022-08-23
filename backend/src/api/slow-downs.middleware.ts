@@ -1,10 +1,10 @@
-import slowDown from "express-slow-down";
-import { config } from "../config/index.ts";
+import * as slowDown from "express-slow-down";
+import { config } from "../config/index";
 
 const realIpHeader = config.real_ip_header;
 
-function keyGeneratorFor(prefix) {
-  return (req) => {
+function keyGeneratorFor(prefix: string) {
+  return (req: any) => {
     // todo skip for paid projects
     const ids = [];
     if (realIpHeader) {
@@ -19,8 +19,9 @@ function keyGeneratorFor(prefix) {
     return ids.join("__");
   };
 }
+
 // todo add redis store to share state between different instances
-export const SlowDownDocumentsRouter = slowDown({
+const SlowDownDocumentsRouter = slowDown({
   windowMs: 60 * 1000, // 1 minutes
   delayAfter: 120,
   delayMs: 200,
@@ -28,10 +29,15 @@ export const SlowDownDocumentsRouter = slowDown({
   keyGenerator: keyGeneratorFor("documents"),
 });
 
-export const CommonSlowDown = slowDown({
+const CommonSlowDown = slowDown({
   windowMs: 60 * 1000, // 1 minutes
   delayAfter: 200,
   delayMs: 500,
   headers: true,
   keyGenerator: keyGeneratorFor("general"),
 });
+
+export default {
+  SlowDownDocumentsRouter,
+  CommonSlowDown,
+};

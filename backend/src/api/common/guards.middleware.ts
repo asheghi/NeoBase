@@ -1,6 +1,11 @@
-import { getProjectsCollection } from "../../lib/db/connector.js";
+import { NextFunction, Response } from "express";
+import { getProjectsCollection } from "../../lib/db/connector";
 
-export const projectOwnerGuard = async (req, res, next) => {
+export const projectOwnerGuard = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.user) return res.status(401).json({ msg: "unauthorized access" });
   const name = req.project;
   const Projects = await getProjectsCollection();

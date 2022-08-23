@@ -1,12 +1,12 @@
-import Express from "express";
-import bodyParser from "body-parser";
-import { getProjectsCollection } from "../../lib/db/connector.js";
+import * as bodyParser from "body-parser";
+import * as Express from "express";
+import { getProjectsCollection } from "../../lib/db/connector";
+import { getLogger } from "../../lib/debug";
 import {
-  authenticateAccountRequest,
   accountGuard,
-} from "../accounts/accounts.middleware.js";
-import { getLogger } from "../../lib/debug.js";
-import { projectOwnerGuard } from "../common/guards.middleware.js";
+  authenticateAccountRequest,
+} from "../accounts/accounts.middleware";
+import { projectOwnerGuard } from "../common/guards.middleware";
 
 const log = getLogger("projects.api");
 const app = Express.Router();
@@ -19,19 +19,19 @@ app.use((req, res, next) => {
 app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());
 
-const setProject = (req, res, next) => {
+const setProject = (req: any, _res: any, next: Express.NextFunction) => {
   log.debug("setting project");
   req.project = req.params.project;
   next();
 };
 
 // return users projects
-app.get("/", async (req, res) => {
+app.get("/", async (req: any, res: any) => {
   const Projects = await getProjectsCollection();
   res.json(await Projects.find({ user_id: req.user._id }));
 });
 // create project for current user
-app.post("/", async (req, res) => {
+app.post("/", async (req: any, res) => {
   const { name } = req.body;
   if (["admin", "config", "main", "local"].includes(name))
     res.status(422).json("project name is taken!");

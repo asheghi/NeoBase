@@ -1,12 +1,14 @@
-import Express from "express";
-import { config } from "../config/index.ts";
-import { AccountsRouter } from "./accounts/accounts.router.js";
-import { ProjectAuthRouter } from "./auth/auth.router.js";
-import { CollectionsApiRouter } from "./collections/collections.router.js";
-import { DocumentsApiRouter } from "./documents/documents.router.js";
-import { ProjectsApiRouter } from "./projects/projects.router.js";
-import { ProjectUsersApiRouter } from "./projects/users.router.js";
-import { CommonSlowDown } from "./slow-downs.middleware.js";
+import * as Express from "express";
+import { config } from "../config";
+import { AccountsRouter } from "./accounts/accounts.router";
+import { ProjectAuthRouter } from "./auth/auth.router";
+import { CollectionsApiRouter } from "./collections/collections.router";
+import { DocumentsApiRouter } from "./documents/documents.router";
+import { ProjectsApiRouter } from "./projects/projects.router";
+import { ProjectUsersApiRouter } from "./projects/users.router";
+import slowdown from "./slow-downs.middleware";
+
+const { CommonSlowDown } = slowdown;
 
 const app = Express.Router();
 
@@ -16,7 +18,11 @@ if (config.simulate_slow_network) {
   });
 }
 
-const setProject = (req, res, next) => {
+const setProject = (
+  req: any,
+  _res: Express.Response,
+  next: Express.NextFunction
+) => {
   req.project = req.params.project;
   next();
 };
@@ -33,7 +39,7 @@ app.use(
 app.use("/documents", DocumentsApiRouter);
 app.use("/auth/:project", CommonSlowDown, setProject, ProjectAuthRouter);
 
-app.get("/", (req, res) => {
+app.get("/", CommonSlowDown, (req, res) => {
   res.json({
     name: "NeoBase Api",
     version: "1.0.0",

@@ -1,16 +1,11 @@
 // @ts-ignore
-import dotenv from "dotenv";
-import fs from "node:fs";
-import path, { basename, dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { getLogger } from "../lib/debug.js";
+import * as dotenv from "dotenv";
+import * as fs from "fs";
+import * as path from "path";
+import { getLogger } from "../lib/debug";
 
 const log = getLogger("config");
 
-// @ts-ignore
-const __dirname = dirname(fileURLToPath(import.meta.url));
-// @ts-ignore
-const __filename = basename(fileURLToPath(import.meta.url));
 const __rootdir = path.join(__dirname, "../..");
 
 const envFile = getEnvFilePath();
@@ -21,7 +16,7 @@ envFile &&
   });
 
 const initialConfig = {
-  rootPath: join(__dirname, "../../.."),
+  rootPath: path.join(__dirname, "../../.."),
 };
 
 const proxy: any = new Proxy(initialConfig, {
@@ -43,11 +38,16 @@ const proxy: any = new Proxy(initialConfig, {
 });
 
 async function populateDefaults() {
-  const files = fs.readdirSync(__dirname).filter((it) => it !== __filename);
+  const files = fs
+    .readdirSync(__dirname)
+    .filter((it) => it !== path.basename(__filename))
+    .filter((it) => !it.endsWith(".js.map"));
+
   await Promise.all(
     files.map(async (configFile) => {
       try {
-        const configs = (await import(`./${configFile}`)).default;
+        const it = require(`./${configFile}`);
+        const configs = require(`./${configFile}`).default;
         Object.keys(configs).forEach((key) => {
           proxy[key] = configs[key];
         });
@@ -59,7 +59,9 @@ async function populateDefaults() {
   return proxy;
 }
 
-await populateDefaults();
+export async function populateConfig() {
+  await populateDefaults();
+}
 
 export const config = proxy;
 

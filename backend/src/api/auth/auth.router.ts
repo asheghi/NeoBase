@@ -1,8 +1,8 @@
-import Express from "express";
-import bodyParser from "body-parser";
-import { getAuthService } from "./auth.service.js";
-import { authenticateUserRequest, authGuard } from "./auth.middleware.js";
-import { getLogger } from "../../lib/debug.js";
+import * as bodyParser from "body-parser";
+import * as Express from "express";
+import { getLogger } from "../../lib/debug";
+import { authenticateUserRequest, authGuard } from "./auth.middleware";
+import { getAuthService } from "./auth.service";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -12,12 +12,12 @@ app.use((req, res, next) => {
   log.debug("is handling request");
 });
 
-app.use(async (req, res, next) => {
+app.use(async (req: any, res, next) => {
   req.AuthService = await getAuthService(req.project);
   next();
 });
 
-app.post("/register", bodyParser.json(), async (req, res) => {
+app.post("/register", bodyParser.json(), async (req: any, res) => {
   const {
     body: { email, password },
   } = req;
@@ -26,13 +26,13 @@ app.post("/register", bodyParser.json(), async (req, res) => {
     if (!user) return res.status(400).send("something is not right!");
     const token = req.AuthService.generateToken(user);
     return res.json({ token });
-  } catch (e) {
+  } catch (e: any) {
     console.error(e);
     return res.status(422).json({ msg: e.message });
   }
 });
 
-app.post("/login", bodyParser.json(), async (req, res) => {
+app.post("/login", bodyParser.json(), async (req: any, res) => {
   const {
     body: { email, password },
   } = req;
@@ -46,7 +46,7 @@ app.post("/login", bodyParser.json(), async (req, res) => {
 app.use(authenticateUserRequest, authGuard);
 
 app.get("/me", (req, res) => {
-  const { email } = req.user;
+  const { email } = (req as any).user;
   res.json({ email });
 });
 

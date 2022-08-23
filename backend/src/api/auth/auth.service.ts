@@ -1,18 +1,18 @@
-import { getAuthCollection } from "../../lib/db/connector.js";
-import { getLogger } from "../../lib/debug.js";
+import { getAuthCollection } from "../../lib/db/connector";
+import { getLogger } from "../../lib/debug";
 import {
   comparePassword,
   generateTokenForPayload,
   hashPassword,
-} from "../../lib/jwt-utils.js";
+} from "../../lib/jwt-utils";
 
 const log = getLogger("auth.service");
 
-export async function getAuthService(project) {
+export async function getAuthService(project: string) {
   const Users = await getAuthCollection(project);
   return {
     Users,
-    async login(email, password) {
+    async login(email: string, password: string) {
       const user = await Users.findOne({ email });
       if (user) {
         const result = comparePassword(user.password, password);
@@ -24,7 +24,7 @@ export async function getAuthService(project) {
       });
       return null;
     },
-    async register(email, password) {
+    async register(email: string, password: string) {
       const exists = await Users.findOne({ email });
       if (exists) throw new Error("account already exists");
       return Users.create({
@@ -32,7 +32,7 @@ export async function getAuthService(project) {
         password: hashPassword(password),
       });
     },
-    generateToken(user) {
+    generateToken(user: any) {
       return generateTokenForPayload({ email: user.email });
     },
   };

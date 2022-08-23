@@ -1,5 +1,5 @@
 /* eslint-disable no-loops/no-loops */
-import { getAccessConfigCollection } from "../../lib/db/connector.js";
+import { getAccessConfigCollection } from "../../lib/db/connector";
 
 export const defaultAccessConfig = [
   // user with role
@@ -24,7 +24,7 @@ export const defaultAccessConfig = [
   { user: null, create: false, read: false, delete: false, update: false },
 ];
 
-function processFilter(filterArg, context) {
+function processFilter(filterArg: any, context: any) {
   if (!filterArg) return false;
   const { req } = context;
   const filter = { ...filterArg };
@@ -39,9 +39,11 @@ function processFilter(filterArg, context) {
   return filter;
 }
 
-const AccessConfig = await getAccessConfigCollection();
+let AccessConfig: any = null;
 
-export async function getUserFilter({ req, operation, project, collection }) {
+export async function getUserFilter(arg: any) {
+  const { req, operation, project, collection } = arg;
+  if (!AccessConfig) AccessConfig = await getAccessConfigCollection();
   const existing = await AccessConfig.findOne({ project, collection });
   const accessConfig = existing ? existing.roles : defaultAccessConfig;
   const { user } = req;
@@ -49,10 +51,10 @@ export async function getUserFilter({ req, operation, project, collection }) {
   if (user) {
     if (user.role) {
       const roleBasedRoles = accessConfig.filter(
-        (it) => it.user && it.user.role && typeof it.user.role === "string"
+        (it: any) => it.user && it.user.role && typeof it.user.role === "string"
       );
       const matchedConfig = roleBasedRoles.find(
-        (it) => it.user.role === user.role
+        (it: any) => it.user.role === user.role
       );
       if (matchedConfig) {
         let operationConf = matchedConfig[operation];
@@ -60,10 +62,10 @@ export async function getUserFilter({ req, operation, project, collection }) {
         return processFilter(operationConf, { req });
       }
     }
-    const authedRole = accessConfig.find((it) => it.user === true);
+    const authedRole = accessConfig.find((it: any) => it.user === true);
     if (authedRole) return processFilter(authedRole[operation], { req });
   } else {
-    const unAuthedRole = accessConfig.find((it) => !it.user);
+    const unAuthedRole = accessConfig.find((it: any) => !it.user);
     if (unAuthedRole) return processFilter(unAuthedRole[operation], { req });
   }
 

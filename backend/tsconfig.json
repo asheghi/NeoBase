@@ -1,12 +1,18 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "CommonJS",
     "allowSyntheticDefaultImports": true,
-    "outDir": "./built",
+    "outDir": "./build",
     "allowJs": true,
-    "target": "ESNext",
+    "target": "ES6",
     "sourceMap": true,
-    "strict": true
+    "strict": true,
+    "noImplicitAny": false,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    }
   },
   "include": ["./src/**/*"]
 }

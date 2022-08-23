@@ -1,15 +1,15 @@
+import { getAccountCollection } from "../../lib/db/connector";
+import { getLogger } from "../../lib/debug";
 import {
   comparePassword,
   generateTokenForPayload,
   hashPassword,
-} from "../../lib/jwt-utils.js";
-import { getAccountCollection } from "../../lib/db/connector.js";
-import { getLogger } from "../../lib/debug.js";
+} from "../../lib/jwt-utils";
 
 const log = getLogger("auth.service");
 
 export const AccountsService = {
-  async login(email, password) {
+  async login(email: string, password: string) {
     const Accounts = await getAccountCollection();
     const user = await Accounts.findOne({ email });
     if (user) {
@@ -22,7 +22,7 @@ export const AccountsService = {
     });
     return null;
   },
-  async register(email, password) {
+  async register(email: string, password: string) {
     const Accounts = await getAccountCollection();
     const exists = await Accounts.findOne({ email });
     if (exists) throw new Error("account already exists");
@@ -31,7 +31,7 @@ export const AccountsService = {
       password: hashPassword(password),
     });
   },
-  generateToken(user) {
+  generateToken(user: any) {
     log.debug("generate token called for:", user.email);
     return generateTokenForPayload({ email: user.email });
   },

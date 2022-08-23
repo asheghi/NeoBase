@@ -1,11 +1,11 @@
 import * as repl from "node:repl";
-import { AccountsService } from "../api/accounts/accounts.service.js";
-import { getAuthService } from "../api/auth/auth.service.js";
-import * as DbConnector from "../lib/db/connector.js";
-import { getLogger } from "../lib/debug.js";
-import * as JwtUtils from "../lib/jwt-utils.js";
+import { AccountsService } from "../api/accounts/accounts.service";
+import { getAuthService } from "../api/auth/auth.service";
+import * as DbConnector from "../lib/db/connector";
+import { getLogger } from "../lib/debug";
+import * as JwtUtils from "../lib/jwt-utils";
 // eslint-disable-next-line import/no-unresolved
-import { config } from "../config/index.js";
+import { config } from "../config/index";
 
 const context: any = {
   config,

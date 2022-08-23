@@ -1,4 +1,4 @@
 node_modules
+build
 .idea
 .env
-build

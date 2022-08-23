@@ -24,6 +24,9 @@
     ],
     "no-console": 1,
     "no-loops/no-loops": 1,
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "import/no-unresolved": {
+      "commonjs": true
+    }
   }
 }

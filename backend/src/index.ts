@@ -1,31 +1,37 @@
-import cors from "cors";
-import Express from "express";
-import morgan from "morgan";
-import { ApiRouter } from "./api/api.router.js";
-import { config } from "./config/index.js";
+import * as cors from "cors";
+import * as Express from "express";
+import * as morgan from "morgan";
+import { ApiRouter } from "./api/api.router";
+import { config, populateConfig } from "./config/index";
 
-const app = Express();
+const bootstrap = async () => {
+  await populateConfig();
 
-if (config.log_access) {
-  app.use(morgan("dev"));
-}
+  const app = Express();
 
-app.use(cors());
+  if (config.log_access) {
+    app.use(morgan("dev"));
+  }
 
-if (config.trust_proxy) {
-  app.enable("trust proxy");
-}
+  app.use(cors());
 
-app.use("/api", ApiRouter);
+  if (config.trust_proxy) {
+    app.enable("trust proxy");
+  }
 
-app.get("/", (req, res) => {
-  res.send("hello from the other side!");
-});
+  app.use("/api", ApiRouter);
 
-const hostname = config.listen_host;
-const port = config.listen_port;
+  app.get("/", (req, res) => {
+    res.send("hello from the other side!");
+  });
 
-app.listen(port, hostname, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Backend is listening on http://${hostname}:${port}`);
-});
+  const hostname = config.listen_host;
+  const port = config.listen_port;
+
+  app.listen(port, hostname, () => {
+    // eslint-disable-next-line no-console
+    console.log(`Backend is listening on http://${hostname}:${port}`);
+  });
+};
+
+bootstrap();

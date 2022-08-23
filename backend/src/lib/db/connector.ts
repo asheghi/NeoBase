@@ -1,12 +1,12 @@
-import Mongoose from "mongoose";
-import { config } from "../../config/index.ts";
-import { getLogger } from "../debug.js";
+import * as Mongoose from "mongoose";
+import { config } from "../../config/index";
+import { getLogger } from "../debug";
 
 const log = getLogger("db-connector");
 
-const connectionPool = {};
+const connectionPool: { [key: string]: any } = {};
 
-export async function getDatabase(name) {
+export async function getDatabase(name: string) {
   if (!connectionPool[name]) {
     const uri = config.mongodb_base_url + name;
     connectionPool[name] = Mongoose.createConnection(uri);
@@ -14,7 +14,7 @@ export async function getDatabase(name) {
   return connectionPool[name];
 }
 
-export async function getCollection(dbName, colName) {
+export async function getCollection(dbName: string, colName: string) {
   const conn = await getDatabase(dbName);
   return (
     conn.models[colName] ||
@@ -28,7 +28,7 @@ export async function getCollection(dbName, colName) {
           strict: false,
           validateBeforeSave: false,
           timestamps: true,
-          strictPopulate: false,
+          //   strictPopulate: false,
         }
       ),
       colName
@@ -44,11 +44,11 @@ export async function getProjectsCollection() {
   return getCollection("main", "projects");
 }
 
-export async function getAuthCollection(project) {
+export async function getAuthCollection(project: string) {
   return getCollection(project, "users");
 }
 
-let AccessConfigCollection = null;
+let AccessConfigCollection: any = null;
 export async function getAccessConfigCollection() {
   if (!AccessConfigCollection) {
     AccessConfigCollection = await getCollection("main", "access_config");

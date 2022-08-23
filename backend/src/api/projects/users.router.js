@@ -1,13 +1,13 @@
-import bodyParser from "body-parser";
-import Express from "express";
-import Mongoose from "mongoose";
-import { getAuthCollection } from "../../lib/db/connector.js";
-import { hashPassword } from "../../lib/jwt-utils.js";
+import * as bodyParser from "body-parser";
+import * as Express from "express";
+import * as Mongoose from "mongoose";
+import { getAuthCollection } from "../../lib/db/connector";
+import { hashPassword } from "../../lib/jwt-utils";
 import {
   accountGuard,
   authenticateAccountRequest,
-} from "../accounts/accounts.middleware.js";
-import { projectOwnerGuard } from "../common/guards.middleware.js";
+} from "../accounts/accounts.middleware";
+import { projectOwnerGuard } from "../common/guards.middleware";
 
 const app = Express.Router();
 
