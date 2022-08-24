@@ -13,5 +13,5 @@ export const projectOwnerGuard = async (
   if (!exists) return res.status(404).json({ msg: "project does not exists!" });
   if (exists.user_id.toString() !== req.user._id.toString())
     return res.status(401).json({ msg: "no access!" });
-  next();
+  return next();
 };

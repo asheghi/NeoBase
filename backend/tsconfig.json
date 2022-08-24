@@ -3,7 +3,7 @@
     "module": "CommonJS",
     "allowSyntheticDefaultImports": true,
     "outDir": "./build",
-    "allowJs": true,
+    "allowJs": false,
     "target": "ES6",
     "sourceMap": true,
     "strict": true,
@@ -11,8 +11,16 @@
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
-      "*": ["node_modules/*", "src/types/*"]
+      "*": [
+        "node_modules/*",
+        "src/types/*"
+      ]
     }
   },
-  "include": ["./src/**/*"]
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

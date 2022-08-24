@@ -39,7 +39,7 @@ app.post("/", async (req: any, res) => {
   const exists = await Projects.findOne({ name });
   if (exists)
     return res.status(422).json({ msg: "project name already taken!" });
-  res.json(await Projects.create({ user_id: req.user._id, name }));
+  return res.json(await Projects.create({ user_id: req.user._id, name }));
 });
 
 app.delete("/:project", setProject, projectOwnerGuard, async (req, res) => {

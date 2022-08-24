@@ -33,6 +33,6 @@ replServer.defineCommand("help", {
   },
 });
 
-replServer.setupHistory("node_modules/.console_repl_history", (err, repl) => {
+replServer.setupHistory("node_modules/.console_repl_history", (err) => {
   if (err) console.error(err);
 });

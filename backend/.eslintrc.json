@@ -1,11 +1,15 @@
 {
-  "plugins": ["no-loops", "mocha"],
+  "plugins": [
+    "no-loops",
+    "@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "airbnb-base",
     "eslint:recommended",
     "plugin:prettier/recommended",
-    "plugin:mocha/recommended",
-    "plugin:chai-friendly/recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "env": {
     "browser": true,
@@ -20,13 +24,17 @@
     "import/prefer-default-export": 0,
     "no-underscore-dangle": [
       "error",
-      { "allow": ["_id", "__dirname", "__filename"] }
+      {
+        "allow": [
+          "_id",
+          "__dirname",
+          "__filename"
+        ]
+      }
     ],
     "no-console": 1,
     "no-loops/no-loops": 1,
     "prettier/prettier": "error",
-    "import/no-unresolved": {
-      "commonjs": true
-    }
+    "import/no-unresolved": 0
   }
 }

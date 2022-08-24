@@ -1,4 +1,3 @@
-// @ts-ignore
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
@@ -6,14 +5,27 @@ import { getLogger } from "../lib/debug";
 
 const log = getLogger("config");
 
-const __rootdir = path.join(__dirname, "../..");
+const rootDir = path.join(__dirname, "../..");
+
+function getEnvFilePath() {
+  const mode = process.env.NODE_ENV || process.env.node_env;
+  let p: any;
+  if (mode) {
+    p = path.join(rootDir, `.env.${mode.toLowerCase()}`);
+  } else {
+    p = path.join(rootDir, ".env");
+  }
+  if (fs.existsSync(p)) return p;
+  return null;
+}
 
 const envFile = getEnvFilePath();
 
-envFile &&
+if (envFile) {
   dotenv.config({
     path: getEnvFilePath(),
   });
+}
 
 const initialConfig = {
   rootPath: path.join(__dirname, "../../.."),
@@ -64,15 +76,3 @@ export async function populateConfig() {
 }
 
 export const config = proxy;
-
-function getEnvFilePath() {
-  const mode = process.env.NODE_ENV || process.env.node_env;
-  let p: any;
-  if (mode) {
-    p = path.join(__rootdir, ".env." + mode.toLowerCase());
-  } else {
-    p = path.join(__rootdir, ".env");
-  }
-  if (fs.existsSync(p)) return p;
-  return null;
-}
