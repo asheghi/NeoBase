@@ -6,11 +6,11 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    // "build": true
+    "dist": true
   },
   "search.exclude": {
     "**/node_modules": true,
-    "dist": true,
+    "**/dist": true,
     "**/bower_components": true,
     "**/*.code-search": true
   }
