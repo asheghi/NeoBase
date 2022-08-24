@@ -58,7 +58,7 @@ async function populateDefaults() {
   await Promise.all(
     files.map(async (configFile) => {
       try {
-        const it = require(`./${configFile}`);
+        // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
         const configs = require(`./${configFile}`).default;
         Object.keys(configs).forEach((key) => {
           proxy[key] = configs[key];
