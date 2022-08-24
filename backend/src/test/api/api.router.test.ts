@@ -1,5 +1,5 @@
-import { ApiRouter } from "../api/api.router";
-import { getSupertestFromRoute } from "./test-utils";
+import { ApiRouter } from "../../api/api.router";
+import { getSupertestFromRoute } from "../test-utils";
 
 describe("Api Router", () => {
   const app = getSupertestFromRoute(ApiRouter);

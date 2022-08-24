@@ -8,7 +8,9 @@
     "build": "tsc",
     "start": "node dist",
     "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix"
+    "lint-fix": "eslint . --ext .ts --fix",
+    "test":"jest",
+    "test-watch":"jest --watch"
   },
   "author": "Bahman Asheghi",
   "license": "ISC",
