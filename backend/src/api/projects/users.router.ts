@@ -15,12 +15,12 @@ app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
 
 app.use(bodyParser.json());
 
-app.get("/", async (req, res) => {
+app.get("/", async (req: any, res) => {
   const Users = await getAuthCollection(req.project);
   res.json(await Users.find({}, "-password"));
 });
 
-app.get("/:uid", async (req, res) => {
+app.get("/:uid", async (req: any, res) => {
   const Users = await getAuthCollection(req.project);
   const { uid } = req.params;
   if (!uid) return res.status(422).json({ msg: "bad request!" });
@@ -29,7 +29,7 @@ app.get("/:uid", async (req, res) => {
   );
 });
 
-app.post("/", async (req, res) => {
+app.post("/", async (req: any, res) => {
   const { email, password, ...rest } = req.body;
   const Users = await getAuthCollection(req.project);
   const exists = await Users.findOne({ email });
@@ -42,7 +42,7 @@ app.post("/", async (req, res) => {
   return res.json(result);
 });
 
-app.delete("/:uid", async (req, res) => {
+app.delete("/:uid", async (req: any, res) => {
   const Users = await getAuthCollection(req.project);
   const { uid } = req.params;
   const result = await Users.deleteOne({
@@ -51,7 +51,7 @@ app.delete("/:uid", async (req, res) => {
   res.json(result);
 });
 
-app.put("/:uid", async (req, res) => {
+app.put("/:uid", async (req: any, res) => {
   const Users = await getAuthCollection(req.project);
   const { uid } = req.params;
   const payload = req.body;

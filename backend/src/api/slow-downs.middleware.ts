@@ -1,4 +1,4 @@
-import * as slowDown from "express-slow-down";
+import slowDown from "express-slow-down";
 import { config } from "../config/index";
 
 const realIpHeader = config.real_ip_header;

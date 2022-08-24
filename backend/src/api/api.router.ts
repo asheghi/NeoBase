@@ -1,4 +1,4 @@
-import * as Express from "express";
+import express from "express";
 import { config } from "../config";
 import { AccountsRouter } from "./accounts/accounts.router";
 import { ProjectAuthRouter } from "./auth/auth.router";
@@ -10,7 +10,7 @@ import slowdown from "./slow-downs.middleware";
 
 const { CommonSlowDown } = slowdown;
 
-const app = Express.Router();
+const app = express.Router();
 
 if (config.simulate_slow_network) {
   app.use((req, res, next) => {
@@ -20,8 +20,8 @@ if (config.simulate_slow_network) {
 
 const setProject = (
   req: any,
-  _res: Express.Response,
-  next: Express.NextFunction
+  _res: express.Response,
+  next: express.NextFunction
 ) => {
   req.project = req.params.project;
   next();

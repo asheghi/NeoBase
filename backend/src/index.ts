@@ -1,6 +1,6 @@
-import * as cors from "cors";
-import * as Express from "express";
-import * as morgan from "morgan";
+import cors from "cors";
+import Express from "express";
+import morgan from "morgan";
 import { ApiRouter } from "./api/api.router";
 import { config, populateConfig } from "./config/index";
 

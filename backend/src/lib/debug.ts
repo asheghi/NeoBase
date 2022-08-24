@@ -1,7 +1,7 @@
-import * as Log from "debug-level";
+import DebugLevel from "debug-level";
 
 export function getLogger(identifier) {
-  const { fatal, error, warn, info, debug, trace, log } = new Log(
+  const { fatal, error, warn, info, debug, trace, log } = DebugLevel(
     `app:${identifier}`,
     {}
   );

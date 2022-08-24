@@ -1,15 +1,14 @@
 {
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "commonjs",
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "outDir": "./build",
-    "allowJs": false,
-    "target": "ES6",
-    "sourceMap": true,
-    "strict": true,
+    "target": "es6",
     "noImplicitAny": false,
     "moduleResolution": "node",
-    "baseUrl": "./",
+    "sourceMap": true,
+    "outDir": "dist",
+    "baseUrl": ".",
     "paths": {
       "*": [
         "node_modules/*",
@@ -18,9 +17,6 @@
     }
   },
   "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
+    "src/**/*"
   ]
 }
