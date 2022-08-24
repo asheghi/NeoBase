@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
-import { getAccountCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import { extractToken } from "../../lib/jwt-utils";
+import { AccountsService } from "./accounts.service";
 
 const log = getLogger("account:middleware");
 
@@ -16,8 +16,7 @@ export const authenticateAccountRequest = async (
   try {
     const token = req.headers["x-account-token"];
     const { email } = extractToken(token);
-    const Accounts = await getAccountCollection();
-    req.user = await Accounts.findOne({ email });
+    req.user = await AccountsService.findUserByEmail(email);
     if (!req.user) throw new Error(`user not found!, email:${email}`);
     req.user.auth_provider = "account";
   } catch (e: any) {

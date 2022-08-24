@@ -35,4 +35,8 @@ export const AccountsService = {
     log.debug("generate token called for:", user.email);
     return generateTokenForPayload({ email: user.email });
   },
+  async findUserByEmail(email: string) {
+    const Accounts = await getAccountCollection();
+    return Accounts.findOne({ email });
+  },
 };

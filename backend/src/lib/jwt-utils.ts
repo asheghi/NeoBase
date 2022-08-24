@@ -1,5 +1,5 @@
-import * as bcrypt from "bcryptjs";
-import * as jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { config } from "../config/index";
 import { getLogger } from "./debug";
 
