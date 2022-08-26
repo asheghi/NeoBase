@@ -7,11 +7,6 @@ import { getAuthService } from "./auth.service";
 const log = getLogger("auth.api");
 const app = Express.Router();
 
-app.use((req, res, next) => {
-  next();
-  log.debug("is handling request");
-});
-
 app.use(async (req: any, res, next) => {
   req.AuthService = await getAuthService(req.project);
   next();

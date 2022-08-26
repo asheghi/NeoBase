@@ -28,7 +28,6 @@ replServer.defineCommand("help", {
   help: "show help",
   action() {
     this.clearBufferedCommand();
-    console.log(`help content`);
     this.displayPrompt();
   },
 });

@@ -11,11 +11,6 @@ import { projectOwnerGuard } from "../common/guards.middleware";
 const log = getLogger("projects.api");
 const app = Express.Router();
 
-app.use((req, res, next) => {
-  next();
-  log.debug("is handling request");
-});
-
 app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());
 

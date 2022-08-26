@@ -13,10 +13,6 @@ const FIND_LIMIT = 100;
 
 const app = Express.Router();
 
-app.use((req, res, next) => {
-  next();
-});
-
 app.use(authenticateAccountRequest);
 app.use(authenticateUserRequest);
 app.use(bodyParser.json());
