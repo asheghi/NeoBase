@@ -1,6 +1,6 @@
-import * as bodyParser from "body-parser";
-import * as Express from "express";
-import * as Mongoose from "mongoose";
+import bodyParser from "body-parser";
+import Express from "express";
+import Mongoose from "mongoose";
 import { getAuthCollection } from "../../lib/db/connector";
 import { hashPassword } from "../../lib/jwt-utils";
 import {

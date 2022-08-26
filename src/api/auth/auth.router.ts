@@ -1,5 +1,5 @@
-import * as bodyParser from "body-parser";
-import * as Express from "express";
+import bodyParser from "body-parser";
+import Express from "express";
 import { getLogger } from "../../lib/debug";
 import { authenticateUserRequest, authGuard } from "./auth.middleware";
 import { getAuthService } from "./auth.service";

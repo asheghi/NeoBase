@@ -1,5 +1,5 @@
-import * as bodyParser from "body-parser";
-import * as Express from "express";
+import bodyParser from "body-parser";
+import Express from "express";
 import { getProjectsCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import {

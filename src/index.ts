@@ -13,7 +13,15 @@ const bootstrap = async () => {
     app.use(morgan("dev"));
   }
 
-  app.use(cors());
+  app.use(
+    cors({
+      origin(origin, callback) {
+        console.log("yeah", origin);
+        callback(null, true);
+      },
+      optionsSuccessStatus: 200,
+    })
+  );
 
   if (config.trust_proxy) {
     app.enable("trust proxy");

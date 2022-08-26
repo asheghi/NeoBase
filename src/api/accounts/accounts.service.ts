@@ -24,7 +24,7 @@ export const AccountsService = {
   },
   async register(email: string, password: string) {
     const Accounts = await getAccountCollection();
-    const exists = await Accounts.findUserByEmail(email);
+    const exists = await Accounts.findOne({ email });
     if (exists) throw new Error("account already exists");
     return Accounts.create({
       email,

@@ -1,5 +1,5 @@
-import * as bodyParser from "body-parser";
-import * as Express from "express";
+import bodyParser from "body-parser";
+import Express from "express";
 import { getCollection } from "../../lib/db/connector";
 import { authenticateAccountRequest } from "../accounts/accounts.middleware";
 import { authenticateUserRequest } from "../auth/auth.middleware";
