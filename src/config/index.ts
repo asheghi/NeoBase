@@ -27,11 +27,11 @@ if (envFile) {
   });
 }
 
-const initialConfig = {
+const target = {
   rootPath: path.join(__dirname, "../../.."),
 };
 
-const proxy: any = new Proxy(initialConfig, {
+const proxy: any = new Proxy(target, {
   get(t: any, key: string) {
     // env has higher priority over default values in files
     if (process.env[key.toUpperCase()]) {
@@ -61,14 +61,13 @@ async function populateDefaults() {
         // eslint-disable-next-line global-require, import/no-dynamic-require, @typescript-eslint/no-var-requires
         const configs = require(`./${configFile}`).default;
         Object.keys(configs).forEach((key) => {
-          proxy[key] = configs[key];
+          target[key] = configs[key];
         });
       } catch (e) {
         log.error(e);
       }
     })
   );
-  return proxy;
 }
 
 export async function populateConfig() {
