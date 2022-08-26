@@ -15,10 +15,6 @@ const bootstrap = async () => {
 
   app.use(
     cors({
-      origin(origin, callback) {
-        console.log("yeah", origin);
-        callback(null, true);
-      },
       optionsSuccessStatus: 200,
     })
   );
