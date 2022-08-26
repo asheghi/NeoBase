@@ -16,6 +16,7 @@ const bootstrap = async () => {
   app.use(
     cors({
       optionsSuccessStatus: 200,
+      origin: "*",
     })
   );
 
