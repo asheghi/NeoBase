@@ -1,9 +1,9 @@
 import repl from "node:repl";
 import { AccountsService } from "../api/accounts/accounts.service";
 import { getAuthService } from "../api/auth/auth.service";
-import DbConnector from "../lib/db/connector";
+import * as DbConnector from "../lib/db/connector";
 import { getLogger } from "../lib/debug";
-import JwtUtils from "../lib/jwt-utils";
+import * as JwtUtils from "../lib/jwt-utils";
 // eslint-disable-next-line import/no-unresolved
 import { config } from "../config/index";
 
