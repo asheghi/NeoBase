@@ -16,5 +16,4 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
   restoreMocks: true,
-  setupFiles: ["./src/test/__setup/index.ts"],
 };
