@@ -9,9 +9,13 @@
     "start": "node dist",
     "lint": "eslint . --ext .ts",
     "lint-fix": "eslint . --ext .ts --fix",
-    "test":"jest",
-    "test-watch":"jest --watch",
-    "console":"npm run build ; node dist/bin/console"
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "console": "npm run build ; node dist/bin/console",
+    "t": "npm run test",
+    "b": "npm run build",
+    "tw": "npm run test-watch",
+    "c": "npm run console"
   },
   "author": "Bahman Asheghi",
   "license": "ISC",
