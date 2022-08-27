@@ -1,8 +1,8 @@
-import { AccountsService } from "../../api/accounts/accounts.service";
-import { AccountsRouter } from "../../api/accounts/accounts.router";
-import { superRouter } from "../test-utils";
+import { AccountsService } from "../../../api/accounts/accounts.service";
+import { AccountsRouter } from "../../../api/accounts/accounts.router";
+import { superRouter } from "../../test-utils";
 
-jest.mock("../../api/accounts/accounts.middleware", () => {
+jest.mock("../../../api/accounts/accounts.middleware", () => {
   return {
     authenticateAccountRequest: (req, res, next) => {
       const token = req.headers["x-account-token"];

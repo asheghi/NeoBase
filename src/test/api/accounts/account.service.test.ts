@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { AccountsService } from "../../api/accounts/accounts.service";
+import { AccountsService } from "../../../api/accounts/accounts.service";
 
 const user = {
   email: "existingUser@mail.com",
@@ -8,7 +8,7 @@ const user = {
   _id: new mongoose.Types.ObjectId(),
 };
 
-jest.mock("../../lib/jwt-utils", () => {
+jest.mock("../../../lib/jwt-utils", () => {
   return {
     comparePassword: (hash, password) => {
       return password === user.password;
@@ -18,7 +18,7 @@ jest.mock("../../lib/jwt-utils", () => {
   };
 });
 
-jest.mock("../../lib/db/connector", () => {
+jest.mock("../../../lib/db/connector", () => {
   return {
     getAccountCollection: async () => {
       return {
