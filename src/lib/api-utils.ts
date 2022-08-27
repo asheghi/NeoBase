@@ -4,23 +4,22 @@ import getLogger from "./debug";
 
 const log = getLogger("routeValidation");
 
-export type ValidationSchemaType = {
-  body?: z.ZodObject<any>;
-  query?: z.ZodObject<any>;
-  params?: z.ZodObject<any>;
+type ValidationSchemaType = {
+  body?: z.ZodAny;
+  params?: z.ZodAny;
+  query?: z.ZodAny;
 };
 
 export const validateSchema =
-  (schema: ValidationSchemaType) =>
-  (req: Request, res: Response, next: NextFunction) => {
+  (schema: any) => (req: Request, res: Response, next: NextFunction) => {
     try {
-      if (schema.body) {
+      if (schema.body && schema.body.parse) {
         schema.body.parse(req.body);
       }
-      if (schema.query) {
+      if (schema.query && schema.query.parse) {
         schema.query.parse(req.query);
       }
-      if (schema.params) {
+      if (schema.params && schema.params.parse) {
         schema.params.parse(req.params);
       }
     } catch (e) {

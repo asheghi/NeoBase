@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
-import Express from "express";
-import { z } from "zod";
+import Express, { Request } from "express";
+import { UserType } from "user.type";
+import { TypeOf, z } from "zod";
 import { validateSchema } from "../../lib/api-utils";
 import { getLogger } from "../../lib/debug";
 import {
@@ -14,8 +15,8 @@ const app = Express.Router();
 
 const registerSchema = {
   body: z.object({
-    email: z.string(),
-    password: z.string(),
+    email: z.string().email(),
+    password: z.string().min(8).max(128),
   }),
 };
 
@@ -26,7 +27,7 @@ app.post(
   async (req, res) => {
     const {
       body: { email, password },
-    } = req;
+    } = req as Request & typeof registerSchema;
     try {
       const user = await AccountsService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
@@ -53,7 +54,8 @@ app.post(
   async (req, res) => {
     const {
       body: { email, password },
-    } = req;
+    } = req as Request & typeof loginSchema;
+
     const user = await AccountsService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
     const token = AccountsService.generateToken(user);
@@ -63,9 +65,10 @@ app.post(
 
 app.use(authenticateAccountRequest, accountGuard);
 
-app.get("/me", (req: any, res) => {
-  if (!req.user) return res.status(401).send();
-  const { email } = req.user;
+app.get("/me", (req, res) => {
+  const { user } = req as Request & { user: UserType };
+  if (!user) return res.status(401).send();
+  const { email } = user;
   return res.json({ email });
 });
 
