@@ -1,9 +1,13 @@
 import bodyParser from "body-parser";
 import Express, { Request } from "express";
 import { UserType } from "user.type";
-import { TypeOf, z } from "zod";
+import { z } from "zod";
 import { validateSchema } from "../../lib/api-utils";
 import { getLogger } from "../../lib/debug";
+import {
+  emailSchema,
+  passwordSchema,
+} from "../../validations/auth.validations";
 import {
   accountGuard,
   authenticateAccountRequest,
@@ -15,8 +19,8 @@ const app = Express.Router();
 
 const registerSchema = {
   body: z.object({
-    email: z.string().email(),
-    password: z.string().min(8).max(128),
+    email: emailSchema,
+    password: passwordSchema,
   }),
 };
 

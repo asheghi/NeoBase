@@ -1,15 +1,18 @@
 import { getAccountCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
+import * as JwtUtils from "../../lib/jwt-utils";
 import {
-  comparePassword,
-  generateTokenForPayload,
-  hashPassword,
-} from "../../lib/jwt-utils";
+  emailSchema,
+  passwordSchema,
+} from "../../validations/auth.validations";
 
+const { comparePassword, generateTokenForPayload, hashPassword } = JwtUtils;
 const log = getLogger("auth.service");
-
 export const AccountsService = {
   async login(email: string, password: string) {
+    emailSchema.parse(email);
+    passwordSchema.parse(password);
+
     const Accounts = await getAccountCollection();
     const user = await Accounts.findOne({ email });
     if (user) {
@@ -23,6 +26,9 @@ export const AccountsService = {
     return null;
   },
   async register(email: string, password: string) {
+    emailSchema.parse(email);
+    passwordSchema.parse(password);
+
     const Accounts = await getAccountCollection();
     const exists = await Accounts.findOne({ email });
     if (exists) throw new Error("account already exists");
@@ -31,10 +37,12 @@ export const AccountsService = {
       password: hashPassword(password),
     });
   },
-  generateToken(user: any) {
-    return generateTokenForPayload({ email: user.email });
+  generateToken(user: { email: string }) {
+    const email = emailSchema.parse(user.email);
+    return generateTokenForPayload({ email });
   },
   async findUserByEmail(email: string) {
+    emailSchema.parse(email);
     const Accounts = await getAccountCollection();
     return Accounts.findOne({ email });
   },
