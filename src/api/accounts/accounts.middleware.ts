@@ -1,15 +1,17 @@
 import { NextFunction, Response } from "express";
 import { getLogger } from "../../lib/debug";
 import { extractToken } from "../../lib/jwt-utils";
+import { UserType } from "../../types/user.type";
 import { AccountsService } from "./accounts.service";
 
 const log = getLogger("account:middleware");
 
 export const authenticateAccountRequest = async (
-  req: any,
+  _req: any,
   res: Response,
   next: NextFunction
 ) => {
+  const req = _req as Request & { user: UserType };
   if (req.user && req.user._id) {
     return next();
   }
