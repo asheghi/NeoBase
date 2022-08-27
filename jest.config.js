@@ -6,13 +6,15 @@ module.exports = {
   },
   moduleFileExtensions: ["ts", "js"],
   transform: {
-    "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js",
+    "^.+\\.(ts|tsx)$": "ts-jest",
   },
   testMatch: ["**/src/test/**/*.test.(ts|js)"],
   testEnvironment: "node",
   verbose: false,
+  silent: true,
   forceExit: true,
   clearMocks: true,
   resetMocks: true,
   restoreMocks: true,
+  setupFiles: ["./src/test/__setup/index.ts"],
 };
