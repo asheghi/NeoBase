@@ -5,6 +5,10 @@ import {
   generateTokenForPayload,
   hashPassword,
 } from "../../lib/jwt-utils";
+import {
+  emailSchema,
+  passwordSchema,
+} from "../../validations/auth.validations";
 
 const log = getLogger("auth.service");
 
@@ -13,6 +17,9 @@ export async function getAuthService(project: string) {
   return {
     Users,
     async login(email: string, password: string) {
+      emailSchema.parse(email);
+      passwordSchema.parse(password);
+
       const user = await Users.findOne({ email });
       if (user) {
         const result = comparePassword(user.password, password);
@@ -25,6 +32,9 @@ export async function getAuthService(project: string) {
       return null;
     },
     async register(email: string, password: string) {
+      emailSchema.parse(email);
+      passwordSchema.parse(password);
+
       const exists = await Users.findOne({ email });
       if (exists) throw new Error("account already exists");
       return Users.create({
@@ -32,7 +42,8 @@ export async function getAuthService(project: string) {
         password: hashPassword(password),
       });
     },
-    generateToken(user: any) {
+    generateToken(user: { email: string }) {
+      emailSchema.parse(user.email);
       return generateTokenForPayload({ email: user.email });
     },
   };
