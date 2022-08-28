@@ -1,5 +1,5 @@
 import { NextFunction, Response, Request } from "express";
-import { getAuthCollection  } from "../../lib/db/connector";
+import { getAuthCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import { extractToken } from "../../lib/jwt-utils";
 import { UserType } from "../../types/user.type";
