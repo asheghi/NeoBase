@@ -3,7 +3,7 @@
 <h1 align="center">NeoBase</h1>
 </p>
 
-[NeoBase](https://neobase.uk) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
+[NeoBase](https://neobase.ir) is an open source Firebase alternative. We're building the features of Firebase using enterprise-grade open source tools.
 
 - [x] Hosted MongoDB Database.
 - [x] Authentication and Authorization.
@@ -21,7 +21,7 @@ todo add screenshot of dashboard.
 
 ## Documentation
 
-For full documentation, visit [neobase.uk/docs](https://neobase.uk/docs)
+For full documentation, visit [neobase.ir/docs](https://neobase.ir/docs)
 
 To see how to Contribute, visit [Getting Started](./DEVELOPERS.md)
 
@@ -29,13 +29,13 @@ To see how to Contribute, visit [Getting Started](./DEVELOPERS.md)
 
 - [Community Forum](https://github.com/asheghi/NeoBase/discussions). Best for: help with building, discussion about database best practices.
 - [GitHub Issues](https://github.com/asheghi/NeoBase/issues). Best for: bugs and errors you encounter using NeoBase.
-- [Email Support](https://neobase.uk/docs/support). Best for: problems with your database or infrastructure.
-- [Discord](https://neobase.uk/discord). Best for: sharing your applications and hanging out with the community.
+- [Email Support](https://neobase.ir/docs/support). Best for: problems with your database or infrastructure.
+- [Discord](https://neobase.ir/discord). Best for: sharing your applications and hanging out with the community.
 
 ## Status
 
 - [x] Alpha: We are testing NeoBase with a closed set of customers
-- [x] Public Alpha: Anyone can sign up over at [neobase.uk](https://neobase.uk). But go easy on us, there are a few kinks
+- [x] Public Alpha: Anyone can sign up over at [neobase.ir](https://neobase.ir). But go easy on us, there are a few kinks
 - [ ] Public Beta: Stable enough for most non-enterprise use-cases
 - [ ] Public: Production-ready
 
@@ -49,8 +49,8 @@ NeoBase is a combination of open source tools. We’re building the features of 
 
 **Technology Stack**
 
-NeoBase is a [hosted platform](https://neobase.uk). You can sign up and start using NeoBase without installing anything.
-You can also [self-host](https://neobase.uk/docs/) and [develop locally](https://neobase.uk/docs/).
+NeoBase is a [hosted platform](https://neobase.ir). You can sign up and start using NeoBase without installing anything.
+You can also [self-host](https://neobase.ir/docs/) and [develop locally](https://neobase.ir/docs/).
 
 - [Express.js](https://expressjs.com/) Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
 - [MongoDB](https://www.mongodb.com/docs/) MongoDB is a document database designed for ease of application development and scaling
@@ -61,7 +61,7 @@ You can also [self-host](https://neobase.uk/docs/) and [develop locally](https:/
 
 ## Client libraries
 
-only [javascript](https://neobase.uk/docs/client) client has been implemented sofar.
+only [javascript](https://neobase.ir/docs/client) client has been implemented sofar.
 you can contribute implementing the client of your desired language, by making a wrapper for our Rest-API.
 
 ---
