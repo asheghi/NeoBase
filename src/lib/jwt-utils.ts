@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config/index";
+import { passwordSchema } from "../validations/auth.validations";
 import { getLogger } from "./debug";
 
 const log = getLogger("jwt-utils");
@@ -35,10 +36,13 @@ export function extractToken(token: string): any {
 }
 
 export function hashPassword(password: string) {
+  passwordSchema.parse(password);
   const salt = bcrypt.genSaltSync(10);
   return bcrypt.hashSync(password, salt);
 }
 
 export function comparePassword(hash: string, password: string) {
+  if (!hash) return false;
+  if (!passwordSchema.safeParse(password).success) return false;
   return bcrypt.compareSync(password, hash);
 }
