@@ -11,6 +11,8 @@ import { projectOwnerGuard } from "../common/guards.middleware";
 const log = getLogger("projects.api");
 const app = Express.Router();
 
+// eslint-disable-next-line
+// @ts-ignore
 app.use(authenticateAccountRequest, accountGuard);
 app.use(bodyParser.json());
 
@@ -23,7 +25,7 @@ const setProject = (req: any, _res: any, next: Express.NextFunction) => {
 // return users projects
 app.get("/", async (req: any, res: any) => {
   const Projects = await getProjectsCollection();
-  res.json(await Projects.find({ user_id: req.user._id }));
+  res.json(await Projects.find({ user_id: req.session.user._id }));
 });
 // create project for current user
 app.post("/", async (req: any, res) => {
@@ -34,7 +36,9 @@ app.post("/", async (req: any, res) => {
   const exists = await Projects.findOne({ name });
   if (exists)
     return res.status(422).json({ msg: "project name already taken!" });
-  return res.json(await Projects.create({ user_id: req.user._id, name }));
+  return res.json(
+    await Projects.create({ user_id: req.session.user._id, name })
+  );
 });
 
 app.delete("/:project", setProject, projectOwnerGuard, async (req, res) => {

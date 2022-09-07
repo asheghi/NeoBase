@@ -7,7 +7,10 @@ import { getLogger } from "./debug";
 const log = getLogger("jwt-utils");
 
 export function generateTokenForPayload(payload: any) {
-  return jwt.sign(payload, config.jwtSecret);
+  // todo add exp date
+  return jwt.sign(payload, config.jwtSecret, {
+    expiresIn: config.session_expire_seconds,
+  });
 }
 
 function verifyToken(token: string) {
@@ -16,6 +19,7 @@ function verifyToken(token: string) {
   try {
     jwt.verify(token, config.jwtSecret);
     valid = true;
+    // eslint-disable-next-line
   } catch (e: any) {
     log.info("verify-token failed:", e.message);
     valid = false;

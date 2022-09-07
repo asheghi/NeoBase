@@ -7,6 +7,8 @@ import * as JwtUtils from "../lib/jwt-utils";
 // eslint-disable-next-line import/no-unresolved
 import { config } from "../config/index";
 
+import * as SessionStore from "../lib/session-store";
+
 const context: any = {
   config,
   ...JwtUtils,
@@ -14,6 +16,7 @@ const context: any = {
   ...DbConnector,
   AccountsService,
   getAuthService,
+  SessionStore,
 };
 
 const replServer = repl.start({

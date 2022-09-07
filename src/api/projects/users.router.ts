@@ -11,6 +11,7 @@ import { projectOwnerGuard } from "../common/guards.middleware";
 
 const app = Express.Router();
 
+// @ts-ignore
 app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
 
 app.use(bodyParser.json());

@@ -1,13 +1,16 @@
 import cors from "cors";
-import Express from "express";
 import morgan from "morgan";
+import express from "express";
 import { ApiRouter } from "./api/api.router";
 import { config, populateConfig } from "./config/index";
+import { initSessionStore } from "./lib/session-store";
 
 const bootstrap = async () => {
   await populateConfig();
 
-  const app = Express();
+  await initSessionStore();
+
+  const app = express();
 
   if (config.log_access) {
     app.use(morgan("dev"));

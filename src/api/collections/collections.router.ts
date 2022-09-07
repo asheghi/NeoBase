@@ -14,6 +14,8 @@ const app = Express.Router();
 
 app.use(bodyParser.json());
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
 
 app.get("/access-config/:collection", async (req, res, next) => {

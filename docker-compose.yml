@@ -7,8 +7,15 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - /data/mongo-data:/data/db
+      - "/data/mongo-data:/data/db"
     restart: always
+
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/data/redis:/data"
 
   mongo-express:
     image: mongo-express

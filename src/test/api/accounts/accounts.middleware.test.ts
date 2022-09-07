@@ -36,7 +36,7 @@ describe("Account Middlewares", () => {
   describe("AuthenticateRequest", () => {
     describe("given req has no header", () => {
       it("it should call next", () => {
-        const req = { headers: {} };
+        const req = { headers: {}, session: null };
         const res = {} as Response;
         const next = jest.fn();
         authenticateAccountRequest(req, res, next);

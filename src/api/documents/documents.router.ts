@@ -3,16 +3,14 @@ import Express from "express";
 import { getCollection } from "../../lib/db/connector";
 import { authenticateAccountRequest } from "../accounts/accounts.middleware";
 import { authenticateUserRequest } from "../auth/auth.middleware";
-import slowdown from "../slow-downs.middleware";
 import { getUserFilter } from "./access-control";
-
-const { SlowDownDocumentsRouter } = slowdown;
 
 // const logger = getLogger("documents.api");
 const FIND_LIMIT = 100;
 
 const app = Express.Router();
 
+// @ts-ignore
 app.use(authenticateAccountRequest);
 app.use(authenticateUserRequest);
 app.use(bodyParser.json());
@@ -133,6 +131,6 @@ const setCollection = async (
   next();
 };
 const cover = Express.Router();
-cover.use("/:project/:collection", setCollection, SlowDownDocumentsRouter, app);
+cover.use("/:project/:collection", setCollection, app);
 export const DocumentsApiRouter = cover;
 export default { DocumentsApiRouter };

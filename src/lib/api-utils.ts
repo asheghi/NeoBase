@@ -4,12 +4,6 @@ import getLogger from "./debug";
 
 const log = getLogger("routeValidation");
 
-type ValidationSchemaType = {
-  body?: z.ZodAny;
-  params?: z.ZodAny;
-  query?: z.ZodAny;
-};
-
 export const validateSchema =
   (schema: any) => (req: Request, res: Response, next: NextFunction) => {
     try {

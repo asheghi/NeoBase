@@ -1,9 +1,9 @@
 import bodyParser from "body-parser";
 import Express, { Request } from "express";
-import { UserType } from "user.type";
 import { z } from "zod";
 import { validateSchema } from "../../lib/api-utils";
 import { getLogger } from "../../lib/debug";
+import { createSession, SessionType } from "../../lib/session-store";
 import {
   emailSchema,
   passwordSchema,
@@ -35,7 +35,13 @@ app.post(
     try {
       const user = await AccountsService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
-      const token = AccountsService.generateToken(user);
+      const session = await createSession(req, user, "account");
+      const payload = {
+        email: user.email,
+        role: user.role,
+        sid: session.id,
+      };
+      const token = AccountsService.generateToken(payload);
       return res.json({ token });
     } catch (e: any) {
       log.error(e);
@@ -62,18 +68,29 @@ app.post(
 
     const user = await AccountsService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = AccountsService.generateToken(user);
+    const session = await createSession(req, user, "account");
+    const payload = {
+      email: user.email,
+      role: user.role,
+      sid: session.id,
+    };
+    const token = AccountsService.generateToken(payload);
     return res.json({ token });
   }
 );
 
-app.use(authenticateAccountRequest, accountGuard);
+app.use(authenticateAccountRequest as any, accountGuard as any);
 
-app.get("/me", (req, res) => {
-  const { user } = req as Request & { user: UserType };
-  if (!user) return res.status(401).send();
-  const { email } = user;
-  return res.json({ email });
+app.get("/logout", async (req: Request & { session: SessionType }, res) => {
+  await req.session.destroy();
+  res.status(200).json({ msg: "success" });
+});
+
+app.get("/me", (req: Request & { session: SessionType }, res) => {
+  const { session } = req;
+  if (!session) return res.status(401).send();
+  const { user, expireAt } = session;
+  return res.json({ user, expireAt });
 });
 
 export const AccountsRouter = app;
