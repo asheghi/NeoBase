@@ -6,7 +6,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "dist": true
   },
   "search.exclude": {
     "**/node_modules": true,
