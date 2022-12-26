@@ -3,15 +3,15 @@ version: '3.1'
 
 services:
   mongo:
-    image: mongo
+    image: docker.io/mongo
     ports:
       - "27017:27017"
     volumes:
-      - /data/mongo-data:/data/db
+      - ./data/mongodb:/data/db
     restart: always
 
   mongo-express:
-    image: mongo-express
+    image: docker.io/mongo-express
     restart: always
     ports:
       - "8081:8081"

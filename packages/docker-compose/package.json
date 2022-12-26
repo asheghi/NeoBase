@@ -1,0 +1,12 @@
+{
+  "name": "dev-docker-compose",
+  "version": "0.0.0",
+  "private":"true",
+  "description": "",
+  "scripts": {
+    "dev": "podman-compose up"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
