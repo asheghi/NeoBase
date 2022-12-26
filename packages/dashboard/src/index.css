@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    font-family: 'Open Sans',sans-serif;
+}
+a,button{
+    @apply outline-primary;
+}
+
+input,textarea{
+    @apply dark:text-gray-700;
+}
+
+/* todo refactor this to NButton */
+.btn-sm{
+    @apply text-sm;
+}
+.btn-text {
+    @apply text-blue-400 px-2 py-2 font-bold;
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 240ms ease;
+    @apply absolute inset-0;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+@keyframes skeloading {
+    from{
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+.skeloading{
+    @apply relative bg-gray-200 dark:bg-gray-500 overflow-hidden;
+}
+.skeloading::after{
+    content: '';
+    @apply inset-0 absolute cursor-progress;
+    background: rgb(255,255,255);
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+    background-repeat: no-repeat;
+    animation: skeloading 1s linear infinite;
+}
+.dark .skeloading::after{
+    background: linear-gradient(90deg, rgba(70, 70, 70, 0) 0%, rgba(255, 255, 255, 0.36) 50%, rgba(81, 81, 81, 0) 100%);
+}
