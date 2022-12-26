@@ -2,7 +2,8 @@
   "name": "@neobase/monorepo",
   "private": "true",
   "scripts": {
-    "dev": "pnpm -r --parallel --filter='./packages/*' run dev"
+    "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
+    "build" : "pnpm -r build"
   },
   "keywords": [],
   "author": "",

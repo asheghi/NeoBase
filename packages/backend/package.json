@@ -53,7 +53,7 @@
     "@types/mongodb": "^4.0.7",
     "@types/mongoose": "^5.11.97",
     "@types/morgan": "^1.9.3",
-    "@types/node": "^18.7.12",
+    "@types/node": "^18.11.17",
     "@types/object-hash": "^2.2.1",
     "@types/sinon": "^10.0.11",
     "@types/sinon-chai": "^3.2.8",
@@ -79,7 +79,7 @@
     "ts-jest": "^28.0.8",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^4.7.4",
+    "typescript": "^4.9.4",
     "vite-svg-loader": "^3.3.0"
   }
 }
