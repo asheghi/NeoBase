@@ -19,6 +19,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
+    "dev": "echo dev from client",
     "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs  ./src/neobase-client-js.ts",

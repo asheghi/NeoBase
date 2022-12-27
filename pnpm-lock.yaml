@@ -7,7 +7,7 @@ importers:
 
   examples/todo-app:
     specifiers:
-      '@neobase/client': ^1.2.1
+      '@neobase/client': workspace:*
       '@vitejs/plugin-vue': ^2.3.3
       autoprefixer: ^10.4.7
       dotenv-cli: ^6.0.0
@@ -26,7 +26,7 @@ importers:
       vue: ^3.2.25
       vue-router: ^4.0.15
     dependencies:
-      '@neobase/client': 1.2.1
+      '@neobase/client': link:../../packages/client-js
       sweetalert2: 11.6.16
       vue: 3.2.45
       vue-router: 4.1.6_vue@3.2.45
@@ -2914,14 +2914,6 @@ packages:
 
   /@mdi/svg/6.9.96:
     resolution: {integrity: sha512-QPW/IHP4mXW2aN8FopcgXaOHBTSjYdGevGvil3HFcCiq1PAfRbVGgiJ7v4qemv0b0fFbfKXpCKgQl3DgOOyXag==}
-    dev: false
-
-  /@neobase/client/1.2.1:
-    resolution: {integrity: sha512-ujfln1487WrhlxNm7Tu3Da3a88PaAQMRvB+ini2kr8Gg9iHR6U/P2vyHvWVxvlsOIfRq6oRAwBPd34+f4I1QaQ==}
-    dependencies:
-      axios: 0.27.2
-    transitivePeerDependencies:
-      - debug
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
