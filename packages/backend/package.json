@@ -36,6 +36,8 @@
     "mongoose": "^6.3.3",
     "morgan": "^1.10.0",
     "object-hash": "^3.0.0",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "zod": "^3.18.0"
   },
   "devDependencies": {

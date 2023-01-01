@@ -1,5 +1,5 @@
 <p align="center">
-<img width="100" src="https://gitcdn.link/cdn/asheghi/NeoBase/master/frontend/src/assets/logo-color.svg">
+<img width="100" src="https://raw.githubusercontent.com/asheghi/NeoBase/main/packages/dashboard/src/assets/logo-color.svg">
 <h1 align="center">NeoBase</h1>
 </p>
 
@@ -12,7 +12,7 @@
   - [ ] Realtime subscriptions.
   - [ ] GraphQL.
 - [ ] Functions.
-  - [ ] Database Functions.
+  - [ ] Database Functions.![Alt text](https://raw.githubusercontent.com/asheghi/NeoBase/main/packages/dashboard/src/assets/logo-color.svg)
   - [ ] Edge Functions
 - [ ] File Storage.
 - [x] Dashboard

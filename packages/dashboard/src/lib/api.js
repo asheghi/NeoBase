@@ -30,6 +30,7 @@ export const Api = {
       return ax.post("collections/" + project + "/access-config/" + name);
     },
   }),
+  // todo move to auth
   login(payload) {
     return ax.post("accounts/login", payload);
   },
@@ -38,6 +39,9 @@ export const Api = {
   },
   me() {
     return ax.get("accounts/me");
+  },
+  logout(){
+    return ax.get('/accounts/logout')
   },
   Documents(project, collection) {
     return {

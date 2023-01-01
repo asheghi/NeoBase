@@ -1,6 +1,8 @@
 import { NextFunction, Response } from "express";
 import { getLogger } from "../../lib/debug";
 import { extractToken } from "../../lib/jwt-utils";
+import { getSession } from "../../lib/sesstion";
+import { SessionType } from "../../types/session.type";
 import { UserType } from "../../types/user.type";
 import { AccountsService } from "./accounts.service";
 
@@ -11,14 +13,17 @@ export const authenticateAccountRequest = async (
   res: Response,
   next: NextFunction
 ) => {
-  const req = _req as Request & { user: UserType };
+  const req = _req as Request & { user: UserType, session: SessionType };
   if (req.user && req.user._id) {
     return next();
   }
   try {
     const token: string = req.headers["x-account-token"];
     if (!token) return next();
-    const { email } = extractToken(token);
+    const session = await getSession(token);
+    if (!session) return res.status(401).json({ msg: "session expired!" })
+    req.session = session;
+    const { email } = req.session;
     req.user = await AccountsService.findUserByEmail(email);
     if (!req.user) throw new Error(`user not found!, email:${email}`);
     req.user.auth_provider = "account";

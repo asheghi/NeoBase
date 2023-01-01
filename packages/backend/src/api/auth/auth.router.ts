@@ -36,7 +36,7 @@ app.post(
     try {
       const user = await req.AuthService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
-      const token = req.AuthService.generateToken(user);
+      const token = req.AuthService.generateSession(user);
       return res.json({ token });
     } catch (e: any) {
       log.error(e);
@@ -62,7 +62,7 @@ app.post(
     } = req;
     const user = await req.AuthService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = req.AuthService.generateToken(user);
+    const token = req.AuthService.generateSession(user);
     return res.json({ token });
   }
 );

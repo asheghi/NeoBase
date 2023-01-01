@@ -5,6 +5,8 @@ import {
   generateTokenForPayload,
   hashPassword,
 } from "../../lib/jwt-utils";
+import { generateSession } from "../../lib/sesstion";
+import { UserType } from "../../types/user.type";
 import {
   emailSchema,
   passwordSchema,
@@ -42,9 +44,10 @@ export async function getAuthService(project: string) {
         password: hashPassword(password),
       });
     },
-    generateToken(user: { email: string }) {
-      emailSchema.parse(user.email);
-      return generateTokenForPayload({ email: user.email });
+    async generateSession(user: UserType) {
+      const email = emailSchema.parse(user.email);
+      const token = await generateSession({ email });
+      return token;
     },
   };
 }

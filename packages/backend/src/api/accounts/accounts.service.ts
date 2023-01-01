@@ -1,13 +1,19 @@
 import { getAccountCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import * as JwtUtils from "../../lib/jwt-utils";
+import { generateSession } from "../../lib/sesstion";
 import {
   emailSchema,
   passwordSchema,
 } from "../../validations/auth.validations";
 
-const { comparePassword, generateTokenForPayload, hashPassword } = JwtUtils;
+const { comparePassword, hashPassword } = JwtUtils;
 const log = getLogger("auth.service");
+
+type UserType = {
+  email: string
+}
+
 export const AccountsService = {
   async login(email: string, password: string) {
     emailSchema.parse(email);
@@ -37,9 +43,10 @@ export const AccountsService = {
       password: hashPassword(password),
     });
   },
-  generateToken(user: { email: string }) {
+  async generateSession(user: UserType) {
     const email = emailSchema.parse(user.email);
-    return generateTokenForPayload({ email });
+    const token = await generateSession({ email });
+    return token;
   },
   async findUserByEmail(email: string) {
     emailSchema.parse(email);

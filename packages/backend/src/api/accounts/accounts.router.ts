@@ -4,6 +4,8 @@ import { UserType } from "user.type";
 import { z } from "zod";
 import { validateSchema } from "../../lib/api-utils";
 import { getLogger } from "../../lib/debug";
+import { destroySession } from "../../lib/sesstion";
+import { SessionType } from "../../types/session.type";
 import {
   emailSchema,
   passwordSchema,
@@ -35,7 +37,7 @@ app.post(
     try {
       const user = await AccountsService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
-      const token = AccountsService.generateToken(user);
+      const token = await AccountsService.generateSession(user);
       return res.json({ token });
     } catch (e: any) {
       log.error(e);
@@ -62,7 +64,7 @@ app.post(
 
     const user = await AccountsService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = AccountsService.generateToken(user);
+    const token = await AccountsService.generateSession(user);
     return res.json({ token });
   }
 );
@@ -75,5 +77,10 @@ app.get("/me", (req, res) => {
   const { email } = user;
   return res.json({ email });
 });
+
+app.get("/logout", async (req: Request & { session?: SessionType }, res) => {
+    await destroySession(req.session.key);
+    res.json({msg:"session destroyed!"})
+})
 
 export const AccountsRouter = app;

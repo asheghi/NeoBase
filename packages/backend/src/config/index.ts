@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { getLogger } from "../lib/debug";
+import { CofnigType } from "../types/config.type";
 
 const log = getLogger("config");
 
@@ -74,4 +75,4 @@ export async function populateConfig() {
   await populateDefaults();
 }
 
-export const config = proxy;
+export const config = proxy as CofnigType;
