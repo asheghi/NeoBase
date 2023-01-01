@@ -1,4 +1,4 @@
-import getClient from "@neobase/client";
+import { getClient } from '@neobase/client'
 import { getAccountToken as getToken } from "./auth";
 const baseurl = import.meta.env.VITE_NB_BASE_URL;
 if (!baseurl)

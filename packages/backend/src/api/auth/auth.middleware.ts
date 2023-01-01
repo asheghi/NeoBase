@@ -2,6 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import { getAuthCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import { getSession } from "../../lib/sesstion";
+import { SessionType } from "../../types/session.type";
 import { UserType } from "../../types/user.type";
 
 const log = getLogger("auth.middleware");
@@ -13,14 +14,15 @@ export const authenticateUserRequest = async (
   res: Response,
   next: NextFunction
 ) => {
-  const req = _req as Request & { user: UserType; project: string | undefined };
+  const req = _req as Request & { session?: SessionType, user: UserType; project: string | undefined };
   if (req.user && req.user._id) return next();
   try {
     const token = req.headers["x-auth-token"] as string | undefined;
     if (!token) return next();
     const session = await getSession(token);
-    if(!session) return res.status(401).json({msg:"session expired!"})
-    const { email } = session; 
+    if (!session) return res.status(401).json({ msg: "session expired!" })
+    req.session = session;
+    const { email } = session;
     if (!req.project) throw new Error("project was not set on request.");
     const Users = await getAuthCollection(req.project);
     req.user = await Users.findOne({ email });

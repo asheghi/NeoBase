@@ -51,3 +51,5 @@ export async function getAuthService(project: string) {
     },
   };
 }
+
+export type AuthServiceType = Awaited<ReturnType<typeof getAuthService>>

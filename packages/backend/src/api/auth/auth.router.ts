@@ -1,14 +1,16 @@
 import bodyParser from "body-parser";
-import Express from "express";
+import Express, { Request } from "express";
 import { z } from "zod";
 import { getLogger } from "../../lib/debug";
 import { authenticateUserRequest, authGuard } from "./auth.middleware";
-import { getAuthService } from "./auth.service";
+import { AuthServiceType, getAuthService } from "./auth.service";
 import {
   emailSchema,
   passwordSchema,
 } from "../../validations/auth.validations";
 import { validateSchema } from "../../lib/api-utils";
+import { destroySession } from "../../lib/sesstion";
+import { SessionType } from "../../types/session.type";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -56,13 +58,13 @@ app.post(
   "/login",
   bodyParser.json(),
   validateSchema(loginSchema),
-  async (req: any, res) => {
+  async (req: Request & { AuthService: AuthServiceType }, res) => {
     const {
       body: { email, password },
     } = req;
     const user = await req.AuthService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = req.AuthService.generateSession(user);
+    const token = await req.AuthService.generateSession(user);
     return res.json({ token });
   }
 );
@@ -74,5 +76,10 @@ app.get("/me", (req, res) => {
   const { email } = (req as any).user;
   res.json({ email });
 });
+
+app.get("/logout", async (req: Request & { session: SessionType }, res) => {
+  await destroySession(req.session.key);
+  res.json({ msg: "session destroyed!" })
+})
 
 export const ProjectAuthRouter = app;

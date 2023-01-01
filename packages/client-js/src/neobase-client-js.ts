@@ -158,7 +158,8 @@ function getClient(project: string, { baseurl, getToken }: ClientOptions = {}) {
     Auth: {
       login: payload => ax.post(`auth/${project}/login`, payload),
       register: payload => ax.post(`auth/${project}/register`, payload),
-      me: token => ax.get(`auth/${project}/me`, { headers: { 'x-auth-token': token } })
+      me: token => ax.get(`auth/${project}/me`, { headers: { 'x-auth-token': token } }),
+      logout: token => ax.get(`auth/${project}/logout`, { headers: { 'x-auth-token': token } })
     },
     axiosClient: ax,
     setAxiosClient: arg => (ax = arg)
