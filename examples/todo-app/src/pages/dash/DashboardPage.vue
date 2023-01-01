@@ -1,6 +1,6 @@
 <template>
   <div class="DashboardPage">
-    <div class="navbar px-10 pt-4 container mx-auto flex gap-4 py-2 text-lg px-4">
+    <div class="navbar px-10 pt-4 container mx-auto flex gap-4 py-2 text-lg">
       <div class="left">
         <router-link to="/dash">Todos</router-link>
       </div>

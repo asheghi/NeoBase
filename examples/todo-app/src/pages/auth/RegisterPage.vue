@@ -88,7 +88,7 @@ export default {
     }
     button {
       @apply px-4 w-full focus:bg-blue-700 active:bg-blue-800 transition-all
-      outline-0 py-2  active:bg-blue-800 mt-4 rounded text-white bg-blue-600 font-bold;
+      outline-0 py-2   mt-4 rounded text-white bg-blue-600 font-bold;
     }
   }
 }
