@@ -7,7 +7,8 @@ export enum SessionStoreWhich {
 }
 
 export type SessionStoreType = {
-    destorySession: (key:string) => boolean | undefined; 
-    getSession: (key: string) => SessionType | undefined;
-    setSession: (key: string, session: SessionType) => boolean | undefined;
+    destorySessionByToken: (token: string) => boolean | undefined;
+    destorySessionByEmail: (email: string) => boolean | undefined;
+    getSession: (token: string) => SessionType | undefined;
+    setSession: (token: string, session: SessionType) => boolean | undefined;
 }

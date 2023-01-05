@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { nextTick } from "process";
 import { ProjectAuthRouter } from "../../../api/auth/auth.router";
+import { AuthType } from "../../../types/user.type";
 import { superRouter } from "../../test-utils";
 
 const user = {
@@ -39,7 +40,7 @@ jest.mock("../../../api/auth/auth.middleware", () => {
       if (!token) return next();
       if (token !== "valid-token") return next();
       req.user = user;
-      req.user.auth_provider = "user";
+      req.user.authType = AuthType.User;
       return next();
     },
     authGuard: (req, res, next) => {

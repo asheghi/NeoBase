@@ -1,6 +1,7 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import { getCollection } from "../../lib/db/connector";
+import { AuthType } from "../../types/user.type";
 import { authenticateAccountRequest } from "../accounts/accounts.middleware";
 import { authenticateUserRequest } from "../auth/auth.middleware";
 import slowdown from "../slow-downs.middleware";
@@ -20,7 +21,7 @@ app.use(bodyParser.json());
 const canUserDo =
   (operation: string) =>
   async (req: any, res: Express.Response, next: Express.NextFunction) => {
-    if (req.user && req.user.auth_provider === "account") {
+    if (req.user && req.user.authType === AuthType.Account) {
       req.access_filter = {};
       return next();
     }

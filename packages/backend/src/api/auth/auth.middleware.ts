@@ -3,7 +3,7 @@ import { getAuthCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import { getSession } from "../../lib/sesstion";
 import { SessionType } from "../../types/session.type";
-import { UserType } from "../../types/user.type";
+import { AuthType, UserType } from "../../types/user.type";
 
 const log = getLogger("auth.middleware");
 /**
@@ -26,7 +26,7 @@ export const authenticateUserRequest = async (
     if (!req.project) throw new Error("project was not set on request.");
     const Users = await getAuthCollection(req.project);
     req.user = await Users.findOne({ email });
-    req.user.auth_provider = "auth";
+    req.user.authType = AuthType.User;
   } catch (e) {
     log.debug("failed to authenticate", e.message);
   }

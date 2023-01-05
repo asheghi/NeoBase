@@ -2,15 +2,15 @@ import { getAuthCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import {
   comparePassword,
-  generateTokenForPayload,
   hashPassword,
 } from "../../lib/jwt-utils";
-import { generateSession } from "../../lib/sesstion";
+import { AuthProvider, generateSession, getRequestIp } from "../../lib/sesstion";
 import { UserType } from "../../types/user.type";
 import {
   emailSchema,
   passwordSchema,
 } from "../../validations/auth.validations";
+import { Request } from 'express'
 
 const log = getLogger("auth.service");
 
@@ -44,9 +44,12 @@ export async function getAuthService(project: string) {
         password: hashPassword(password),
       });
     },
-    async generateSession(user: UserType) {
+    async generateSession(req: Request & { user : UserType}) {
+      const { user } = req;
       const email = emailSchema.parse(user.email);
-      const token = await generateSession({ email });
+      const ip = getRequestIp(req);
+      const userAgent = req.get('user-agent');
+      const token = await generateSession({ email, ip, userAgent, authProvider:AuthProvider.Password });
       return token;
     },
   };

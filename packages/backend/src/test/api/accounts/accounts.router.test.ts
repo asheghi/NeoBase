@@ -8,7 +8,7 @@ jest.mock("../../../api/accounts/accounts.middleware", () => {
       const token = req.headers["x-account-token"];
       if (!token) return next();
       req.user = JSON.parse(token);
-      req.user.auth_provider = "account";
+      req.user.authType = "account";
       return next();
     },
     accountGuard: (req, res, next) => {
@@ -122,7 +122,7 @@ describe("Accounts Router", () => {
     describe("given valid jwt", () => {
       it("should return payload", async () => {
         const user = { email: "existing@mail.com" };
-        const token = AccountsService.generateToken(user);
+        const token = AccountsService.generateSession({});
         const res = await app.get("/me").set("x-account-token", token);
         expect(res.statusCode).toBe(200);
         expect(res.body).toBeTruthy();
@@ -153,7 +153,7 @@ describe("Accounts Router", () => {
         return { email };
       });
 
-    jest.spyOn(AccountsService, "generateToken").mockImplementation((user) => {
+    jest.spyOn(AccountsService, "generateSession").mockImplementation(async (user) => {
       return JSON.stringify(user);
     });
 

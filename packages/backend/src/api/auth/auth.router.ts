@@ -11,6 +11,7 @@ import {
 import { validateSchema } from "../../lib/api-utils";
 import { destroySession } from "../../lib/sesstion";
 import { SessionType } from "../../types/session.type";
+import { UserType } from "../../types/user.type";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -38,6 +39,7 @@ app.post(
     try {
       const user = await req.AuthService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
+      req.user = user;
       const token = req.AuthService.generateSession(user);
       return res.json({ token });
     } catch (e: any) {
@@ -58,13 +60,14 @@ app.post(
   "/login",
   bodyParser.json(),
   validateSchema(loginSchema),
-  async (req: Request & { AuthService: AuthServiceType }, res) => {
+  async (req: Request & { AuthService: AuthServiceType, user: UserType | undefined }, res) => {
     const {
       body: { email, password },
     } = req;
     const user = await req.AuthService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = await req.AuthService.generateSession(user);
+    req.user = user;
+    const token = await req.AuthService.generateSession(req);
     return res.json({ token });
   }
 );
@@ -78,7 +81,8 @@ app.get("/me", (req, res) => {
 });
 
 app.get("/logout", async (req: Request & { session: SessionType }, res) => {
-  await destroySession(req.session.key);
+  const success = await destroySession(req.session.token);
+  if (!success) return res.status(500).json({ msg: "failed to delete session!" })
   res.json({ msg: "session destroyed!" })
 })
 

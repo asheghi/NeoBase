@@ -1,6 +1,12 @@
 export type UserType = {
   _id: string;
   email: string;
+  verifiedEmail?: boolean;
   role?: string;
-  auth_provider: string;
+  authType: AuthType;
 };
+
+export enum AuthType {
+  Account = 'account',
+  User = "user",
+}

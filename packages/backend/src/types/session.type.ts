@@ -1,6 +1,8 @@
 export type SessionType = SessionPayloadType & {
-    key: string;
-    [key: string]: any;
+    token: string;
+    email: string;
+    ip: string;
+    userAgent: string;
 }
 
 export type SessionPayloadType = {

@@ -30,14 +30,15 @@ app.post(
   "/register",
   bodyParser.json(),
   validateSchema(registerSchema),
-  async (req, res) => {
+  async (req: any, res) => {
     const {
       body: { email, password },
-    } = req as Request & typeof registerSchema;
+    } = req;
     try {
       const user = await AccountsService.register(email, password);
       if (!user) return res.status(400).send("something is not right!");
-      const token = await AccountsService.generateSession(user);
+      req.user = user;
+      const token = await AccountsService.generateSession(req);
       return res.json({ token });
     } catch (e: any) {
       log.error(e);
@@ -57,14 +58,15 @@ app.post(
   "/login",
   bodyParser.json(),
   validateSchema(loginSchema),
-  async (req, res) => {
+  async (req: any, res) => {
     const {
       body: { email, password },
     } = req as Request & typeof loginSchema;
 
     const user = await AccountsService.login(email, password);
     if (!user) return res.status(400).json({ success: false });
-    const token = await AccountsService.generateSession(user);
+    req.user = user;
+    const token = await AccountsService.generateSession(req);
     return res.json({ token });
   }
 );
@@ -79,8 +81,9 @@ app.get("/me", (req, res) => {
 });
 
 app.get("/logout", async (req: Request & { session?: SessionType }, res) => {
-    await destroySession(req.session.key);
-    res.json({msg:"session destroyed!"})
+  const success = await destroySession(req.session.token);
+  if (!success) return res.status(500).json({ msg: "failed to delete session!" })
+  res.json({ msg: "session destroyed!" })
 })
 
 export const AccountsRouter = app;

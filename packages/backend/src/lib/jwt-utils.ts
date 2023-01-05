@@ -10,18 +10,16 @@ export function generateTokenForPayload(payload: any) {
   return jwt.sign(payload, config.jwtSecret);
 }
 
-function verifyToken(token: string) {
+export function verifyToken(token: string) {
   if (!token) return false;
   let valid;
   try {
     jwt.verify(token, config.jwtSecret);
-    valid = true;
+    return true; 
   } catch (e: any) {
     log.info("verify-token failed:", e.message);
-    valid = false;
-    // nothing
+    return false;
   }
-  return valid;
 }
 
 // note decode does not validate token

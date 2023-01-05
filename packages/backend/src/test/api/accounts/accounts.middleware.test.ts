@@ -3,13 +3,13 @@ import {
   accountGuard,
   authenticateAccountRequest,
 } from "../../../api/accounts/accounts.middleware";
-import { UserType } from "../../../types/user.type";
+import { AuthType, UserType } from "../../../types/user.type";
 
 const user: UserType = {
   email: "valid@mail.com",
   role: "admin",
   _id: "asdf",
-  auth_provider: "account",
+  authType: AuthType.Account,
 };
 
 jest.mock("../../../lib/jwt-utils.ts", () => {
@@ -121,7 +121,7 @@ describe("Account Middlewares", () => {
         const req = {
           user: {
             ...user,
-            auth_provider: `not${user.auth_provider}`,
+            AuthType: `not${user.authType}`,
           },
         };
         const send = jest.fn();

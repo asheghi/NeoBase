@@ -3,13 +3,13 @@ import {
   authenticateUserRequest,
   authGuard,
 } from "../../../api/auth/auth.middleware";
-import { UserType } from "../../../types/user.type";
+import { AuthType, UserType } from "../../../types/user.type";
 
 const user: UserType = {
   email: "valid@mail.com",
   role: "admin",
   _id: "asdf",
-  auth_provider: "account",
+  authType: AuthType.User,
 };
 
 jest.mock("../../../lib/jwt-utils.ts", () => {

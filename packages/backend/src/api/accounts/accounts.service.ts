@@ -1,7 +1,7 @@
 import { getAccountCollection } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
 import * as JwtUtils from "../../lib/jwt-utils";
-import { generateSession } from "../../lib/sesstion";
+import { AuthProvider, generateSession, getRequestIp } from "../../lib/sesstion";
 import {
   emailSchema,
   passwordSchema,
@@ -43,9 +43,12 @@ export const AccountsService = {
       password: hashPassword(password),
     });
   },
-  async generateSession(user: UserType) {
-    const email = emailSchema.parse(user.email);
-    const token = await generateSession({ email });
+  async generateSession(req) {
+    const email = req.user.email;
+    const ip = getRequestIp(req);
+    const userAgent = req.get('user-agent');
+    const authProvider = AuthProvider.Password;
+    const token = await generateSession({ email, ip, userAgent, authProvider });
     return token;
   },
   async findUserByEmail(email: string) {

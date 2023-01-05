@@ -3,7 +3,7 @@ import { getLogger } from "../../lib/debug";
 import { extractToken } from "../../lib/jwt-utils";
 import { getSession } from "../../lib/sesstion";
 import { SessionType } from "../../types/session.type";
-import { UserType } from "../../types/user.type";
+import { AuthType, UserType } from "../../types/user.type";
 import { AccountsService } from "./accounts.service";
 
 const log = getLogger("account:middleware");
@@ -26,7 +26,7 @@ export const authenticateAccountRequest = async (
     const { email } = req.session;
     req.user = await AccountsService.findUserByEmail(email);
     if (!req.user) throw new Error(`user not found!, email:${email}`);
-    req.user.auth_provider = "account";
+    req.user.authType = AuthType.Account;
   } catch (e: any) {
     log.debug("failed to authenticate", e.message);
   }
@@ -38,7 +38,7 @@ export async function accountGuard(
   res: Response,
   next: NextFunction
 ) {
-  if (!req.user || req.user.auth_provider !== "account") {
+  if (!req.user || req.user.authType !== AuthType.Account) {
     return res.status(401).send();
   }
   return next();
