@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { nextTick } from "process";
-import { ProjectAuthRouter } from "../../../api/auth/auth.router";
+import { AuthApiRouter } from "../../../api/auth/authApiRouter";
 import { superRouter } from "../../test-utils";
 
 const user = {
@@ -53,7 +53,7 @@ let app;
 
 describe("Accounts Router", () => {
   beforeEach(() => {
-    app = superRouter(ProjectAuthRouter);
+    app = superRouter(AuthApiRouter);
   });
 
   describe("register", () => {

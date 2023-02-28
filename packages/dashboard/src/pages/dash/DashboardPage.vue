@@ -2,7 +2,9 @@
   <div class="DashboardPage">
     <DashNavBar />
     <div class="dash-content-wrapper" :class="{ 'hide-nav': !project }">
-      <router-view class="dash-content" />
+      <div class="dash-content">
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +46,7 @@ export default {
 
 <style lang="scss">
 .DashboardPage {
-  @apply bg-gray-200 dark:bg-gray-700;
+  @apply bg-gray-200 dark:bg-gray-700 relative;
   --nav-height: 57px;
   --side-width: 256px;
 
@@ -52,7 +54,7 @@ export default {
     @apply left-0 bg-gray-100 w-full fixed right-0 px-4 bottom-0 z-0 dark:bg-gray-700;
     top: var(--nav-height);
     @screen lg {
-      left: var(--side-width);
+      left: var(--side-width) !important;
       width: calc(100vw - var(--side-width));
       &.hide-nav {
         @apply left-0 w-full;
@@ -60,8 +62,13 @@ export default {
     }
 
     .dash-content {
-      @apply container w-full mx-auto overflow-auto pt-6;
+      @apply container w-full overflow-auto pt-6;
       height: calc(100vh - var(--nav-height));
+      @screen lg {
+        & {
+          width: calc(100% - var(--side-width));
+        }
+      }
     }
   }
   .card {

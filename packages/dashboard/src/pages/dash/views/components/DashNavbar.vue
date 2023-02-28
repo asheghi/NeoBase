@@ -1,10 +1,7 @@
 <template>
   <nav class="DashNavBar">
     <div class="hidden lg:flex">
-      <NButton
-        class="gap-2 px-0 mr-4"
-        @click="$router.push({ name: 'projects' })"
-      >
+      <NButton class="gap-2 px-0 mr-4" @click="$router.push({ name: 'index' })">
         <IconLogo />
         NeoBase
       </NButton>
@@ -17,29 +14,6 @@
     <div class="title" v-text="title"></div>
 
     <span class="ml-auto"></span>
-    <NButton
-      v-if="$route.name !== 'projects'"
-      class="projects"
-      @click="projectsDropped = !projectsDropped"
-    >
-      {{ $route.params?.project }}
-      <div
-        v-if="!project.fetching"
-        :class="{ block: projectsDropped, hidden: !projectsDropped }"
-        class="drop-down"
-      >
-        <NButton
-          v-for="p in projects.data?.filter(
-            (it) => it.name !== $route.params.project
-          )"
-          :key="p._id"
-          class="item"
-          @click.prevent.stop="onProjectSelected(p.name)"
-        >
-          {{ p.name }}
-        </NButton>
-      </div>
-    </NButton>
     <NButton class="square" @click="toggleDarkMode">
       <component
         :is="isDarkMode ? IconLightMode : IconDarkMode"
@@ -54,14 +28,14 @@
     <NButton class="square">
       <IconAccount />
     </NButton>
-    <div class="nav-drawer" :class="{ expanded, 'hide-nav': !project }">
+    <div class="nav-drawer" :class="{ expanded }">
       <div class="flex lg:hidden mb-6">
         <NButton class="gap-2 px-0">
           <IconLogo />
           NeoBase
         </NButton>
       </div>
-      <div v-if="project" class="links">
+      <div class="links">
         <router-link
           v-for="(tab, index) in sidebarItems"
           :key="index"
@@ -88,8 +62,6 @@ import IconDarkMode from "ionicons/dist/svg/moon-sharp.svg";
 import IconLightMode from "ionicons/dist/svg/sunny.svg";
 import { isDarkMode, toggleDarkMode } from "../../../../lib/theme";
 import { sidebarItems } from "./sidebar-items.js";
-import { useProjects } from "../common.js";
-const projects = useProjects();
 </script>
 <script>
 import IconMenu from "@mdi/svg/svg/menu.svg";
@@ -109,27 +81,14 @@ export default {
   data() {
     return {
       expanded: false,
-      projectsDropped: false,
     };
   },
   computed: {
     title() {
       return this.$route.name;
     },
-    project() {
-      return this.$route.params.project;
-    },
   },
-  methods: {
-    onProjectSelected(projectName) {
-      this.projectsDropped = !this.projectsDropped;
-      this.$router.push({
-        name: this.$route.name,
-        params: { ...(this.$route?.params || {}), project: projectName },
-        query: this.$route.query,
-      });
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss">

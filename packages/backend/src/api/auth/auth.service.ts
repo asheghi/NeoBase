@@ -12,8 +12,8 @@ import {
 
 const log = getLogger("auth.service");
 
-export async function getAuthService(project: string) {
-  const Users = await getAuthCollection(project);
+export async function getAuthService() {
+  const Users = await getAuthCollection();
   return {
     Users,
     async login(email: string, password: string) {

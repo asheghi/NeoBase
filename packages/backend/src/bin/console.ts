@@ -1,5 +1,4 @@
 import repl from "node:repl";
-import { AccountsService } from "../api/accounts/accounts.service";
 import { getAuthService } from "../api/auth/auth.service";
 import * as DbConnector from "../lib/db/connector";
 import { getLogger } from "../lib/debug";
@@ -12,7 +11,6 @@ const context: any = {
   ...JwtUtils,
   getLogger,
   ...DbConnector,
-  AccountsService,
   getAuthService,
 };
 

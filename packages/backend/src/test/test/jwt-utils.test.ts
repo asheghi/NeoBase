@@ -13,7 +13,9 @@ const token = JSON.stringify(payload);
 
 jest.mock("jsonwebtoken", () => {
   return {
-    //
+    verify(arg: string) {
+      return JSON.stringify(arg);
+    },
     decode(arg) {
       return JSON.parse(arg);
     },
@@ -74,7 +76,7 @@ describe("JWT Utils", () => {
   });
 
   describe(`extractToken()`, () => {
-    describe("geven valid token", () => {
+    describe("given valid token", () => {
       //
       it("should return payload", () => {
         const res = extractToken(token);

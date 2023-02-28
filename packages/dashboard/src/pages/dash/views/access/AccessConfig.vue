@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     api() {
-      return Api.AccessControl(this.project);
+      return Api.AccessControl();
     },
     collection() {
       return this.$route.params.collection;

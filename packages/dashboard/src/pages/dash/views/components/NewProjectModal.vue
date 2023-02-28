@@ -31,7 +31,7 @@ import { toast } from "../../../../plugins/alert.js";
 export default {
   name: "NewProjectModal",
   components: { Modal, NButton },
-emits: ['created'],
+  emits: ["created"],
   data() {
     return {
       form: {

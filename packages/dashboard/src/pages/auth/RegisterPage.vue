@@ -32,7 +32,11 @@
             placeholder="secure password"
           />
         </div>
-        <NButton :loading="loading" class="primary mt-4 w-full justify-between font-bold" @click="submit">
+        <NButton
+          :loading="loading"
+          class="primary mt-4 w-full justify-between font-bold"
+          @click="submit"
+        >
           {{ loading ? "Registering" : "Register" }}
         </NButton>
       </div>
@@ -85,7 +89,7 @@ export default {
         this.loading = true;
         const { data, status } = await Api.register(this.form);
         setAccountToken(data.token);
-        await this.$router.replace("/dash");
+        await this.$router.replace("/");
       } catch (e) {
         console.error(e);
       } finally {

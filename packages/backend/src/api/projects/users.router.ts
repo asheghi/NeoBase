@@ -3,25 +3,23 @@ import Express from "express";
 import Mongoose from "mongoose";
 import { getAuthCollection } from "../../lib/db/connector";
 import { hashPassword } from "../../lib/jwt-utils";
-import {
-  accountGuard,
-  authenticateAccountRequest,
-} from "../accounts/accounts.middleware";
-import { projectOwnerGuard } from "../common/guards.middleware";
+
+import { authenticateUserRequest, authGuard } from "../auth/auth.middleware";
 
 const app = Express.Router();
 
-app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
+// todo add super admin guard
+app.use(authenticateUserRequest, authGuard);
 
 app.use(bodyParser.json());
 
 app.get("/", async (req: any, res) => {
-  const Users = await getAuthCollection(req.project);
+  const Users = await getAuthCollection();
   res.json(await Users.find({}, "-password"));
 });
 
 app.get("/:uid", async (req: any, res) => {
-  const Users = await getAuthCollection(req.project);
+  const Users = await getAuthCollection();
   const { uid } = req.params;
   if (!uid) return res.status(422).json({ msg: "bad request!" });
   return res.json(
@@ -31,7 +29,7 @@ app.get("/:uid", async (req: any, res) => {
 
 app.post("/", async (req: any, res) => {
   const { email, password, ...rest } = req.body;
-  const Users = await getAuthCollection(req.project);
+  const Users = await getAuthCollection();
   const exists = await Users.findOne({ email });
   if (exists) return res.status(422).json({ msg: "user already exists!" });
   const result = await Users.create({
@@ -43,7 +41,7 @@ app.post("/", async (req: any, res) => {
 });
 
 app.delete("/:uid", async (req: any, res) => {
-  const Users = await getAuthCollection(req.project);
+  const Users = await getAuthCollection();
   const { uid } = req.params;
   const result = await Users.deleteOne({
     _id: new Mongoose.Types.ObjectId(uid),
@@ -52,7 +50,7 @@ app.delete("/:uid", async (req: any, res) => {
 });
 
 app.put("/:uid", async (req: any, res) => {
-  const Users = await getAuthCollection(req.project);
+  const Users = await getAuthCollection();
   const { uid } = req.params;
   const payload = req.body;
   delete payload.password;
@@ -64,4 +62,4 @@ app.put("/:uid", async (req: any, res) => {
   res.json(result);
 });
 
-export const ProjectUsersApiRouter = app;
+export const UsersApiRouter = app;

@@ -77,7 +77,7 @@ export default {
         this.loading = true;
         const { data } = await Api.login(this.form);
         setAccountToken(data.token);
-        await this.$router.replace("/dash");
+        await this.$router.replace("/");
       } catch (e) {
         console.error(e);
       } finally {

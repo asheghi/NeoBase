@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import { getCollection } from "../../lib/db/connector";
-import { authenticateAccountRequest } from "../accounts/accounts.middleware";
 import { authenticateUserRequest } from "../auth/auth.middleware";
 import slowdown from "../slow-downs.middleware";
 import { getUserFilter } from "./access-control";
@@ -13,7 +12,6 @@ const FIND_LIMIT = 100;
 
 const app = Express.Router();
 
-app.use(authenticateAccountRequest);
 app.use(authenticateUserRequest);
 app.use(bodyParser.json());
 
@@ -26,7 +24,6 @@ const canUserDo =
     }
     const filter = await getUserFilter({
       req,
-      project: req.project,
       collection: req.collection,
       operation,
     });
@@ -59,7 +56,7 @@ app.post(
           .filter((it: any) => it.model)
           .map(async (population: any) => {
             const { model: modelName, path, ...rest } = population;
-            const model = await getCollection(req.project, modelName);
+            const model = await getCollection(modelName);
             query = query.populate({ model, path, ...rest });
           })
       );
@@ -80,7 +77,7 @@ app.post("/findOne", canUserDo("read"), async (req: any, res) => {
         .filter((it: any) => it.model)
         .map(async (population: any) => {
           const { model: modelName, path, ...rest } = population;
-          const model = await getCollection(req.project, modelName);
+          const model = await getCollection(modelName);
           query = query.populate({ model, path, ...rest });
         })
     );
@@ -126,13 +123,12 @@ const setCollection = async (
   _res: any,
   next: Express.NextFunction
 ) => {
-  const { project, collection } = req.params;
-  req.project = project;
+  const { collection } = req.params;
   req.collection = collection;
-  req.Collection = await getCollection(project, collection);
+  req.Collection = await getCollection(collection);
   next();
 };
 const cover = Express.Router();
-cover.use("/:project/:collection", setCollection, SlowDownDocumentsRouter, app);
+cover.use("/:collection", setCollection, SlowDownDocumentsRouter, app);
 export const DocumentsApiRouter = cover;
 export default { DocumentsApiRouter };

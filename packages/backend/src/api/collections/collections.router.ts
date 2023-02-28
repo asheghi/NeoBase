@@ -2,11 +2,6 @@ import bodyParser from "body-parser";
 import Express from "express";
 import { getAccessConfigCollection, getDatabase } from "../../lib/db/connector";
 import { getLogger } from "../../lib/debug";
-import {
-  accountGuard,
-  authenticateAccountRequest,
-} from "../accounts/accounts.middleware";
-import { projectOwnerGuard } from "../common/guards.middleware";
 import { defaultAccessConfig } from "../documents/access-control";
 
 const logger = getLogger("collection.api");
@@ -14,20 +9,15 @@ const app = Express.Router();
 
 app.use(bodyParser.json());
 
-app.use(authenticateAccountRequest, accountGuard, projectOwnerGuard);
-
 app.get("/access-config/:collection", async (req, res, next) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req as any;
   const { collection } = req.params;
-  let config = await AccessConfig.findOne({ project, collection });
+  let config = await AccessConfig.findOne({ collection });
   if (!config) config = defaultAccessConfig;
   else config = config.toObject().roles;
-  ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
-    (it) => {
-      delete config[it];
-    }
-  );
+  ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
+    delete config[it];
+  });
   res.json(config);
 });
 
@@ -42,11 +32,9 @@ app.post("/access-config/:collection", async (req, res) => {
     return res.json(
       await AccessConfig.create({ roles: config, project, collection })
     );
-  ["_id", "updatedAt", "createdAt", "__v", "collection", "project"].forEach(
-    (it) => {
-      delete config[it];
-    }
-  );
+  ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
+    delete config[it];
+  });
   await AccessConfig.updateOne(query, { $set: { roles: config } });
   return res.json(await AccessConfig.findOne({ project, collection }));
 });
@@ -66,7 +54,7 @@ app.post("/", async (req, res) => {
     // todo check if collection exists
     // ignore exception for now
     try {
-      const connection = await getDatabase((req as any).project);
+      const connection = await getDatabase();
       const db = connection.client.db();
       name = req.body.name;
       await db.createCollection(name);
@@ -82,7 +70,7 @@ app.post("/", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-    const connection = await getDatabase((req as any).project);
+    const connection = await getDatabase();
     const db = connection.client.db();
     const listCollections = (await db.listCollections().toArray()).map(
       (it: any) => ({ name: it.name })
@@ -97,7 +85,7 @@ app.get("/", async (req, res) => {
 app.delete("/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    const connection = await getDatabase((req as any).project);
+    const connection = await getDatabase();
     const db = connection.client.db();
     await db.dropCollection(name, () => {
       res.json({ name });

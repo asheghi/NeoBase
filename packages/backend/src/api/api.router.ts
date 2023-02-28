@@ -1,12 +1,10 @@
 import express from "express";
 import { config } from "../config";
-import { AccountsRouter } from "./accounts/accounts.router";
-import { ProjectAuthRouter } from "./auth/auth.router";
+import { AuthApiRouter } from "./auth/authApiRouter";
 import { CollectionsApiRouter } from "./collections/collections.router";
 import { DocumentsApiRouter } from "./documents/documents.router";
-import { ProjectsApiRouter } from "./projects/projects.router";
-import { ProjectUsersApiRouter } from "./projects/users.router";
 import slowdown from "./slow-downs.middleware";
+import { UsersApiRouter } from "./projects/users.router";
 
 const { CommonSlowDown } = slowdown;
 
@@ -18,26 +16,10 @@ if (config.simulate_slow_network) {
   });
 }
 
-const setProject = (
-  req: any,
-  _res: express.Response,
-  next: express.NextFunction
-) => {
-  req.project = req.params.project;
-  next();
-};
-
-app.use("/accounts", CommonSlowDown, AccountsRouter);
-app.use("/projects", CommonSlowDown, ProjectsApiRouter);
-app.use("/users/:project", CommonSlowDown, setProject, ProjectUsersApiRouter);
-app.use(
-  "/collections/:project",
-  CommonSlowDown,
-  setProject,
-  CollectionsApiRouter
-);
+app.use("/collections", CommonSlowDown, CollectionsApiRouter);
 app.use("/documents", DocumentsApiRouter);
-app.use("/auth/:project", CommonSlowDown, setProject, ProjectAuthRouter);
+app.use("/auth", CommonSlowDown, AuthApiRouter);
+app.use("/users", CommonSlowDown, UsersApiRouter);
 
 app.get("/", CommonSlowDown, (req, res) => {
   res.json({

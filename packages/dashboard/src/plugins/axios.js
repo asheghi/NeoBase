@@ -16,7 +16,7 @@ export const ax = axios.create({
 
 ax.interceptors.request.use((config) => {
   if (!config.skipAccountToken)
-    config.headers["x-account-token"] = getAccountToken();
+    config.headers["x-auth-token"] = getAccountToken();
   return config;
 });
 

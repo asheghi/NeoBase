@@ -1,4 +1,5 @@
-const KEY = "x_account_token";
+const KEY = "x_auth_token";
+
 export function getAccountToken() {
   return localStorage.getItem(KEY);
 }

@@ -14,7 +14,7 @@ const log = getLogger("auth.api");
 const app = Express.Router();
 
 app.use(async (req: any, res, next) => {
-  req.AuthService = await getAuthService(req.project);
+  req.AuthService = await getAuthService();
   next();
 });
 
@@ -75,4 +75,4 @@ app.get("/me", (req, res) => {
   res.json({ email });
 });
 
-export const ProjectAuthRouter = app;
+export const AuthApiRouter = app;

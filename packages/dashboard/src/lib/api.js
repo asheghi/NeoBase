@@ -2,50 +2,39 @@ import { ax } from "../plugins/axios";
 import { getLogger } from "../plugins/log";
 const log = getLogger("API");
 export const Api = {
-  Projects: {
+  Collections: () => ({
     create(payload) {
-      return ax.post("projects", payload);
+      return ax.post("collections/", payload);
     },
     list() {
-      return ax.get("projects");
+      return ax.get("collections/");
     },
     delete(name) {
-      return ax.delete("projects/" + name);
-    },
-  },
-  Collections: (project) => ({
-    create(payload) {
-      return ax.post("collections/" + project, payload);
-    },
-    list() {
-      return ax.get("collections/" + project);
-    },
-    delete(name) {
-      return ax.delete("collections/" + project + "/" + name);
+      return ax.delete("collections/" + name);
     },
     saveAccessConfig(collection, payload) {
-      return ax.post("collections/" + project + "/access-config/" + name);
+      return ax.post("collections/access-config/" + name);
     },
     getAccessConfig(collection) {
-      return ax.post("collections/" + project + "/access-config/" + name);
+      return ax.post("collections/access-config/" + name);
     },
   }),
   login(payload) {
-    return ax.post("accounts/login", payload);
+    return ax.post("auth/login", payload);
   },
   register(payload) {
-    return ax.post("accounts/register", payload);
+    return ax.post("auth/register", payload);
   },
   me() {
-    return ax.get("accounts/me");
+    return ax.get("auth/me");
   },
-  Documents(project, collection) {
+  Documents(collection) {
     return {
       create(payload) {
-        return ax.post(`documents/${project}/${collection}/create`, payload);
+        return ax.post(`documents/${collection}/create`, payload);
       },
       updateOne(filter, payload) {
-        return ax.post(`documents/${project}/${collection}/updateOne`, {
+        return ax.post(`documents/${collection}/updateOne`, {
           filter,
           update: payload,
         });
@@ -56,7 +45,7 @@ export const Api = {
           projection,
           options,
         };
-        return ax.post(`documents/${project}/${collection}/find`, query);
+        return ax.post(`documents/${collection}/find`, query);
       },
       findOne(filter, projection, options) {
         const query = {
@@ -64,47 +53,44 @@ export const Api = {
           projection,
           options,
         };
-        return ax.post(`documents/${project}/${collection}/findOne`, query);
+        return ax.post(`documents/${collection}/findOne`, query);
       },
       count(filter = {}) {
-        return ax.post(`documents/${project}/${collection}/count`, { filter });
+        return ax.post(`documents/${collection}/count`, { filter });
       },
       deleteOne(payload) {
-        return ax.post(`documents/${project}/${collection}/deleteOne`, payload);
+        return ax.post(`documents/${collection}/deleteOne`, payload);
       },
     };
   },
   Users: (project) => ({
     find() {
-      return ax.get(`users/${project}`);
+      return ax.get(`users`);
     },
     newUser(payload) {
-      return ax.post(`users/${project}`, payload);
+      return ax.post("users", payload);
     },
     deleteUser(user) {
-      return ax.delete(`users/${project}/${user._id}`);
+      return ax.delete(`users/${user._id}`);
     },
     fetchUser(uid) {
-      return ax.get(`users/${project}/${uid}`);
+      return ax.get(`users/${uid}`);
     },
     updateUser(uid, payload) {
-      return ax.put(`users/${project}/${uid}`, payload);
+      return ax.put(`users/${uid}`, payload);
     },
   }),
-  AccessControl(project) {
+  AccessControl() {
     return {
       getAccessConfig(collection) {
-        return ax.get(`collections/${project}/access-config/${collection}`);
+        return ax.get(`collections/access-config/${collection}`);
       },
       resetConfig(collection) {
-        let url = `collections/${project}/access-config/${collection}`;
+        let url = `collections/access-config/${collection}`;
         return ax.delete(url);
       },
       updateConfig(collection, config) {
-        return ax.post(
-          `collections/${project}/access-config/${collection}`,
-          config
-        );
+        return ax.post(`collections/access-config/${collection}`, config);
       },
     };
   },

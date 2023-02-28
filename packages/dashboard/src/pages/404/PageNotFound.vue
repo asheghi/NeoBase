@@ -1,6 +1,5 @@
 <template>
   <div class="PageNotFound">
-    <NavBar />
     <div class="content">
       <IconConstruct
         class="mx-auto mt-16 fill-orange-400"
@@ -21,7 +20,6 @@
 </template>
 
 <script setup>
-import NavBar from "../index/views/NavBar.vue";
 import IconConstruct from "ionicons/dist/svg/alert-circle-sharp.svg";
 </script>
 <script>

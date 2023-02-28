@@ -19,8 +19,7 @@ export const authenticateUserRequest = async (
     const token = req.headers["x-auth-token"] as string | undefined;
     if (!token) return next();
     const { email } = extractToken(token);
-    if (!req.project) throw new Error("project was not set on request.");
-    const Users = await getAuthCollection(req.project);
+    const Users = await getAuthCollection();
     req.user = await Users.findOne({ email });
     req.user.auth_provider = "auth";
   } catch (e) {

@@ -75,6 +75,7 @@ importers:
       chai: ^4.3.6
       cors: ^2.8.5
       cron: ^2.0.0
+      cross-env: ^5.2.0
       debug-level: ^2.1.2
       denque: ^2.1.0
       dotenv: ^16.0.1
@@ -148,6 +149,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.47.0_ncmi6noazr3nzas7jxykisekym
       '@typescript-eslint/parser': 5.47.0_lzzuuodtsqwxnvqeq4g4likcqa
       chai: 4.3.7
+      cross-env: 5.2.1
       dotenv-cli: 6.0.0
       eslint: 8.30.0
       eslint-config-airbnb-base: 15.0.0_2lbwmhbr7bncddqbzzpg77o75m

@@ -109,11 +109,10 @@ Object.keys(document_actions).forEach((actionKey) => {
   };
 });
 const route = useRoute();
-const project = computed(() => route.params.project);
-const collection = computed(() => route.query.collection);
+const collection = computed(() => route.query.collection ?? "");
 const actionName = computed(() => route.query.action);
 const action = computed(() => document_actions[actionName.value]);
-const api = computed(() => Api.Documents(project, collection));
+const api = computed(() => Api.Documents(collection));
 
 const renderCounter = ref(0);
 //todo rewrite this IMPORTANT
@@ -151,9 +150,7 @@ const executeAction = async () => {
   };
   executions.splice(0, 0, execution);
   const { url, options, method } = action.value;
-  const reqUrl = url
-    .replace(":project", project.value)
-    .replace(":collection", collection.value);
+  const reqUrl = url.replace(":collection", collection.value);
   let body = getValueOfOptions({ body: options.body });
   const headers = getValueOfOptions({ headers: options.headers });
   if (typeof body === "string" && options.body.type === "json") {

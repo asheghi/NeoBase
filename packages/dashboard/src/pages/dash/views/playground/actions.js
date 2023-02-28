@@ -1,7 +1,7 @@
 export const document_actions = {
   find: {
     name: "find",
-    url: "documents/:project/:collection/find",
+    url: "documents/:collection/find",
     method: "post",
     options: {
       body: {
@@ -40,7 +40,7 @@ export const document_actions = {
   },
   findOne: {
     name: "findOne",
-    url: "documents/:project/:collection/findOne",
+    url: "documents/:collection/findOne",
     method: "post",
     options: {
       body: {
@@ -61,7 +61,7 @@ export const document_actions = {
   },
   count: {
     name: "count",
-    url: "documents/:project/:collection/count",
+    url: "documents/:collection/count",
     method: "post",
     options: {
       body: {
@@ -77,7 +77,7 @@ export const document_actions = {
   },
   create: {
     name: "create",
-    url: "documents/:project/:collection/create",
+    url: "documents/:collection/create",
     method: "post",
     options: {
       body: {
@@ -88,7 +88,7 @@ export const document_actions = {
   },
   updateOne: {
     name: "updateOne",
-    url: "documents/:project/:collection/updateOne",
+    url: "documents/:collection/updateOne",
     method: "post",
     options: {
       body: {
@@ -108,7 +108,7 @@ export const document_actions = {
   },
   deleteOne: {
     name: "deleteOne",
-    url: "documents/:project/:collection/deleteOne",
+    url: "documents/:collection/deleteOne",
     method: "post",
     options: {
       body: {
@@ -118,7 +118,7 @@ export const document_actions = {
   },
   deleteMany: {
     name: "deleteMany",
-    url: "documents/:project/:collection/deleteMany",
+    url: "documents/:collection/deleteMany",
     method: "post",
     options: {
       body: {
@@ -128,7 +128,7 @@ export const document_actions = {
   },
   register: {
     name: "register",
-    url: "auth/:project/register",
+    url: "auth/register",
     method: "post",
     hideAuthToken: true,
     options: {
@@ -149,7 +149,7 @@ export const document_actions = {
   },
   login: {
     name: "login",
-    url: "auth/:project/login",
+    url: "auth/login",
     method: "post",
     hideAuthToken: true,
     options: {
@@ -170,7 +170,7 @@ export const document_actions = {
   },
   me: {
     name: "me",
-    url: "auth/:project/me",
+    url: "auth/me",
     method: "get",
     options: {},
   },

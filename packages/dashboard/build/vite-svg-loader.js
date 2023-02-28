@@ -52,7 +52,7 @@ module.exports = function svgLoader(options = {}) {
       return `${code}
       _hoisted_1.width="24";
       _hoisted_1.height="24";
-      ${code.indexOf('viewBox') > -1 ? '' : '_hoisted_1.viewBox="0 0 24 24"'}
+      ${code.indexOf("viewBox") > -1 ? "" : '_hoisted_1.viewBox="0 0 24 24"'}
       export default { render: render }`;
     },
   };
