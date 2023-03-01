@@ -54,8 +54,7 @@ export default {
   emits: ["delete"],
   setup() {
     const route = useRoute();
-    const project = route.params.project;
-    const api = Api.Users(project);
+    const api = Api.Users();
     const user = ref();
     const form = reactive({});
     const fetching = ref(false);
@@ -107,7 +106,6 @@ export default {
       fetchUser();
     });
     return {
-      project,
       api,
       fetchUser,
       user,
@@ -118,13 +116,6 @@ export default {
       updateUser,
       loading,
     };
-  },
-  watch: {
-    "$route.params.project": {
-      handler(n, o) {
-        if (n) this.$router.push({ name: "auth", params: { project: n } });
-      },
-    },
   },
 };
 </script>

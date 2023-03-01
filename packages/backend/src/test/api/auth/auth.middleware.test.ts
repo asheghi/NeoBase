@@ -38,7 +38,7 @@ describe("Auth Middlewares", () => {
   describe("AuthenticateRequest", () => {
     describe("given req has no header", () => {
       it("it should call next", () => {
-        const req: any = { headers: {}, project: "test" };
+        const req: any = { headers: {} };
         const res = {} as Response;
         const next = jest.fn();
         authenticateUserRequest(req, res, next);
@@ -51,7 +51,6 @@ describe("Auth Middlewares", () => {
         const req: any = {
           user,
           headers: {},
-          project: "test",
         };
         const res = {} as Response;
         const next = jest.fn();
@@ -66,7 +65,6 @@ describe("Auth Middlewares", () => {
           headers: {
             "x-auth-token": "invalid-token",
           },
-          project: "test",
         };
         const res = {} as Response;
         const next = jest.fn();
@@ -81,7 +79,6 @@ describe("Auth Middlewares", () => {
           headers: {
             "x-auth-token": "valid-token",
           },
-          project: "test",
         };
         const res = {} as Response;
         const next = jest.fn();
@@ -97,7 +94,6 @@ describe("Auth Middlewares", () => {
       it("should call next", () => {
         const req: any = {
           user,
-          project: "test",
         };
         const res: any = {};
         const next = jest.fn();
@@ -107,9 +103,7 @@ describe("Auth Middlewares", () => {
     });
     describe("given un-authenticated request", () => {
       it("should return 401", () => {
-        const req: any = {
-          project: "test",
-        };
+        const req: any = {};
         const send = jest.fn();
         const res: any = {
           status: jest.fn().mockImplementation(() => {

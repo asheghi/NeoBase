@@ -41,7 +41,6 @@
     </div>
     <NewCollectionModal
       ref="newCollectionModal"
-      :project="project"
       @created="onNewCollectionCreated"
     />
   </div>
@@ -104,11 +103,10 @@ export default {
           if (confirmed) {
             swal.showLoading(swal.getConfirmButton());
             try {
-              await Api.Collections(this.project).delete(p.name);
+              await Api.Collections().delete(p.name);
               await this.fetchData();
               await this.$router.push({
                 name: "collections",
-                params: { project: this.project },
               });
               toast("Deleted Collection " + p.name);
               swal.close();

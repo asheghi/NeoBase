@@ -47,18 +47,8 @@ export default {
     };
   },
   computed: {
-    project() {
-      return this.$route.params.project;
-    },
     collection() {
       return this.$route.params.collection;
-    },
-  },
-  watch: {
-    "$route.params.project": {
-      handler(n, o) {
-        if (n) this.fetchData();
-      },
     },
   },
   mounted() {
@@ -68,7 +58,7 @@ export default {
     async fetchData() {
       this.fetching = true;
       try {
-        const { data } = await Api.Collections(this.project).list();
+        const { data } = await Api.Collections().list();
         this.collections = data;
       } catch (e) {
         console.error(e);

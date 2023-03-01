@@ -48,7 +48,7 @@ import { toast } from "../../../../plugins/alert.js";
 
 export default {
   name: "Users",
-  components: { Modal, NewUser, DeleteIcon },
+  components: { Modal, NewUser },
   setup() {
     const route = useRoute();
     const uid = computed(() => route.params.uid);
@@ -64,14 +64,7 @@ export default {
   },
   computed: {
     api() {
-      return Api.Users(this.$route.params.project);
-    },
-  },
-  watch: {
-    "$route.params.project": {
-      handler(n, o) {
-        if (n) this.fetchData();
-      },
+      return Api.Users();
     },
   },
   mounted() {

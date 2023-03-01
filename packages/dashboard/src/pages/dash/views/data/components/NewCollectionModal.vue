@@ -27,12 +27,6 @@ import NButton from "../../../../../components/design-system/N-Button.vue";
 export default {
   name: "NewCollectionModal",
   components: { NButton, Modal },
-  props: {
-    project: {
-      type: String,
-      required: true,
-    },
-  },
   emits: ["created"],
   data() {
     return {
@@ -47,7 +41,7 @@ export default {
     async submit() {
       this.loading = true;
       try {
-        await Api.Collections(this.project).create({
+        await Api.Collections().create({
           name: this.form.name,
         });
         toast("Created new Collection");

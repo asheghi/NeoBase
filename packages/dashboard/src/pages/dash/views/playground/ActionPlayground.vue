@@ -228,7 +228,7 @@ const fetchingCollections = ref(false);
 const fetchCollections = async () => {
   fetchingCollections.value = true;
   try {
-    const { data } = await Api.Collections(route.params.project).list();
+    const { data } = await Api.Collections().list();
     collections.value = data;
     if (!collection.value) onCollectionSelected(data[0].name);
   } catch (e) {

@@ -5,7 +5,6 @@ const realIpHeader = config.real_ip_header;
 
 function keyGeneratorFor(prefix: string) {
   return (req: any) => {
-    // todo skip for paid projects
     const ids: any[] = [];
     if (realIpHeader) {
       ids.push(req.headers[realIpHeader]);
@@ -13,9 +12,6 @@ function keyGeneratorFor(prefix: string) {
       ids.push(req.ip);
     }
     ids.push(String(prefix));
-    if (req.params.project) {
-      ids.push(req.params.project);
-    }
     return ids.join("__");
   };
 }

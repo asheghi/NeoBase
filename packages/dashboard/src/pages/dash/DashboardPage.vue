@@ -1,7 +1,7 @@
 <template>
   <div class="DashboardPage">
     <DashNavBar />
-    <div class="dash-content-wrapper" :class="{ 'hide-nav': !project }">
+    <div class="dash-content-wrapper">
       <div class="dash-content">
         <router-view />
       </div>
@@ -27,9 +27,6 @@ export default {
     next();
   },
   computed: {
-    project() {
-      return this.$route.params.project;
-    },
     showHome() {
       const routeName = this.$route.name;
       return routeName;

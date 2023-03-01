@@ -46,10 +46,9 @@ export default {
     this.fetchDocument();
   },
   setup() {
-    const { project, collection, _id } = useRoute().params;
-    const api = Api.Documents(project, collection);
+    const { collection, _id } = useRoute().params;
+    const api = Api.Documents(collection);
     return {
-      project,
       collection,
       id: _id,
       api,

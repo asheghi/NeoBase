@@ -63,7 +63,7 @@ export const Api = {
       },
     };
   },
-  Users: (project) => ({
+  Users: () => ({
     find() {
       return ax.get(`users`);
     },

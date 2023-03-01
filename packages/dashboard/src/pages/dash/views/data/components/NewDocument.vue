@@ -27,7 +27,7 @@ import { toast } from "../../../../../plugins/alert.js";
 const log = getLogger("create-document");
 export default {
   name: "CreateDocument",
-  components: { NButton, JsonInput, JsonEditor, DocumentEditor },
+  components: { NButton, JsonInput },
   props: {
     doc: {
       type: Object,
@@ -37,7 +37,7 @@ export default {
   },
   emits: ["created", "cancel"],
   setup(props) {
-    const { project, collection } = useRoute().params;
+    const { collection } = useRoute().params;
     const currentMode = ref("json");
     const alternateMode = computed(() =>
       currentMode.value === "json" ? "editor" : "json"
@@ -58,9 +58,8 @@ export default {
       documentId,
       mode,
       document,
-      project,
       collection,
-      api: Api.Documents(project, collection),
+      api: Api.Documents(collection),
       currentMode,
       alternateMode,
       toggleMode,

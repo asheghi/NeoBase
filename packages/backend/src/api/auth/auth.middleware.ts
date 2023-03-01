@@ -13,7 +13,7 @@ export const authenticateUserRequest = async (
   res: Response,
   next: NextFunction
 ) => {
-  const req = _req as Request & { user: UserType; project: string | undefined };
+  const req = _req as Request & { user: UserType };
   if (req.user && req.user._id) return next();
   try {
     const token = req.headers["x-auth-token"] as string | undefined;

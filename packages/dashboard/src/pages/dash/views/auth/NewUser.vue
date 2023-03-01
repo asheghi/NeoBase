@@ -51,11 +51,9 @@ export default {
   emits: ["created"],
   setup() {
     let route = useRoute();
-    const project = route.params.project;
-    const api = Api.Users(project);
+    const api = Api.Users();
     return {
       api,
-      project,
     };
   },
   data() {

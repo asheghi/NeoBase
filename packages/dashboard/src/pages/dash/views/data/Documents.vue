@@ -17,7 +17,6 @@
             :to="{
               name: 'document',
               params: {
-                project,
                 collection,
                 _id: doc._id,
               },
@@ -60,12 +59,11 @@ import NewDocumentModal from "./components/NewDocumentModal.vue";
 
 export default {
   name: "ManageDocuments",
-  components: { NewDocumentModal, CreateDocument, Modal, DeleteIcon },
+  components: { NewDocumentModal, DeleteIcon },
   setup() {
-    const { project, collection } = useRoute().params;
-    const api = Api.Documents(project, collection);
+    const { collection } = useRoute().params;
+    const api = Api.Documents(collection);
     return {
-      project,
       collection,
       api,
     };
@@ -81,15 +79,6 @@ export default {
   computed: {
     doc() {
       return this.$route.params._id;
-    },
-  },
-  watch: {
-    "$route.params.project": {
-      handler(n, o) {
-        if (n) {
-          this.$router.push({ name: "collections", params: { project: n } });
-        }
-      },
     },
   },
   mounted() {
@@ -136,9 +125,9 @@ export default {
             swal.showLoading(swal.getConfirmButton());
             try {
               const { data } = await this.api.deleteOne({ _id: p._id });
-              let { collection, project } = this;
+              let { collection } = this;
               this.$router
-                .replace({ name: "documents", params: { project, collection } })
+                .replace({ name: "documents", params: { collection } })
                 .then();
               await this.fetchData();
               swal.close();

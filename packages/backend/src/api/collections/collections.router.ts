@@ -23,27 +23,23 @@ app.get("/access-config/:collection", async (req, res, next) => {
 
 app.post("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req as any;
   const { collection } = req.params;
-  const query = { project, collection };
+  const query = { collection };
   const existing = await AccessConfig.findOne(query);
   const config = req.body;
   if (!existing)
-    return res.json(
-      await AccessConfig.create({ roles: config, project, collection })
-    );
+    return res.json(await AccessConfig.create({ roles: config, collection }));
   ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
     delete config[it];
   });
   await AccessConfig.updateOne(query, { $set: { roles: config } });
-  return res.json(await AccessConfig.findOne({ project, collection }));
+  return res.json(await AccessConfig.findOne({ collection }));
 });
 
 app.delete("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();
-  const { project } = req as any;
   const { collection } = req.params;
-  const query = { project, collection };
+  const query = { collection };
   const result = await AccessConfig.deleteMany(query);
   res.json(result.roles);
 });

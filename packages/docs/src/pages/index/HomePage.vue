@@ -23,22 +23,10 @@
         </p>
       </div>
       <div class="access sm:flex justify-start gap-4 mt-16 text-lg">
-        <input
-          id="email"
-          v-model="email"
-          class=""
-          placeholder="Enter your Email Address"
-          type="email"
-          name="email"
-        />
-        <router-link :to="'/register?' + 'email=' + email">
+        <router-link :to="'/docs'">
           Get started
           <ChevRight />
         </router-link>
-      </div>
-      <div class="login py-4 text-lg">
-        <router-link class="text-primary dark:text-primary-300 font-bold" to="/login"> login </router-link>
-        <span class="text-gray-500"> if you already have an account. </span>
       </div>
     </div>
   </div>
@@ -47,7 +35,6 @@
 import NavBar from "./views/NavBar.vue";
 import ChevRight from "ionicons/dist/svg/chevron-forward.svg";
 import { ref } from "vue";
-const email = ref("");
 </script>
 <script>
 export default {
