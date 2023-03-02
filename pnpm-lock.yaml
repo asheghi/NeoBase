@@ -49,6 +49,7 @@ importers:
   packages/backend:
     specifiers:
       '@dotenv/cli': ^2.2.2
+      '@neobase/monorepo': workspace:*
       '@types/bcryptjs': ^2.4.2
       '@types/body-parser': ^1.19.2
       '@types/bson': ^4.2.0
@@ -73,6 +74,7 @@ importers:
       body-parser: ^1.20.0
       bson: ^4.7.0
       chai: ^4.3.6
+      commander: ^10.0.0
       cors: ^2.8.5
       cron: ^2.0.0
       cross-env: ^5.2.0
@@ -91,6 +93,7 @@ importers:
       esm: ^3.2.25
       express: ^4.18.1
       express-slow-down: ^1.4.0
+      figlet: ^1.5.2
       ionicons: ^6.0.1
       jest: ^28.1.3
       jsonwebtoken: ^8.5.1
@@ -112,6 +115,7 @@ importers:
       bcryptjs: 2.4.3
       body-parser: 1.20.1
       bson: 4.7.0
+      commander: 10.0.0
       cors: 2.8.5
       cron: 2.1.0
       debug-level: 2.1.2
@@ -128,6 +132,7 @@ importers:
       zod: 3.20.2
     devDependencies:
       '@dotenv/cli': 2.2.2
+      '@neobase/monorepo': link:../..
       '@types/bcryptjs': 2.4.2
       '@types/body-parser': 1.19.2
       '@types/bson': 4.2.0
@@ -160,6 +165,7 @@ importers:
       eslint-plugin-no-loops: 0.3.0_eslint@8.30.0
       eslint-plugin-prettier: 4.2.1_kl4pe43v5b43npmso5hoplpbyi
       esm: 3.2.25
+      figlet: 1.5.2
       jest: 28.1.3_xgdmd3tdlagpkcvgycprrn3igm
       mocha: 10.2.0
       prettier: 2.8.1
@@ -5482,6 +5488,11 @@ packages:
     dependencies:
       delayed-stream: 1.0.0
 
+  /commander/10.0.0:
+    resolution: {integrity: sha512-zS5PnTI22FIRM6ylNW8G4Ap0IEOyk62fhLSD0+uHRT9McRCLGpkVNvao4bjimpK/GShynyQkFFxHhwMcETmduA==}
+    engines: {node: '>=14'}
+    dev: false
+
   /commander/2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
     dev: true
@@ -7274,6 +7285,11 @@ packages:
     resolution: {integrity: sha512-p5161BqbuCaSnB8jIbzQHOlpgsPmK5rJVDfDKO91Axs5NC1uu3HRQm6wt9cd9/+GtQQIO53JdGXXoyDpTAsgYA==}
     dependencies:
       bser: 2.1.1
+    dev: true
+
+  /figlet/1.5.2:
+    resolution: {integrity: sha512-WOn21V8AhyE1QqVfPIVxe3tupJacq1xGkPTB4iagT6o+P2cAgEOOwIxMftr4+ZCTI6d551ij9j61DFr0nsP2uQ==}
+    engines: {node: '>= 0.4.0'}
     dev: true
 
   /figures/1.7.0:

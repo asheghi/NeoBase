@@ -2,7 +2,7 @@
 
 Save one or more documents to the database
 
-**POST**  `{baseUrl}/{project}/{collection}/create`
+**POST**  `{baseUrl}/{collection}/create`
 ##### Parameters
 
 | Name     | Located in | Description   | Required | Schema      |

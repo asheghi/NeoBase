@@ -2,7 +2,7 @@
 
 update only the first document that matches filter
 
-**POST**  `{baseUrl}/{project}/{collection}/updateOne`
+**POST**  `{baseUrl}/{collection}/updateOne`
 ##### Parameters
 
 | Name   | Located in  | Description           | Required | Schema |

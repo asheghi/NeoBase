@@ -1,8 +1,9 @@
 {
   "name": "@neobase/monorepo",
+  "title": "NeoBase",
   "private": "true",
   "scripts": {
-    "dev": "pnpm --parallel --filter='./packages/*' run dev",
+    "dev": "pnpm --parallel --filter='!docker-compose' run dev",
     "build" : "pnpm -r build"
   },
   "keywords": [],

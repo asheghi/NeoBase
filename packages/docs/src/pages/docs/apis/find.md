@@ -2,7 +2,7 @@
 
 Find documents, Mongoose [find](https://mongoosejs.com/docs/api.html#model_Model.find) equivalent.
 
-**POST**  `{baseUrl}/{project}/{collection}/find`
+**POST**  `{baseUrl}/{collection}/find`
 ##### Parameters
 
 | Name       | Located in         | Description                                                                                                                                      | Required | Schema  |

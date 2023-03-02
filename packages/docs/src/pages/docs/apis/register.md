@@ -5,7 +5,7 @@ used to register new users in your application, currently only basic authenticat
 to make authenticated requests, you must add header `x-auth-token` with token value returned by this api or `Login`.
 
 
-**POST**  `{baseUrl}/{project}/register`
+**POST**  `{baseUrl}/register`
 ##### Parameters
 
 | Name     | Located in    | Description    | Required | Schema |

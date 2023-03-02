@@ -4,7 +4,7 @@ import morgan from "morgan";
 import { ApiRouter } from "./api/api.router";
 import { config, populateConfig } from "./config/index";
 
-const bootstrap = async () => {
+export const startServer = async () => {
   await populateConfig();
 
   const app = Express();
@@ -39,4 +39,4 @@ const bootstrap = async () => {
   });
 };
 
-bootstrap();
+startServer();

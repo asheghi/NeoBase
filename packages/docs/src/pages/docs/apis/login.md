@@ -5,7 +5,7 @@ used to authenticate users in your application, currently only basic authenticat
 to make authenticated requests, you must add header `x-auth-token` with token value returned by this api.
 
 
-**POST**  `{baseUrl}/{project}/login`
+**POST**  `{baseUrl}/login`
 ##### Parameters
 
 | Name     | Located in    | Description    | Required | Schema |

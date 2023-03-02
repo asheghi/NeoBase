@@ -2,7 +2,7 @@
 
 Deletes the first document that matches `filter` from the collection.
 
-**POST**  `{baseUrl}/{project}/{collection}/deleteOne`
+**POST**  `{baseUrl}/{collection}/deleteOne`
 ##### Parameters
 
 | Name   | Located in | Description                 | Required | Schema      |

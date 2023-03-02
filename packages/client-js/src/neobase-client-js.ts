@@ -15,8 +15,7 @@ export type ClientOptions = {
   getToken?: (...args: any[]) => string
 }
 
-function getClient(project: string, { baseurl, getToken }: ClientOptions = {}) {
-  if (!project) throw new Error('project must be defined.')
+function getClient({ baseurl, getToken }: ClientOptions = {}) {
   let ax = axios.create({
     baseURL: baseurl
   })

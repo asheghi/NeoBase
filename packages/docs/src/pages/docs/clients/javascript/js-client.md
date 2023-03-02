@@ -31,7 +31,7 @@ import getClient from '@neobase/client';
 //commonjs
 const getClient = require('@neobase/client')
 
-const client = getClient('project-name', {baseUrl: 'http://de.neobase.uk/api'})
+const client = getClient({baseUrl: 'http://your-neobase-domain/api'})
 ```
 
 ## Collection CRUD
@@ -240,7 +240,7 @@ const {data} = await client.Auth.register({email:'...', password:'...'})
 ```
 
 ### Login
-Authenticate user of your project. it returns a `token` which is used for authorization.
+Authenticate user. it returns a `token` which is used for authorization.
 
 you need to store this token, and return this token via a function that is passed as `getToken`
 option in client options.

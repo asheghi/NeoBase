@@ -1,10 +1,6 @@
 
 ### usage:
-to use this package you will need a NeoBase account, create a new project and that's all.
-
-0.create a NeoBase account at [neobase.uk](https://neobase.uk)
-
-1.create a project in NeoBase dashboard
+1.start the NeoBase back-end
 
 2.install js client on your project
 ```bash
@@ -18,7 +14,7 @@ import getClient from '@neobase/client';
 //commonjs
 const getClient = require('@neobase/client')
 
-const client = getClient('project-name',{ baseUrl : 'http://de.neobase.uk/api'})
+const client = getClient('project-name',{ baseUrl : 'http://localhost:8080/api'})
 ```
 
 4.create collection
@@ -26,8 +22,4 @@ const client = getClient('project-name',{ baseUrl : 'http://de.neobase.uk/api'})
 const Todos = client.Collection('collection-name');
 ```
 
-5.you create, read, update and data through each Collection object.
-
-## APIs
-### FIND
-fetch documents of each collection.
+5.you can create, read, update and delete data through each Collection object.

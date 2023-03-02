@@ -2,7 +2,7 @@
 
 Find one document, Mongoose [findOne](https://mongoosejs.com/docs/api.html#model_Model.findOne) equivalent.
 
-**POST**  `{baseUrl}/{project}/{collection}/findOne`
+**POST**  `{baseUrl}/{collection}/findOne`
 ##### Parameters
 
 | Name       | Located in      | Description                                                                                                                                      | Required | Schema               |

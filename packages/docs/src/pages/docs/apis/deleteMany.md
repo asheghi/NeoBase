@@ -2,7 +2,7 @@
 
 Deletes all of the documents that match `filter` from the collection.
 
-**POST**  `{baseUrl}/{project}/{collection}/deleteMany`
+**POST**  `{baseUrl}/{collection}/deleteMany`
 ##### Parameters
 
 | Name   | Located in | Description                 | Required | Schema      |
