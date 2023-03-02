@@ -1,1 +1,0 @@
-import{_ as o,b as t,o as r,c,d as s}from"./index.b7488eef.js";const n={name:"ProjectView",components:{}},a={class:"Project"};function _(p,i,d,m,f,l){const e=t("router-view");return r(),c("div",a,[s(e)])}var v=o(n,[["render",_]]);export{v as default};
