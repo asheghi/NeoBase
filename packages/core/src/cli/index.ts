@@ -25,21 +25,24 @@ program
   )
   .addOption(
     new Option(
-      "--jwt-secret",
+      "--jwt-secret <jwtSecret>",
       "json-web-token secret used for token generation, default:'randomString'"
     ).env("JWT_SECRET")
   )
   .addOption(
     new Option(
-      "--db",
+      "--db <dbUrl>",
       "mongodb database url, default:'mongodb://127.0.0.1/'"
     ).env("DB_URL")
   )
   .addOption(
     new Option(
-      "--db-name",
+      "--db-name <dbName>",
       `mongodb database name, default:'${packageInfo.title}'`
     ).env("DB_NAME")
+  )
+  .addOption(
+    new Option("-d, --debug", `show debug information, default:'false'`)
   )
   .action(async (options) => {
     await populateConfig();
@@ -66,7 +69,19 @@ program
       config.db_name = options.dbName;
     }
 
-    console.log(options);
+    if (options.debug) {
+      console.log(
+        Object.keys(options)
+          .map((key) => `options.${key}=${options[key]}`)
+          .join("\n")
+      );
+
+      console.log(
+        Object.keys(config)
+          .map((key) => `config.${key}=${config[key]}`)
+          .join("\n")
+      );
+    }
 
     startServerAction();
   });

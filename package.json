@@ -1,5 +1,6 @@
 {
   "name": "@neobase/monorepo",
+  "version": "0.0.1",
   "title": "NeoBase",
   "private": "true",
   "scripts": {

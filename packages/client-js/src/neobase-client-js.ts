@@ -15,7 +15,7 @@ export type ClientOptions = {
   getToken?: (...args: any[]) => string
 }
 
-function getClient({ baseurl, getToken }: ClientOptions = {}) {
+function getClient(baseurl, { getToken }: ClientOptions = {}) {
   let ax = axios.create({
     baseURL: baseurl
   })
