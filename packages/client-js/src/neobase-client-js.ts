@@ -2,9 +2,8 @@
 // import "core-js/fn/array.find"
 // ...
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { createDeferred, IDeferred } from './lib/defferable'
+import { createDeferred } from './lib/defferable'
 
-type Object = { [key: string]: any }
 type QueryOptions = {
   sort?: any
   skip?: number

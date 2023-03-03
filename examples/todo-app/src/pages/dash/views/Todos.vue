@@ -66,7 +66,7 @@ export default {
     async fetchData() {
       this.fetching = true;
       try {
-        const { data } = await Todos.find().sort({ createdAt: -1 }).exec();
+        const { data } = await Todos.find().sort({ createdAt: -1 });
         this.todos = data;
         await this.fetchCount();
       } catch (e) {
@@ -111,9 +111,7 @@ export default {
       this.loading[task._id] = true;
       try {
         await Todos.updateOne({ _id: task._id }, { ...task, done: !task.done });
-        const { data: updatedTask } = await Todos.findOne({
-          _id: task._id,
-        }).exec();
+        const { data: updatedTask } = await Todos.findOne({ _id: task._id });
         const index = this.todos.findIndex((it) => it._id === task._id);
         this.todos.splice(index, 1);
         this.todos.splice(index, 0, updatedTask);
