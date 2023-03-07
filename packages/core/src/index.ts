@@ -1,17 +1,18 @@
 import cors from "cors";
 import Express from "express";
 import morgan from "morgan";
-import { engine as handlebars } from "express-handlebars";
-import path from "path";
-import { create } from "ionicons/icons";
 import { ApiRouter } from "./api/api.router";
 import { config, populateConfig } from "./config/index";
-import { configureHandleBars } from "./lib/configureHandleBars";
+import setupPassportMiddleware from "./features/auth/setupPassportMiddlewares";
+import { authGuard } from "./lib/authGuard";
+import { configureExpressRender } from "./lib/express-render/configureExpressRender";
 
 export const startServer = async () => {
   await populateConfig();
 
   const app = Express();
+
+  setupPassportMiddleware(app);
 
   if (config.log_access) {
     app.use(morgan("dev"));
@@ -28,18 +29,14 @@ export const startServer = async () => {
     app.enable("trust proxy");
   }
 
+  configureExpressRender(app);
+
   app.use("/api", ApiRouter);
 
-  configureHandleBars(app);
-
-  app.get("/", (req, res) => {
-    res.render("home");
-  });
-  app.get("/auth/login", (req, res) => {
-    res.render("login");
-  });
-  app.get("/auth/register", (req, res) => {
-    res.render("register");
+  app.get("/", authGuard, (req, res) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    res.render("home", { user: req.user });
   });
 
   const hostname = config.listen_host;

@@ -1,31 +1,30 @@
-import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-import { getLogger } from "../lib/debug";
+import { getLogger } from "lib/debug";
 
 const log = getLogger("config");
 
-const rootDir = path.join(__dirname, "../..");
-
-function getEnvFilePath() {
-  const mode = process.env.NODE_ENV || process.env.node_env;
-  let p: any;
-  if (mode) {
-    p = path.join(rootDir, `.env.${mode.toLowerCase()}`);
-  } else {
-    p = path.join(rootDir, ".env");
-  }
-  if (fs.existsSync(p)) return p;
-  return null;
-}
-
-const envFile = getEnvFilePath();
-
-if (envFile) {
-  dotenv.config({
-    path: getEnvFilePath(),
-  });
-}
+// const rootDir = path.join(__dirname, "../..");
+//
+// function getEnvFilePath() {
+//   const mode = process.env.NODE_ENV || process.env.node_env;
+//   let p: any;
+//   if (mode) {
+//     p = path.join(rootDir, `.env.${mode.toLowerCase()}`);
+//   } else {
+//     p = path.join(rootDir, ".env");
+//   }
+//   if (fs.existsSync(p)) return p;
+//   return null;
+// }
+//
+// const envFile = getEnvFilePath();
+//
+// if (envFile) {
+//   dotenv.config({
+//     path: getEnvFilePath(),
+//   });
+// }
 
 const target = {
   // rootPath: path.join(__dirname, "../../.."),

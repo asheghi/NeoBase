@@ -1,8 +1,5 @@
 import { Response } from "express";
-import {
-  authenticateUserRequest,
-  authGuard,
-} from "../../../api/auth/auth.middleware";
+import { authGuard } from "lib/authGuard";
 import { UserType } from "../../../types/user.type";
 
 const user: UserType = {
@@ -41,7 +38,6 @@ describe("Auth Middlewares", () => {
         const req: any = { headers: {} };
         const res = {} as Response;
         const next = jest.fn();
-        authenticateUserRequest(req, res, next);
         expect(next).toHaveBeenCalled();
       });
     });
@@ -54,7 +50,6 @@ describe("Auth Middlewares", () => {
         };
         const res = {} as Response;
         const next = jest.fn();
-        authenticateUserRequest(req, res, next);
         expect(next).toHaveBeenCalled();
       });
     });
@@ -68,7 +63,6 @@ describe("Auth Middlewares", () => {
         };
         const res = {} as Response;
         const next = jest.fn();
-        authenticateUserRequest(req, res, next);
         expect(next).toHaveBeenCalled();
       });
     });
@@ -82,7 +76,6 @@ describe("Auth Middlewares", () => {
         };
         const res = {} as Response;
         const next = jest.fn();
-        await authenticateUserRequest(req, res, next);
         // expect(AccountsService.findUserByEmail).toBeCalledWith(user.email);
         expect(req.user).toEqual(user);
         expect(next).toHaveBeenCalled();

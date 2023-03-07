@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import Express from "express";
-import { getAccessConfigCollection, getDatabase } from "../../lib/db/connector";
+import { getAccessConfigCollection, getDatabase } from "lib/db-connector";
 import { getLogger } from "../../lib/debug";
 import { defaultAccessConfig } from "../documents/access-control";
 

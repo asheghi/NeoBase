@@ -1,3 +1,5 @@
+import "module-alias/register";
+
 import { program, Option } from "commander";
 import { printFiglet } from "./printFiglet";
 import { createConfigFile } from "./actions/createEnvFile";
@@ -57,8 +59,8 @@ program
       config.trust_proxy = true;
     }
 
-    if (options.jwtSeret) {
-      config.jwt_secret = options.jwtSeret;
+    if (options.jwtSecret) {
+      config.jwt_secret = options.jwtSecret;
     }
 
     if (options.db) {

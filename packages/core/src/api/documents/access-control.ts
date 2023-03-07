@@ -1,5 +1,5 @@
 /* eslint-disable no-loops/no-loops */
-import { getAccessConfigCollection } from "../../lib/db/connector";
+import { getAccessConfigCollection } from "lib/db-connector";
 
 export const defaultAccessConfig = [
   // user with role

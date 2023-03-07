@@ -1,7 +1,6 @@
 import bodyParser from "body-parser";
 import Express from "express";
-import { getCollection } from "../../lib/db/connector";
-import { authenticateUserRequest } from "../auth/auth.middleware";
+import { getCollection } from "lib/db-connector";
 import slowdown from "../slow-downs.middleware";
 import { getUserFilter } from "./access-control";
 
@@ -12,7 +11,6 @@ const FIND_LIMIT = 100;
 
 const app = Express.Router();
 
-app.use(authenticateUserRequest);
 app.use(bodyParser.json());
 
 const canUserDo =

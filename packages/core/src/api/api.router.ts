@@ -1,11 +1,11 @@
 import express from "express";
-import { config } from "../config";
-import { AuthApiRouter } from "./auth/authApiRouter";
+import { packageInfo } from "lib/package-info";
+import { config } from "config";
 import { CollectionsApiRouter } from "./collections/collections.router";
 import { DocumentsApiRouter } from "./documents/documents.router";
 import slowdown from "./slow-downs.middleware";
 import { UsersApiRouter } from "./projects/users.router";
-import packageInfo from "../../package.json";
+import { AuthApiRouter } from "../features/auth";
 
 const { CommonSlowDown } = slowdown;
 

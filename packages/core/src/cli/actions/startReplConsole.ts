@@ -1,9 +1,9 @@
 import repl from "node:repl";
-import { getAuthService } from "../../api/auth/auth.service";
-import * as DbConnector from "../../lib/db/connector";
-import { getLogger } from "../../lib/debug";
+import * as DbConnector from "lib/db-connector";
+import { getLogger } from "lib/debug";
+import { config } from "config";
 import * as JwtUtils from "../../lib/jwt-utils";
-import { config } from "../../config";
+import { getAuthService } from "../../features/auth/api/auth.service";
 
 export const startReplConsole = () => {
   const context: any = {

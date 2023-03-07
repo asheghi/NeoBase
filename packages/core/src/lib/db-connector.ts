@@ -1,12 +1,13 @@
 import Mongoose from "mongoose";
-import { config } from "../../config/index";
-import { getLogger } from "../debug";
+import { config, populateConfig } from "config";
+import { getLogger } from "./debug";
 
 const log = getLogger("db-connector");
 
 const connectionPool: { [key: string]: any } = {};
 
 export async function getDatabase(dbNameArg?: string) {
+  await populateConfig();
   const dbName =
     (config.db_name ?? "neo-base") + (dbNameArg ? `-${dbNameArg}` : "");
   if (!connectionPool[dbName]) {

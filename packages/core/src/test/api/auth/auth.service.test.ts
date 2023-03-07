@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-import { getAuthService } from "../../../api/auth/auth.service";
+import { getAuthService } from "../../../features/auth/api/auth.service";
 
 const user = {
-  email: "existingUser@mail.com",
+  username: "existingUser@mail.com",
   password: "password",
   hash: "hash_password",
   _id: new mongoose.Types.ObjectId(),
@@ -23,7 +23,7 @@ jest.mock("../../../lib/db/connector", () => {
     getAuthCollection: async () => {
       return {
         findOne: async (query) => {
-          if (query.email && query.email === user.email) {
+          if (query.username && query.username === user.username) {
             return user;
           }
           return null;
@@ -38,10 +38,10 @@ jest.mock("../../../lib/db/connector", () => {
 
 describe("AuthService", () => {
   describe("login method", () => {
-    describe("given an existing email and valid password", () => {
+    describe("given an existing username and valid password", () => {
       it("should return user from database", async () => {
         const AuthService = await getAuthService();
-        const res = await AuthService.login(user.email, user.password);
+        const res = await AuthService.login(user.username, user.password);
         expect(res).toEqual(user);
       });
     });
@@ -50,14 +50,14 @@ describe("AuthService", () => {
       it("should return null", async () => {
         const AuthService = await getAuthService();
         const res = await AuthService.login(
-          user.email,
+          user.username,
           `${user.password}-invaliad`
         );
         expect(res).toEqual(null);
       });
     });
 
-    describe("given non-existing email", () => {
+    describe("given non-existing username", () => {
       it("should return null", async () => {
         const AuthService = await getAuthService();
         const res = await AuthService.login(
@@ -73,9 +73,9 @@ describe("AuthService", () => {
     describe("given valid, non-existing payload", () => {
       it("should return user", async () => {
         const AuthService = await getAuthService();
-        const email = `new-${user.email}`;
-        const res = await AuthService.register(email, user.password);
-        expect(res.email).toBe(email);
+        const username = `new-${user.username}`;
+        const res = await AuthService.register(username, user.password);
+        expect(res.username).toBe(username);
         expect(res._id).toBeTruthy();
       });
     });
@@ -84,7 +84,7 @@ describe("AuthService", () => {
       it("should return user", async () => {
         const AuthService = await getAuthService();
         const failing = async () => {
-          await AuthService.register(user.email, user.password);
+          await AuthService.register(user.username, user.password);
         };
         await expect(failing).rejects.toThrow();
       });
@@ -94,7 +94,7 @@ describe("AuthService", () => {
       it("should throw error", async () => {
         const AuthService = await getAuthService();
         const failing = async () => {
-          await AuthService.register("not-email", "");
+          await AuthService.register("not-username", "");
         };
         await expect(failing).rejects.toThrow();
       });
@@ -113,7 +113,7 @@ describe("AuthService", () => {
       it("should throw", async () => {
         const AuthService = await getAuthService();
         const failing = () => {
-          AuthService.generateToken({ email: "" });
+          AuthService.generateToken({ username: "" });
         };
         expect(failing).toThrow();
       });

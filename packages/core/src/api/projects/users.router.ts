@@ -1,15 +1,13 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import Mongoose from "mongoose";
-import { getAuthCollection } from "../../lib/db/connector";
-import { hashPassword } from "../../lib/jwt-utils";
-
-import { authenticateUserRequest, authGuard } from "../auth/auth.middleware";
+import { getAuthCollection } from "lib/db-connector";
+import { hashPassword } from "lib/jwt-utils";
+import { authGuard } from "lib/authGuard";
 
 const app = Express.Router();
 
-// todo add super admin guard
-app.use(authenticateUserRequest, authGuard);
+app.use(authGuard);
 
 app.use(bodyParser.json());
 

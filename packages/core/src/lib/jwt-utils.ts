@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { config } from "../config/index";
-import { passwordSchema } from "../validations/auth.validations";
+import { passwordSchema } from "../features/auth/api/validations/auth.validations";
 import { getLogger } from "./debug";
 
 const log = getLogger("jwt-utils");

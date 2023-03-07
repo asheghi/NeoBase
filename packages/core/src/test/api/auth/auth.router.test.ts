@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { nextTick } from "process";
-import { AuthApiRouter } from "../../../api/auth/authApiRouter";
+import { AuthApiRouter } from "../../../features/auth/auth/authApiRouter";
 import { superRouter } from "../../test-utils";
 
 const user = {
