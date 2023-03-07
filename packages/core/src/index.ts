@@ -1,18 +1,18 @@
 import cors from "cors";
 import Express from "express";
 import morgan from "morgan";
+import { configureExpressRender } from "lib/express-render/configureExpressRender";
+import { config, populateConfig } from "config";
+import { authGuard } from "lib/authGuard";
 import { ApiRouter } from "./api/api.router";
-import { config, populateConfig } from "./config/index";
-import setupPassportMiddleware from "./features/auth/setupPassportMiddlewares";
-import { authGuard } from "./lib/authGuard";
-import { configureExpressRender } from "./lib/express-render/configureExpressRender";
+import { setupPassportOnExpressApp } from "./features/auth";
 
 export const startServer = async () => {
   await populateConfig();
 
   const app = Express();
 
-  setupPassportMiddleware(app);
+  await setupPassportOnExpressApp(app);
 
   if (config.log_access) {
     app.use(morgan("dev"));

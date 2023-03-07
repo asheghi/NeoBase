@@ -10,12 +10,11 @@
     "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "rootDir": "src",
     "paths": {
       "lib/*": [
         "src/lib/*",
       ],
-      "config": ["src/config"]
+      "config": ["src/config/index"]
     }
   },
   "include": [

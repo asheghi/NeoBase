@@ -8,4 +8,6 @@ export default {
   listen_host: "0.0.0.0",
   listen_port: 8080,
   trust_proxy: false,
+  // domain:'',
+  ssl: false,
 };

@@ -1,20 +1,20 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { config } from "../config/index";
+import { config } from "config";
 import { passwordSchema } from "../features/auth/api/validations/auth.validations";
 import { getLogger } from "./debug";
 
 const log = getLogger("jwt-utils");
 
 export function generateTokenForPayload(payload: any) {
-  return jwt.sign(payload, config.jwt_secret);
+  return jwt.sign(payload, config.cookie_secret);
 }
 
 function verifyToken(token: string) {
   if (!token) return false;
   let valid;
   try {
-    jwt.verify(token, config.jwt_secret);
+    jwt.verify(token, config.cookie_secret);
     valid = true;
   } catch (e: any) {
     log.info("verify-token failed:", e.message);

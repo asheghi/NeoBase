@@ -1,25 +1,26 @@
 import { Application } from "express";
 import MongoStore from "connect-mongo";
-import { config } from "../../config";
+import { config, populateConfig } from "config";
+import session from "express-session";
 
 const passport = require("passport");
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 
-const setupPassportMiddleware = (app: Application) => {
+export const setupPassportOnExpressApp = async (app: Application) => {
+  await populateConfig();
   app.use(cookieParser());
-  console.log("fuck", config.jwt_secret);
+  console.log("fuck", config.cookie_secret);
   app.use(
     session({
-      secret: config.jwt_secret,
+      secret: config.cookie_secret,
       resave: false,
       saveUninitialized: false,
       store: MongoStore.create({
         mongoUrl: `${config.db_url}${config.db_name}-session`,
-      }),
+      }) as any,
       cookie: {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       },
@@ -61,11 +62,4 @@ const setupPassportMiddleware = (app: Application) => {
       return cb(null, user);
     });
   });
-
-  // todo update
-  // app.use(passport.initialize());
-  // app.use(passport.session());
-  app.use(flash());
 };
-
-export default setupPassportMiddleware;

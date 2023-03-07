@@ -27,9 +27,9 @@ program
   )
   .addOption(
     new Option(
-      "--jwt-secret <jwtSecret>",
+      "--cookie-secret <cookieSecret>",
       "json-web-token secret used for token generation, default:'randomString'"
-    ).env("JWT_SECRET")
+    ).env("cookie_secret")
   )
   .addOption(
     new Option(
@@ -59,8 +59,8 @@ program
       config.trust_proxy = true;
     }
 
-    if (options.jwtSecret) {
-      config.jwt_secret = options.jwtSecret;
+    if (options.cookieSecret) {
+      config.cookie_secret = options.cookieSecret;
     }
 
     if (options.db) {

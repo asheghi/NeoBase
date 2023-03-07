@@ -4,10 +4,7 @@ import { z } from "zod";
 import { getLogger } from "lib/debug";
 import { authGuard } from "lib/authGuard";
 import { getAuthService } from "./auth.service";
-import {
-  usernameSchema,
-  passwordSchema,
-} from "./validations/auth.validations";
+import { usernameSchema, passwordSchema } from "./validations/auth.validations";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -63,7 +60,6 @@ app.post(
     const {
       body: { username, password },
     } = req;
-    console.log("body", req.body);
     const user = await req.AuthService.login(username, password);
     if (!user) return res.status(400).json({ success: false });
     return req.login(user, function (err) {
