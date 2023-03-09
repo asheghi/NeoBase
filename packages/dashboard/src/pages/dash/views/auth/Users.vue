@@ -13,7 +13,7 @@
           <router-link
             v-for="user in users"
             :key="user"
-            :to="{ name: 'user', params: { uid: user._id } }"
+            :to="{ name: 'user', params: { uid: user.id } }"
             class="item name"
           >
             {{ user.email }}
@@ -114,7 +114,7 @@ export default {
     async onCreated(user) {
       this.$refs.modal.hide();
       await this.fetchData();
-      await this.$router.push({ name: "user", params: { uid: user._id } });
+      await this.$router.push({ name: "user", params: { uid: user.id } });
     },
   },
 };

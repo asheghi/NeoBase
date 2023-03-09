@@ -94,7 +94,7 @@ app.post("/create", canUserDo("create"), async (req: any, res) => {
       .status(422)
       .json({ msg: "document must not contain createdBy key" });
 
-  if (req.user) payload.createdBy = req.user._id;
+  if (req.user) payload.createdBy = req.user.id;
   const result = await req.Collection.create(payload);
   return res.json(result);
 });

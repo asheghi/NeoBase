@@ -32,7 +32,7 @@ function processFilter(filterArg: any, context: any) {
     const value = filter[key];
     if (typeof value === "string") {
       if (value === "$uid" && req.user) {
-        filter[key] = req.user._id;
+        filter[key] = req.user.id;
       }
     }
   });

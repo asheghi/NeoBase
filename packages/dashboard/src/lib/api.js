@@ -71,7 +71,7 @@ export const Api = {
       return ax.post("users", payload);
     },
     deleteUser(user) {
-      return ax.delete(`users/${user._id}`);
+      return ax.delete(`users/${user.id}`);
     },
     fetchUser(uid) {
       return ax.get(`users/${uid}`);
