@@ -6,6 +6,7 @@ import { config, populateConfig } from "config";
 import { authGuard } from "lib/authGuard";
 import { ApiRouter } from "./api/api.router";
 import { setupPassportOnExpressApp } from "./features/auth";
+import { configureDashboardExpressApp } from "./features/dashboard";
 
 export const startServer = async () => {
   await populateConfig();
@@ -41,6 +42,8 @@ export const startServer = async () => {
 
   const hostname = config.listen_host;
   const port = config.listen_port;
+
+  configureDashboardExpressApp(app);
 
   app.listen(port, hostname, () => {
     // eslint-disable-next-line no-console

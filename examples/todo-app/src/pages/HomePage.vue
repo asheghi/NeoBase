@@ -4,24 +4,48 @@
       <img :src="logoImage" width="120" height="120" />
       <h1 class="header-text">Todo App</h1>
       <p class="desc">simple todo app built with NeoBase</p>
-      <router-link to="/register" class="btn"> Register </router-link>
-      <router-link
-        to="/login"
-        class="text-gray-400 underline underline-offset-2"
-        >already have an account</router-link
-      >
+      <template v-if="!user">
+        <a :href="registerUrl" class="btn"> Register </a>
+        <a :href="loginUrl" class="text-gray-400 underline underline-offset-2"
+          >already have an account</a
+        >
+      </template>
+      <template v-if="user">
+        <router-link class="btn" to="/dash">go to dashboard</router-link>
+      </template>
     </div>
   </div>
 </template>
 <script>
 import logoImage from "../assets/logo.png?url";
+import { Auth, Client } from "../lib/client";
 
 export default {
   name: "HomePage",
+  async beforeRouteEnter(to, from, next) {
+    try {
+      const { data } = await Auth.me();
+      next((vm) => {
+        vm.user = data;
+      });
+    } catch (e) {
+      console.error(e);
+      next();
+    }
+  },
   data() {
     return {
       logoImage,
+      user: null,
     };
+  },
+  computed: {
+    loginUrl() {
+      return Client.Auth.getLoginUrl(window.location.href);
+    },
+    registerUrl() {
+      return Client.Auth.getRegisterUrl(window.location.href);
+    },
   },
 };
 </script>

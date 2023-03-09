@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
+// todo 3 remove jwt if not required!
 import jwt from "jsonwebtoken";
-import { config } from "config";
-import { passwordSchema } from "../features/auth/api/validations/auth.validations";
-import { getLogger } from "./debug";
+import { config } from "./config";
+import { getLogger } from "./getLogger";
 
 const log = getLogger("jwt-utils");
 
@@ -36,13 +36,13 @@ export function extractToken(token: string): any {
 }
 
 export function hashPassword(password: string) {
-  passwordSchema.parse(password);
+  // passwordSchema.parse(password);
   const salt = bcrypt.genSaltSync(10);
   return bcrypt.hashSync(password, salt);
 }
 
 export function comparePassword(hash: string, password: string) {
   if (!hash) return false;
-  if (!passwordSchema.safeParse(password).success) return false;
+  // if (!passwordSchema.safeParse(password).success) return false;
   return bcrypt.compareSync(password, hash);
 }

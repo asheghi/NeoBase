@@ -1,4 +1,4 @@
-import { startServer } from "../../index";
+import { startServer } from "../../server";
 
 export const startServerAction = () => {
   console.log("Starting Server ...");

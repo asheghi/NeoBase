@@ -1,6 +1,6 @@
 import * as figlet from "figlet";
-import packageInfo from "../../package.json";
+import { manifest } from "../lib/manifest";
 
 export function printFiglet() {
-  console.log(figlet.textSync(packageInfo.title));
+  console.log(figlet.textSync(manifest.title));
 }

@@ -1,17 +1,17 @@
 import repl from "node:repl";
-import * as DbConnector from "lib/db-connector";
-import { getLogger } from "lib/debug";
-import { config } from "config";
 import * as JwtUtils from "../../lib/jwt-utils";
-import { getAuthService } from "../../features/auth/api/auth.service";
+import { config } from "../../lib/config";
+import { getLogger } from "../../lib";
+import { getAuthService } from "../../features/user/apis/auth/auth.service";
+import * as DbConnector from "../../lib/db-connector";
 
 export const startReplConsole = () => {
   const context: any = {
     config,
     ...JwtUtils,
     getLogger,
-    ...DbConnector,
     getAuthService,
+    ...DbConnector,
   };
 
   const replServer = repl.start({

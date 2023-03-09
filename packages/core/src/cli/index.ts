@@ -1,12 +1,10 @@
-import "module-alias/register";
-
 import { program, Option } from "commander";
 import { printFiglet } from "./printFiglet";
 import { createConfigFile } from "./actions/createEnvFile";
 import { startServerAction } from "./actions/startServerAction";
-import { config, populateConfig } from "../config";
-import packageInfo from "../../package.json";
 import { startReplConsole } from "./actions/startReplConsole";
+import { manifest } from "../lib/manifest";
+import { config } from "../lib/config";
 
 printFiglet();
 
@@ -40,14 +38,13 @@ program
   .addOption(
     new Option(
       "--db-name <dbName>",
-      `mongodb database name, default:'${packageInfo.title}'`
+      `mongodb database name, default:'${manifest.title}'`
     ).env("DB_NAME")
   )
   .addOption(
     new Option("-d, --debug", `show debug information, default:'false'`)
   )
   .action(async (options) => {
-    await populateConfig();
     if (options.port) {
       config.listen_port = options.port;
     }

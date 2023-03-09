@@ -33,7 +33,10 @@ export default {
       });
     } catch (e) {
       console.error(e);
-      return next("/login");
+      setTimeout(() => {
+        window.location.href = Auth.getLoginUrl();
+      });
+      next("/");
     }
   },
   data() {
@@ -47,9 +50,9 @@ export default {
     },
   },
   methods: {
-    logout() {
-      removeAccountToken();
-      this.$router.replace("/login");
+    async logout() {
+      await Auth.logout();
+      await this.$router.push("/");
     },
   },
 };

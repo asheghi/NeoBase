@@ -1,12 +1,11 @@
 import fs from "fs";
-import { config, populateConfig } from "../../config";
+import { config } from "../../lib/config";
 
 export const createConfigFile = async () => {
-  await populateConfig();
-  const json = {};
+  const json: any = {};
   Object.keys(config).forEach((key) => {
     json[key] = config[key];
   });
-  fs.writeFileSync(".env.json", JSON.stringify(json, null, 2));
+  fs.writeFileSync("config.json", JSON.stringify(json, null, 2));
   console.log("Successfully generated .env.json file");
 };

@@ -1,26 +1,20 @@
 {
   "compilerOptions": {
-    "resolveJsonModule": true,
+    "strict": true,
     "module": "commonjs",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "target": "es6",
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "lib/*": [
-        "src/lib/*",
-      ],
-      "config": ["src/config/index"]
-    }
+    "target": "ES2020",
+    "moduleResolution": "Node",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vite/client"],
+    "jsx": "react",
+    "skipLibCheck": true,
+    "esModuleInterop": true
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "src/**/*.test.ts"
-  ]
+  "ts-node": {
+    "transpileOnly": true,
+    "esm": true,
+    "compilerOptions": {
+      "moduleResolution": "Node16"
+    }
+  }
 }

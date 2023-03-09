@@ -14,23 +14,15 @@ export type ClientOptions = {
   getToken?: (...args: any[]) => string
 }
 
-function getClient(baseurl, { getToken }: ClientOptions = {}) {
-  let ax = axios.create({
-    baseURL: baseurl
-  })
+function getClient(baseUrl, { getToken }: ClientOptions = {}) {
+  baseUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/');
+  const apiBaseUrl = baseUrl + "api";
 
-  // set user token
-  if (getToken) {
-    if (typeof getToken !== 'function') throw new Error('getToken option must be a function')
-    ax.interceptors.request.use((config: AxiosRequestConfig & { dontSetToken?: boolean }) => {
-      try {
-        if (!config.dontSetToken) config.headers!['x-auth-token'] = getToken()
-      } catch (e) {
-        console.error(e)
-      }
-      return config
-    })
-  }
+  let ax = axios.create({
+    baseURL: apiBaseUrl,
+    // we are using cookie for authentication!
+    withCredentials: true,
+  })
 
   return {
     Collection(collection: string) {
@@ -63,7 +55,7 @@ function getClient(baseurl, { getToken }: ClientOptions = {}) {
 
           const exec = () =>
             ax
-              .post(`documents/${collection}/find`, body)
+              .post(`data/documents/${collection}/find`, body)
               .then(deferred.resolve, deferred.reject)
 
           return {
@@ -118,7 +110,7 @@ function getClient(baseurl, { getToken }: ClientOptions = {}) {
 
           const exec = async () =>
             ax
-              .post(`documents/${collection}/findOne`, body)
+              .post(`data/documents/${collection}/findOne`, body)
               .then(deferred.resolve, deferred.reject)
           return {
             populate(arg) {
@@ -144,19 +136,36 @@ function getClient(baseurl, { getToken }: ClientOptions = {}) {
           if (filter) {
             body.filter = filter
           }
-          return ax.post(`documents/${collection}/count`, body)
+          return ax.post(`data/documents/${collection}/count`, body)
         },
-        create: async document => ax.post(`documents/${collection}/create`, document),
-        deleteOne: payload => ax.post(`documents/${collection}/deleteOne`, payload),
+        create: async document => ax.post(`data/documents/${collection}/create`, document),
+        deleteOne: payload => ax.post(`data/documents/${collection}/deleteOne`, payload),
         updateOne: (filter, update) =>
-          ax.post(`documents/${collection}/updateOne`, { filter, update }),
-        deleteMany: filter => ax.post(`documents/${collection}/deleteMany`, filter)
+          ax.post(`data/documents/${collection}/updateOne`, { filter, update }),
+        deleteMany: filter => ax.post(`data/documents/${collection}/deleteMany`, filter)
       }
     },
     Auth: {
-      login: payload => ax.post(`auth/login`, payload),
-      register: payload => ax.post(`auth/register`, payload),
-      me: token => ax.get(`auth/me`, { headers: { 'x-auth-token': token } })
+      loginUrl: `${baseUrl}login`,
+      registerUrl:`${baseUrl}register`,
+      getLoginUrl: function (returnUrl? : string){
+        if(!returnUrl) returnUrl = window.location.href;
+        const encodedReturnUrl = btoa(returnUrl);
+        return `${this.loginUrl}?redirect=${encodedReturnUrl}`
+      },
+      getRegisterUrl: function (returnUrl? : string){
+        if(!returnUrl) returnUrl = window.location.href;
+        const encodedReturnUrl = btoa(returnUrl);
+        return `${this.registerUrl}?redirect=${encodedReturnUrl}`
+      },
+      redirectToLogin: function (returnUrl? : string){
+         window.location.href = this.getLoginUrl(returnUrl);
+      },
+      redirectToRegister: function (returnUrl? : string){
+        window.location.href = this.getRegisterUrl(returnUrl);
+      },
+      me: () => ax.get(`user/auth/me`),
+      logout: () => ax.post(`user/auth/logout`),
     },
     axiosClient: ax,
     setAxiosClient: arg => (ax = arg)
