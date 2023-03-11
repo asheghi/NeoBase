@@ -1,7 +1,10 @@
 import Mongoose from "mongoose";
 import { config } from "./config";
 import { getLogger } from "./getLogger";
+import { Model as _Model } from "mongoose";
+import { User } from "./types/vite-ssr.type";
 
+type Model = _Model<any>;
 const log = getLogger("db-connector");
 
 const connectionPool: { [key: string]: any } = {};
@@ -16,7 +19,10 @@ export async function getDatabase(dbNameArg?: string) {
   return connectionPool[dbName];
 }
 
-export async function getCollection(colName: string, dbName?: string) {
+export async function getCollection(
+  colName: string,
+  dbName?: string
+): Promise<Model> {
   const conn = await getDatabase(dbName);
   return (
     conn.models[colName] ||
@@ -38,12 +44,12 @@ export async function getCollection(colName: string, dbName?: string) {
   );
 }
 
-export async function getAuthCollection() {
+export async function getAuthCollection(): Promise<Model> {
   return getCollection("users", "auth");
 }
 
 let AccessConfigCollection: any = null;
-export async function getAccessConfigCollection() {
+export async function getAccessConfigCollection(): Promise<_Model<User>> {
   if (!AccessConfigCollection) {
     AccessConfigCollection = await getCollection("access_config", "auth");
     await AccessConfigCollection.schema.index({ collection: 1 });

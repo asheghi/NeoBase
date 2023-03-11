@@ -9,7 +9,8 @@ import favIcon16 from "../public/favicon-16x16.png";
 import favIcon32 from "../public/favicon-32x32.png";
 import appleTouchIcon from "../public/apple-touch-icon.png";
 
-import type { PageContextServer } from "./types";
+import type { PageContextServer } from "../lib/types/vite-ssr.type";
+import { manifest } from "../lib/manifest";
 
 export { render };
 // See https://vite-plugin-ssr.com/data-fetching
@@ -25,10 +26,9 @@ async function render(pageContext: PageContextServer) {
 
   // See https://vite-plugin-ssr.com/head
   const { documentProps } = pageContext.exports;
-  const title = (documentProps && documentProps.title) || "Vite SSR app";
+  const title = (documentProps && documentProps.title) || manifest.title;
   const desc =
-    (documentProps && documentProps.description) ||
-    "App using Vite + vite-plugin-ssr";
+    (documentProps && documentProps.description) || manifest.description;
 
   const documentHtml = escapeInject`<!DOCTYPE html>
     <html lang="en">

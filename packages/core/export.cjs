@@ -1,5 +1,5 @@
-// eslint-disable-next-line no-undef
-require("ts-node").register();
+import it from "ts-node";
+it.register();
 
 console.log("compiling... please wait!\n");
 

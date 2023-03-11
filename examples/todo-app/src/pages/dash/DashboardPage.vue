@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { removeAccountToken } from "../../lib/auth";
 import { Auth } from "../../lib/client";
 
 export default {

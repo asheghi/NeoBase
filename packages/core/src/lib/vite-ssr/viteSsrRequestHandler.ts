@@ -11,8 +11,13 @@ export const viteSsrRequestHandler = async (
     urlQuery: req.query,
     // todo 1 extend request type
     user: (req as any).user,
+    // return with url if you wanted to redirect from onBeforeRender
+    redirect: null,
   };
   const pageContext = await renderPage(pageContextInit);
+  if (pageContext.redirect) {
+    return res.redirect(pageContext.redirect);
+  }
   const { httpResponse } = pageContext;
   if (!httpResponse) return next();
   const { body, statusCode, contentType, earlyHints } = httpResponse;

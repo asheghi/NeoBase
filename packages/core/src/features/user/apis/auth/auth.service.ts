@@ -41,6 +41,18 @@ export async function getAuthService() {
         password: hashPassword(password),
       });
     },
+    async createUser(username: string, password: string, role: string) {
+      usernameSchema.parse(username);
+      passwordSchema.parse(password);
+
+      const exists = await Users.findOne({ username });
+      if (exists) throw new Error("account already exists");
+      return Users.create({
+        username,
+        password: hashPassword(password),
+        role: role,
+      });
+    },
     generateToken(user: { username: string }) {
       usernameSchema.parse(user.username);
       return generateTokenForPayload({ username: user.username });

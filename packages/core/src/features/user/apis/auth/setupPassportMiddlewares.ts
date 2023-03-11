@@ -41,7 +41,7 @@ export const setupPassportOnExpressApp = async (app: Application) => {
     cb: (err: any, user: any) => void
   ) {
     process.nextTick(function () {
-      cb(null, { id: user.id, username: user.username });
+      cb(null, { id: user.id, username: user.username, role: user.role });
     });
   });
 

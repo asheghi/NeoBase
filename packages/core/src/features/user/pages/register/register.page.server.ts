@@ -1,4 +1,4 @@
-import { PageContext } from "../../../../renderer/types";
+import { PageContext } from "../../../../lib/types/vite-ssr.type";
 
 export const onBeforeRender = (pageContext: PageContext) => {
   const encodedRedirectUrl = pageContext?.urlQuery?.redirect;

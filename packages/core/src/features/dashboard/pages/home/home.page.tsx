@@ -1,5 +1,5 @@
 import React from "react";
-import { usePageContext } from "../../../renderer/usePageContext";
+import { usePageContext } from "../../../../renderer/usePageContext";
 
 export const Page = () => {
   const pageContext: any = usePageContext();

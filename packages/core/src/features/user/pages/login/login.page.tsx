@@ -27,9 +27,13 @@ export const Page = (props: ILoginPage) => {
       return;
     }
 
-    window.location.href =
-      props.redirectUrl ??
-      window.location.protocol + "//" + window.location.hostname + "/";
+    const redirectUrl =
+      props.redirectUrl && props.redirectUrl.length > 5
+        ? props.redirectUrl
+        : window.location.protocol + "//" + window.location.host + "/";
+
+    console.log("redirecting to", redirectUrl);
+    window.location.href = redirectUrl;
   };
 
   return (

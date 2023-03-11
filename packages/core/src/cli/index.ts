@@ -5,6 +5,8 @@ import { startServerAction } from "./actions/startServerAction";
 import { startReplConsole } from "./actions/startReplConsole";
 import { manifest } from "../lib/manifest";
 import { config } from "../lib/config";
+import { createAdminUserAction } from "./actions/createAdminUserAction";
+import { randomString } from "../lib/randomString";
 
 printFiglet();
 
@@ -94,5 +96,26 @@ program
   .command("console")
   .description("start repl console")
   .action(() => startReplConsole());
+program
+  .command("create-admin")
+  .description("create admin user")
+  .addOption(
+    new Option("-U, --username <username>", `username`).default("superadmin")
+  )
+  .addOption(
+    new Option("-P, --password <password>", `password`).default(
+      randomString() + randomString()
+    )
+  )
+  .action(async (options): Promise<any> => {
+    const username = options.username;
+    const password = options.password;
+    try {
+      await createAdminUserAction({ username, password });
+      process.exit(0);
+    } catch (e) {
+      process.exit(1);
+    }
+  });
 
 program.parse();

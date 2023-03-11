@@ -1,4 +1,4 @@
-import * as figlet from "figlet";
+import figlet from "figlet";
 import { manifest } from "../lib/manifest";
 
 export function printFiglet() {
