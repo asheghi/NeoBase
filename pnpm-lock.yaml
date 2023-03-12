@@ -129,6 +129,7 @@ importers:
     specifiers:
       '@emotion/react': ^11.10.6
       '@emotion/styled': ^11.10.6
+      '@mui/icons-material': ^5.11.11
       '@mui/material': ^5.11.12
       '@types/bcryptjs': ^2.4.2
       '@types/body-parser': ^1.19.2
@@ -182,6 +183,7 @@ importers:
     dependencies:
       '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
       '@emotion/styled': 11.10.6_oouaibmszuch5k64ms7uxp2aia
+      '@mui/icons-material': 5.11.11_ao76n7r2cajsoyr3cbwrn7geoi
       '@mui/material': 5.11.12_xqeqsl5kvjjtyxwyi3jhw3yuli
       '@types/compression': 1.7.2
       '@types/express': 4.17.17
@@ -3676,6 +3678,23 @@ packages:
 
   /@mui/core-downloads-tracker/5.11.12:
     resolution: {integrity: sha512-LHh8HZQ5nPVcW5QnyLwkAZ40txc/S2bzKMQ3bTO+5mjuwAJ2AzQrjZINLVy1geY7ei1pHXVqO1hcWHg/QdT44w==}
+    dev: false
+
+  /@mui/icons-material/5.11.11_ao76n7r2cajsoyr3cbwrn7geoi:
+    resolution: {integrity: sha512-Eell3ADmQVE8HOpt/LZ3zIma8JSvPh3XgnhwZLT0k5HRqZcd6F/QDHc7xsWtgz09t+UEFvOYJXjtrwKmLdwwpw==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      '@mui/material': ^5.0.0
+      '@types/react': ^17.0.0 || ^18.0.0
+      react: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.21.0
+      '@mui/material': 5.11.12_xqeqsl5kvjjtyxwyi3jhw3yuli
+      '@types/react': 18.0.28
+      react: 18.2.0
     dev: false
 
   /@mui/material/5.11.12_xqeqsl5kvjjtyxwyi3jhw3yuli:

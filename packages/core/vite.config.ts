@@ -5,7 +5,8 @@ import { UserConfig } from "vite";
 const config: UserConfig = {
   plugins: [react(), ssr()],
   ssr: {
-    noExternal: [],
+    noExternal: ["@mui/materia"],
+    external: ["prop-types"],
   },
 };
 
