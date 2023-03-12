@@ -1,4 +1,4 @@
-import { randomString } from "../randomString";
+import { randomString } from "../randomString.js";
 export const defaultConfig = {
   //cookie
   cookie_secret:

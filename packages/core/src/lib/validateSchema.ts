@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { NextFunction, Request, Response } from "express";
-import { getLogger } from "./getLogger";
+import { getLogger } from "./getLogger.js";
 
 const log = getLogger("routeValidation");
 

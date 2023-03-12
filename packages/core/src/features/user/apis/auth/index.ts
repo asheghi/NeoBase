@@ -1,2 +1,2 @@
-export { ManageUsersApiRouter } from "../management";
-export { AuthApiRouter } from "./authApiRouter";
+export { ManageUsersApiRouter } from "../management/index.js";
+export { AuthApiRouter } from "./authApiRouter.js";

@@ -1,11 +1,14 @@
-import { usernameSchema, passwordSchema } from "./validations/auth.validations";
+import {
+  usernameSchema,
+  passwordSchema,
+} from "./validations/auth.validations.js";
 import {
   comparePassword,
   generateTokenForPayload,
   hashPassword,
-} from "../../../../lib/jwt-utils";
-import { getLogger } from "../../../../lib";
-import { getAuthCollection } from "../../../../lib/db-connector";
+} from "../../../../lib/jwt-utils.js";
+import { getLogger } from "../../../../lib/getLogger.js";
+import { getAuthCollection } from "../../../../lib/db-connector.js";
 
 const log = getLogger("auth.service");
 

@@ -2,10 +2,10 @@ import express from "express";
 import {
   AuthApiRouter,
   ManageUsersApiRouter,
-} from "../features/user/apis/auth";
-import { manifest } from "../lib/manifest";
-import { config } from "../lib/config";
-import { DataApiRouter } from "../features/data";
+} from "../features/user/apis/auth/index.js";
+import { manifest } from "../lib/manifest.js";
+import { config } from "../lib/config/index.js";
+import { DataApiRouter } from "../features/data/index.js";
 export const getApisMiddleware = async () => {
   const app = express.Router();
 

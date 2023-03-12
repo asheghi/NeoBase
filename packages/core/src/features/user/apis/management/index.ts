@@ -1,1 +1,1 @@
-export { ManageUsersApiRouter } from "./ManageUsersApiRouter";
+export { ManageUsersApiRouter } from "./ManageUsersApiRouter.js";

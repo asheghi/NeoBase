@@ -1,5 +1,5 @@
 import fs from "fs";
-import { config } from "../../lib/config";
+import { config } from "../../lib/config/index.js";
 
 export const createConfigFile = async () => {
   const json: any = {};

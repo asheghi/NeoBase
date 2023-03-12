@@ -1,11 +1,13 @@
 import express from "express";
 import compression from "compression";
-import cors from "cors";
-import { getViteSsrMiddleware, viteSsrRequestHandler } from "../lib/vite-ssr";
-import { getApisMiddleware } from "./getApisMiddleware";
-import { setupPassportOnExpressApp } from "../features/user/apis/auth/setupPassportMiddlewares";
-import { corsMiddleware } from "../lib/corsMiddleware";
-import { morganMiddleware } from "../lib/middleware/morganMiddleware";
+import {
+  getViteSsrMiddleware,
+  viteSsrRequestHandler,
+} from "../lib/vite-ssr/index.js";
+import { getApisMiddleware } from "./getApisMiddleware.js";
+import { setupPassportOnExpressApp } from "../features/user/apis/auth/setupPassportMiddlewares.js";
+import { corsMiddleware } from "../lib/corsMiddleware.js";
+import { morganMiddleware } from "../lib/middleware/morganMiddleware.js";
 
 export const getExpressApp = async () => {
   const app = express();

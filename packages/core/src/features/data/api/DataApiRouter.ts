@@ -1,6 +1,6 @@
 import express from "express";
-import { CollectionsApiRouter } from "./collections/collections.router";
-import { DocumentsApiRouter } from "./documents/documents.router";
+import { CollectionsApiRouter } from "./collections/collections.router.js";
+import { DocumentsApiRouter } from "./documents/documents.router.js";
 
 const app = express.Router();
 app.use("/collections", CollectionsApiRouter);

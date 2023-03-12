@@ -1,11 +1,11 @@
 import bodyParser from "body-parser";
 import Express from "express";
-import { defaultAccessConfig } from "../documents/access-control";
-import { getLogger } from "../../../../lib";
+import { defaultAccessConfig } from "../documents/access-control.js";
+import { getLogger } from "../../../../lib/getLogger.js";
 import {
   getAccessConfigCollection,
   getDatabase,
-} from "../../../../lib/db-connector";
+} from "../../../../lib/db-connector.js";
 
 const console = getLogger("collection.api");
 const app = Express.Router();
@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.get("/access-config/:collection", async (req, res, next) => {
   const AccessConfig = await getAccessConfigCollection();
   const { collection } = req.params;
-  let config = await AccessConfig.findOne({ collection });
+  let config: any = await AccessConfig.findOne({ collection });
   if (!config) config = defaultAccessConfig;
   else config = config.toObject().roles;
   ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
@@ -44,7 +44,7 @@ app.delete("/access-config/:collection", async (req, res) => {
   const { collection } = req.params;
   const query = { collection };
   const result = await AccessConfig.deleteMany(query);
-  res.json(result.roles);
+  res.json(result);
 });
 
 app.post("/", async (req, res) => {

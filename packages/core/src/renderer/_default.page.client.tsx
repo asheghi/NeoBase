@@ -1,7 +1,8 @@
 import React from "react";
 import { hydrateRoot } from "react-dom/client";
-import { PageShell } from "./PageShell";
+import { PageShell } from "./PageShell.js";
 import type { PageContextClient } from "../lib/types/vite-ssr.type";
+import { ThemeProvider } from "@mui/material";
 
 export { render };
 

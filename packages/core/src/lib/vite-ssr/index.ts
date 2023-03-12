@@ -1,2 +1,2 @@
-export { getViteSsrMiddleware } from "./getViteSsrMiddleware";
-export { viteSsrRequestHandler } from "./viteSsrRequestHandler";
+export { getViteSsrMiddleware } from "./getViteSsrMiddleware.js";
+export { viteSsrRequestHandler } from "./viteSsrRequestHandler.js";

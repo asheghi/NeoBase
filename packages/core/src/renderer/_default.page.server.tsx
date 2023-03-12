@@ -10,7 +10,7 @@ import favIcon32 from "../public/favicon-32x32.png";
 import appleTouchIcon from "../public/apple-touch-icon.png";
 
 import type { PageContextServer } from "../lib/types/vite-ssr.type";
-import { manifest } from "../lib/manifest";
+import { manifest } from "../lib/manifest.js";
 
 export { render };
 // See https://vite-plugin-ssr.com/data-fetching
@@ -45,6 +45,8 @@ async function render(pageContext: PageContextServer) {
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
         <link rel="icon" href="${icon}"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       </head>
       <body>
         <div id="page-view">${dangerouslySkipEscape(pageHtml)}</div>

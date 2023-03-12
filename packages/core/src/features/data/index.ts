@@ -1,1 +1,1 @@
-export { DataApiRouter } from "./api/DataApiRouter";
+export { DataApiRouter } from "./api/DataApiRouter.js";

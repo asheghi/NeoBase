@@ -1,8 +1,8 @@
 import Mongoose from "mongoose";
-import { config } from "./config";
-import { getLogger } from "./getLogger";
+import { config } from "./config/index.js";
+import { getLogger } from "./getLogger.js";
 import { Model as _Model } from "mongoose";
-import { User } from "./types/vite-ssr.type";
+import { User } from "./types";
 
 type Model = _Model<any>;
 const log = getLogger("db-connector");

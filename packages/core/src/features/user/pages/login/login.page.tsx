@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from "react";
+import { Button } from "@mui/material";
 
 interface ILoginPage {
   redirectUrl?: string;
@@ -66,6 +67,7 @@ export const Page = (props: ILoginPage) => {
           />
         </section>
         <button type="submit">Sign in</button>
+        <Button variant={"contained"}>Login</Button>
       </form>
     </>
   );

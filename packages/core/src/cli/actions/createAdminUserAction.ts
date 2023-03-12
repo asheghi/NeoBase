@@ -1,6 +1,5 @@
-import { getAuthCollection } from "../../lib/db-connector";
-import { getAuthService } from "../../features/user/apis/auth/auth.service";
-import { getLogger } from "../../lib";
+import { getAuthService } from "../../features/user/apis/auth/auth.service.js";
+import { getLogger } from "../../lib/getLogger.js";
 
 const log = getLogger("create-admin");
 interface ICreateAdminUserArg {

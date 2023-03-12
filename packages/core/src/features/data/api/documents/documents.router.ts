@@ -1,8 +1,8 @@
 import bodyParser from "body-parser";
 import Express from "express";
-import slowdown from "../slow-downs.middleware";
-import { getUserFilter } from "./access-control";
-import { getCollection } from "../../../../lib/db-connector";
+import slowdown from "../slow-downs.middleware.js";
+import { getUserFilter } from "./access-control.js";
+import { getCollection } from "../../../../lib/db-connector.js";
 
 const { SlowDownDocumentsRouter } = slowdown;
 

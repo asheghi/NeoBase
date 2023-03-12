@@ -1,13 +1,12 @@
 import { program, Option } from "commander";
-import { printFiglet } from "./printFiglet";
-import { createConfigFile } from "./actions/createEnvFile";
-import { startServerAction } from "./actions/startServerAction";
-import { startReplConsole } from "./actions/startReplConsole";
-import { manifest } from "../lib/manifest";
-import { config } from "../lib/config";
-import { createAdminUserAction } from "./actions/createAdminUserAction";
-import { randomString } from "../lib/randomString";
-
+import { printFiglet } from "./printFiglet.js";
+import { createConfigFile } from "./actions/createEnvFile.js";
+import { startServerAction } from "./actions/startServerAction.js";
+import { startReplConsole } from "./actions/startReplConsole.js";
+import { config } from "../lib/config/index.js";
+import { createAdminUserAction } from "./actions/createAdminUserAction.js";
+import { randomString } from "../lib/randomString.js";
+import { manifest } from "../lib/manifest.js";
 printFiglet();
 
 program

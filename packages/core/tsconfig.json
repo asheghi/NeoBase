@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
     "strict": true,
-    "module": "commonjs",
-    "target": "ES2020",
+    "module": "ES2015",
+    "target": "ES5",
     "moduleResolution": "Node",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["vite/client"],
     "jsx": "react",
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "ts-node": {
     "transpileOnly": true,

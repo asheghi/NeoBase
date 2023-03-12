@@ -1,13 +1,10 @@
 import { Application } from "express";
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import { config } from "../../../../lib/config";
-
-const passport = require("passport");
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const flash = require("connect-flash");
-const cookieParser = require("cookie-parser");
+import { config } from "../../../../lib/config/index.js";
+import passport from "passport";
+import flash from "connect-flash";
+import cookieParser from "cookie-parser";
 
 // todo 1 fix types
 export const setupPassportOnExpressApp = async (app: Application) => {

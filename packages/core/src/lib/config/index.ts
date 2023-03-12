@@ -1,5 +1,5 @@
-import { defaultConfig } from "./defaultConfig";
-import { getLogger } from "../getLogger";
+import { defaultConfig } from "./defaultConfig.js";
+import { getLogger } from "../getLogger.js";
 
 const log = getLogger("config");
 

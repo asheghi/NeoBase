@@ -1,5 +1,5 @@
-import { getExpressApp } from "./getExpressApp";
-import { config } from "../lib/config";
+import { getExpressApp } from "./getExpressApp.js";
+import { config } from "../lib/config/index.js";
 
 export async function startServer() {
   const app = await getExpressApp();

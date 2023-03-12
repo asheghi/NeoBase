@@ -1,5 +1,5 @@
-import { root } from "../root";
-import { isProduction } from "../isProduction";
+import { root } from "../root.js";
+import { isProduction } from "../isProduction.js";
 
 export const getViteSsrMiddleware = async () => {
   if (isProduction) {

@@ -1,9 +1,9 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import Mongoose from "mongoose";
-import { authGuard } from "../../../../lib/middleware/authGuard";
-import { getAuthCollection } from "../../../../lib/db-connector";
-import { hashPassword } from "../../../../lib/jwt-utils";
+import { authGuard } from "../../../../lib/middleware/authGuard.js";
+import { getAuthCollection } from "../../../../lib/db-connector.js";
+import { hashPassword } from "../../../../lib/jwt-utils.js";
 
 const app = Express.Router();
 
