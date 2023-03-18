@@ -1,3 +1,5 @@
-export const DataPage = () => {
-  return <div>Data Page</div>;
+import React from "react";
+
+export const DataView = () => {
+  return <div>Data view</div>;
 };

@@ -6,6 +6,7 @@ export const viteSsrRequestHandler = async (
   res: Response,
   next: NextFunction
 ) => {
+  console.log("vite request handler", req.url);
   const pageContextInit = {
     urlOriginal: req.originalUrl,
     urlQuery: req.query,
@@ -14,7 +15,9 @@ export const viteSsrRequestHandler = async (
     // return with url if you wanted to redirect from onBeforeRender
     redirect: null,
   };
+  console.log("before render page");
   const pageContext = await renderPage(pageContextInit);
+  console.log("after render page");
   if (pageContext.redirect) {
     return res.redirect(pageContext.redirect);
   }

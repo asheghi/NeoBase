@@ -54,7 +54,7 @@ ax.interceptors.response.use(
   function (err) {
     if (!err.config?.skipInterceptors)
       onError({
-        url: err.config.url,
+        path: err.config.url,
         ...parseAxiosError(err),
       });
     return Promise.reject(err);

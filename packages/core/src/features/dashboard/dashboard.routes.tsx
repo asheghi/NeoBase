@@ -5,7 +5,9 @@ import IndexDbIcon from "@mui/icons-material/LowPriority";
 import * as React from "react";
 const DatabasePage = React.lazy(() => import("./pages/database"));
 const AuthenticationPage = React.lazy(() => import("./pages/authentication"));
-const DataView = React.lazy(() => import("./pages/database/views/Data"));
+const CollectionsView = React.lazy(
+  () => import("./pages/database/views/Collections")
+);
 const RulesView = React.lazy(() => import("./pages/database/views/Rules"));
 const DbIndexView = React.lazy(
   () => import("./pages/database/views/DatabaseIndex")
@@ -22,7 +24,7 @@ export interface IRouteItem {
   index?: boolean;
   hideNav?: boolean;
 }
-export const dasbhoardRoutes: IRouteItem[] = [
+export const dashboardRoutes: IRouteItem[] = [
   {
     hideNav: true,
     index: true,
@@ -45,10 +47,10 @@ export const dasbhoardRoutes: IRouteItem[] = [
     // back-up - restore
     nested: [
       {
-        key: "data-view",
-        page: DataView,
+        key: "collections",
+        page: CollectionsView,
         path: "/data/",
-        title: "data",
+        title: "collections",
         icon: DatabaseIcon,
       },
       {
@@ -62,7 +64,7 @@ export const dasbhoardRoutes: IRouteItem[] = [
         key: "index",
         page: DbIndexView,
         path: "/data/db-index/",
-        title: "Index",
+        title: "index",
         icon: IndexDbIcon,
       },
     ],

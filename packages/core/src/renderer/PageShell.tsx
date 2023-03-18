@@ -2,16 +2,9 @@ import React from "react";
 import { PageContextProvider } from "./usePageContext";
 import type { PageContext } from "../lib/types/vite-ssr.type";
 import "./PageShell.css";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { colors } from "@mui/material";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: colors.red["400"],
-    },
-  },
-});
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./theme";
+import CssBaseline from "@mui/material/CssBaseline";
 
 export const PageShell = ({
   children,
@@ -22,6 +15,7 @@ export const PageShell = ({
 }) => (
   <React.StrictMode>
     <PageContextProvider pageContext={pageContext}>
+      <CssBaseline />
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </PageContextProvider>
   </React.StrictMode>

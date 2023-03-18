@@ -1,5 +1,5 @@
 import React from "react";
 
-export const RulesView = () => {
-  return <div>Rules view</div>;
+export const DatabaseIndexView = () => {
+  return <div>Index view</div>;
 };

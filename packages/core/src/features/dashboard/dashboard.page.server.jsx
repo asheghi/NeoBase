@@ -1,14 +1,18 @@
 import React from "react";
-import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
-import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr";
-import appleTouchIcon from "../../../public/apple-touch-icon.png";
-import favIcon32 from "../../../public/favicon-32x32.png";
-import favIcon16 from "../../../public/favicon-16x16.png";
-import webmanifest from "../../../public/site.webmanifest";
-import safariPinned from "../../../public/safari-pinned-tab.svg";
-import icon from "../../../public/favicon.ico";
-import { manifest } from "../../../lib/manifest.js";
+import { renderToString } from "react-dom/server";
+import {
+  escapeInject,
+  dangerouslySkipEscape,
+  renderPage,
+} from "vite-plugin-ssr";
+import appleTouchIcon from "../../public/apple-touch-icon.png";
+import favIcon32 from "../../public/favicon-32x32.png";
+import favIcon16 from "../../public/favicon-16x16.png";
+import webmanifest from "../../public/site.webmanifest";
+import safariPinned from "../../public/safari-pinned-tab.svg";
+import icon from "../../public/favicon.ico";
+import { manifest } from "../../lib/manifest.ts";
 
 export { render };
 export { passToClient };
@@ -16,13 +20,6 @@ export { passToClient };
 const passToClient = ["pageProps"];
 
 async function render(pageContext) {
-  const { Page, pageProps, urlPathname } = pageContext;
-
-  const pageHtml = renderToString(
-    <StaticRouter location={urlPathname}>
-      <Page {...pageProps} />
-    </StaticRouter>
-  );
   const { documentProps } = pageContext.exports;
   const title = (documentProps && documentProps.title) || manifest.title;
   const desc =
@@ -43,11 +40,11 @@ async function render(pageContext) {
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
         <link rel="icon" href="${icon}"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       </head>
       <body>
-        <div id="react-root">${dangerouslySkipEscape(pageHtml)}</div>
+        <div id="react-root"></div>
       </body>
     </html>`;
 }

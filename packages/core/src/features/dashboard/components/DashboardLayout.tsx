@@ -3,14 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import UsersIcon from "@mui/icons-material/People";
 import List from "@mui/material/List";
-import DatabaseIcon from "@mui/icons-material/Storage";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import BrandLogo from "../assets/logo.svg";
-import { manifest } from "../../../../lib/manifest.js";
+import { manifest } from "../../../lib/manifest";
 import {
   ListItem,
   ListItemButton,
@@ -20,37 +18,33 @@ import {
   MenuItem,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
-
-const sideBarItems = [
-  {
-    title: "Database",
-    icon: DatabaseIcon,
-  },
-  {
-    title: "Users",
-    icon: UsersIcon,
-  },
-];
-
+import { dashboardRoutes } from "../dashboard.routes";
+import { Link, useNavigate, useHref } from "react-router-dom";
 const drawerWidth = 240;
 
 interface Props {
   children: React.ReactNode;
+  pageTitle: string;
 }
 
 // responsive drawer
 export default function DashboardLayout(props: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleDrawerItemClicked = (item: { path: string }) => {
+    navigate(item.path);
+  };
+
   const drawer = (
     <Box
       sx={{
-        bgcolor: "primary.main",
+        bgcolor: "primary.dark",
         height: "100%",
         color: "white",
         borderRightColor: "red",
@@ -69,18 +63,36 @@ export default function DashboardLayout(props: Props) {
         <Typography variant={"h5"}>{manifest.title}</Typography>
       </Box>
       <List>
-        {sideBarItems.map((item, index) => {
-          return (
-            <ListItem key={item.title} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <item.icon sx={{ color: "white" }} />
-                </ListItemIcon>
-                <ListItemText primary={item.title} />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
+        {dashboardRoutes
+          .filter((it) => !it.hideNav)
+          .map((item, index) => {
+            const isSelected = item?.path.startsWith(window.location.pathname);
+            return (
+              <ListItem
+                key={item.title}
+                disablePadding
+                component={Link}
+                to={item.path}
+                sx={{
+                  color: "white",
+                }}
+              >
+                <ListItemButton
+                  onClick={() => handleDrawerItemClicked(item)}
+                  selected={isSelected}
+                >
+                  <ListItemIcon>
+                    <item.icon
+                      sx={{
+                        color: "white",
+                      }}
+                    />
+                  </ListItemIcon>
+                  <ListItemText primary={item.title} />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
       </List>
     </Box>
   );
@@ -108,6 +120,7 @@ export default function DashboardLayout(props: Props) {
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
+          minHeight: "4rem",
         }}
         color={"transparent"}
         elevation={0}
@@ -122,8 +135,8 @@ export default function DashboardLayout(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Firestore
+          <Typography variant="h4" noWrap component="div">
+            {props.pageTitle}
           </Typography>
           <IconButton
             size="large"
@@ -176,7 +189,7 @@ export default function DashboardLayout(props: Props) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
-            borderRightColor: "primary.main",
+            borderRightColor: "primary.dark",
           }}
           color={"primary"}
         >
@@ -189,7 +202,7 @@ export default function DashboardLayout(props: Props) {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
-              borderRightColor: "primary.main",
+              borderRightColor: "primary.dark",
             },
           }}
           open
@@ -201,11 +214,11 @@ export default function DashboardLayout(props: Props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          pt: 6,
+          px: 2.5,
         }}
       >
-        <Toolbar />
         {props.children}
       </Box>
     </Box>
