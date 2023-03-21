@@ -10,11 +10,11 @@ npm i --save @neobase/client
 3.create a client object with your credentials.
 ```js
 //esm
-import getClient from '@neobase/client';
+import createClient from '@neobase/client';
 //commonjs
-const getClient = require('@neobase/client')
+const createClient = require('@neobase/client')
 
-const client = getClient('project-name',{ baseUrl : 'http://localhost:8080/api'})
+const client = createClient('project-name',{ baseUrl : 'http://localhost:8080/api'})
 ```
 
 4.create collection

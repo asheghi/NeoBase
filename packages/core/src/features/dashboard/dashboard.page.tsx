@@ -1,10 +1,8 @@
 import React from "react";
-import DashboardLayout from "./components/DashboardLayout";
-import { Link, Route, Routes, useLocation } from "react-router-dom";
-import { IRouteItem, dashboardRoutes } from "./dashboard.routes";
-import { Loading } from "./components/Loading";
-import { manifest } from "../../lib/manifest.js";
+import app from "../../../../admin-ui/src/dashboard/App";
+export const Page = app;
 
+/*
 export const Page = () => {
   const location = useLocation();
   const pageTitle =
@@ -13,7 +11,7 @@ export const Page = () => {
     })?.title ?? manifest.title;
   function renderRoutes(routes: IRouteItem[]) {
     return (
-      <>
+      <ClientProvider>
         {routes.map((item) => {
           return (
             <Route
@@ -29,7 +27,7 @@ export const Page = () => {
             </Route>
           );
         })}
-      </>
+      </ClientProvider>
     );
   }
 
@@ -39,3 +37,4 @@ export const Page = () => {
     </DashboardLayout>
   );
 };
+*/

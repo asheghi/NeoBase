@@ -10,11 +10,9 @@ type QueryOptions = {
   limit?: number
 }
 export type ClientOptions = {
-  baseurl?: string
-  getToken?: (...args: any[]) => string
 }
 
-function getClient(baseUrl, { getToken }: ClientOptions = {}) {
+function createClient(baseUrl) {
   baseUrl = baseUrl + (baseUrl.endsWith('/') ? '' : '/');
   const apiBaseUrl = baseUrl + "api";
 
@@ -25,6 +23,13 @@ function getClient(baseUrl, { getToken }: ClientOptions = {}) {
   })
 
   return {
+    Admin: {
+      Collection:{
+       getListOfCollections:  () => ax.get(`collections`),
+       createCollection:(name) => ax.post('collections',{name}),
+       deleteCollection: (name) => ax.delete('collection/'+name),
+    },
+    },
     Collection(collection: string) {
       if (!collection) throw new Error('collection must be defined.')
 
@@ -172,4 +177,4 @@ function getClient(baseUrl, { getToken }: ClientOptions = {}) {
   }
 }
 
-export { getClient }
+export { createClient }

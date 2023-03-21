@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== "development") {
 } else {
   console.log("vite mode:dev");
   ssr = {
-    external: ["@mui/material", "@mui/icons-material"],
+    external: ["@mui/material", "@mui/icons-material", "@mui/icons-material"],
   };
 }
 const config: UserConfig = {

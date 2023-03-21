@@ -62,8 +62,8 @@ app.post(
 
 const loginSchema = {
   body: z.object({
-    username: z.string(),
-    password: z.string(),
+    username: usernameSchema,
+    password: passwordSchema,
   }),
 };
 

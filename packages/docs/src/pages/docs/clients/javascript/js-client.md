@@ -23,15 +23,15 @@ npm i --save @neobase/client
 
 ## Client Object
 
-import `getClient` function into your code and create the client object with your **Project Name** and NeoBase server.
+import `createClient` function into your code and create the client object with your **Project Name** and NeoBase server.
 
 ```js
 //esm
-import getClient from '@neobase/client';
+import createClient from '@neobase/client';
 //commonjs
-const getClient = require('@neobase/client')
+const createClient = require('@neobase/client')
 
-const client = getClient({baseUrl: 'http://your-neobase-domain/api'})
+const client = createClient({baseUrl: 'http://your-neobase-domain/api'})
 ```
 
 ## Collection CRUD

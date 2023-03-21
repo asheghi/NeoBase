@@ -1,4 +1,4 @@
-import { getClient } from '../src/neobase-client-js'
+import { createClient } from '../src/neobase-client-js'
 import axios from 'axios'
 
 const PROJECT = 'test-project'
@@ -12,7 +12,7 @@ const payload = {
   foo: 'bar'
 }
 
-const client = getClient(PROJECT)
+const client = createClient(PROJECT)
 jest.spyOn(client.axiosClient, 'post').mockImplementation(async (url, data, config) => {
   if (url.endsWith('find')) {
     return {
@@ -30,13 +30,13 @@ jest.spyOn(client.axiosClient, 'post').mockImplementation(async (url, data, conf
 const axPost = client.axiosClient.post
 
 describe('Client', () => {
-  describe('getClient function', () => {
+  describe('createClient function', () => {
     describe('on invalid arguments', () => {
       describe('given no project', () => {
         it('should trhow error', () => {
           expect(() => {
             // @ts-ignore
-            getClient()
+            createClient()
           }).toThrow()
         })
       })
@@ -44,7 +44,7 @@ describe('Client', () => {
     })
     describe('on valid arguments', () => {
       it('should return client object', () => {
-        const client = getClient(PROJECT)
+        const client = createClient(PROJECT)
         expect(typeof client.Collection).toBe('function')
         expect(typeof client.Auth.login).toBe('function')
         expect(typeof client.Auth.login).toBe('function')

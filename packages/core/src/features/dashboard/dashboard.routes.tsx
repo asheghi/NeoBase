@@ -9,6 +9,9 @@ const CollectionsView = React.lazy(
   () => import("./pages/database/views/Collections")
 );
 const RulesView = React.lazy(() => import("./pages/database/views/Rules"));
+const DocumentsView = React.lazy(
+  () => import("././pages/database/views/Collections/Views/Documents")
+);
 const DbIndexView = React.lazy(
   () => import("./pages/database/views/DatabaseIndex")
 );
@@ -52,6 +55,14 @@ export const dashboardRoutes: IRouteItem[] = [
         path: "/data/",
         title: "collections",
         icon: DatabaseIcon,
+        nested: [
+          {
+            key: "documents",
+            page: DocumentsView,
+            path: "/data/:collection/documents/",
+            title: "documents",
+          },
+        ],
       },
       {
         key: "rules-view",

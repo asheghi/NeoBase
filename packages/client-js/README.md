@@ -17,9 +17,9 @@ _note_ make sure to set your access config in NeoBase dashboard and read authent
 ### Actual Usage
 
 ```javascript
-import { getClient } from '@neobase/client'
+import { createClient } from '@neobase/client'
 
-const client = getClient('your-project-name', { baseurl: 'https://neobase.darkube.app/api' })
+const client = createClient('your-project-name', { baseurl: 'https://neobase.darkube.app/api' })
 
 //create collection object
 const Todos = client.Collection('todos')
@@ -88,7 +88,7 @@ function getToken(){
 }
 
 // pass the get token as option
-const client = getClient('name',{..., getToken});
+const client = createClient('name',{..., getToken});
 
 //authenticate
 const { data, status } = await client.Auth.register({
