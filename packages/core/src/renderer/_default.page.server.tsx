@@ -2,12 +2,12 @@ import ReactDOMServer from "react-dom/server";
 import React from "react";
 import { PageShell } from "./PageShell";
 import { escapeInject, dangerouslySkipEscape } from "vite-plugin-ssr";
-import icon from "../public/favicon.ico";
-import safariPinned from "../public/safari-pinned-tab.svg";
-import webmanifest from "../public/site.webmanifest";
-import favIcon16 from "../public/favicon-16x16.png";
-import favIcon32 from "../public/favicon-32x32.png";
-import appleTouchIcon from "../public/apple-touch-icon.png";
+import icon from "../../../admin-ui/public/favicon.ico";
+import safariPinned from "../../../admin-ui/public/safari-pinned-tab.svg";
+import webmanifest from "../../../admin-ui/public/site.webmanifest";
+import favIcon16 from "../../../admin-ui/public/favicon-16x16.png";
+import favIcon32 from "../../../admin-ui/public/favicon-32x32.png";
+import appleTouchIcon from "../../../admin-ui/public/apple-touch-icon.png";
 
 import type { PageContextServer } from "../lib/types/vite-ssr.type";
 import { manifest } from "../lib/manifest.js";

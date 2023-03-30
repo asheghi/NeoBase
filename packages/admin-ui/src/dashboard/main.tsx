@@ -1,13 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
 import './index.css'
-import {AppWrapper} from "../lib";
+import {App} from "./App";
 
 ReactDOM.createRoot(document.getElementById('app-root') as HTMLElement).render(
   <React.StrictMode>
-      <AppWrapper>
-        <App />
-      </AppWrapper>
+      <App />
   </React.StrictMode>,
 )

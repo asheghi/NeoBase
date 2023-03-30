@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {AppWrapper} from "../lib";
+import {AppWrapper} from "./AppWrapper";
 import {RegisterPage} from "./RegisterPage";
 
 ReactDOM.render(

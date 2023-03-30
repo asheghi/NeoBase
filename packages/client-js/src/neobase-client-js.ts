@@ -25,9 +25,9 @@ function createClient(baseUrl) {
   return {
     Admin: {
       Collection:{
-       getListOfCollections:  () => ax.get(`collections`),
-       createCollection:(name) => ax.post('collections',{name}),
-       deleteCollection: (name) => ax.delete('collection/'+name),
+       getListOfCollections:  () => ax.get(`data/collections`),
+       createCollection:(name) => ax.post('data/collections',{name}),
+       deleteCollection: (name) => ax.delete('data/collection/'+name),
     },
     },
     Collection(collection: string) {

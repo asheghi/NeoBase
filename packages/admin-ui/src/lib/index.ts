@@ -1,2 +1,2 @@
 export {usePageContext} from "./pageContext";
-export {AppWrapper} from "./AppWrapper";
+export {App} from "../dashboard/App";

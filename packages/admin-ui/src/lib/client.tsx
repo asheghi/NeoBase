@@ -1,14 +1,12 @@
-import { createClient } from "@neobase/client";
-import React, { useContext } from "react";
+import {createClient} from "@neobase/client";
+import React, {useContext} from "react";
 
 const getClient = () => {
-  if (import.meta.env.SSR) {
-    return {};
-  }
-  return createClient(location.protocol + "://" + location.hostname);
+  let baseUrl = location.protocol + "//" + location.host;
+  return createClient(baseUrl);
 };
 
-const client = getClient();
+export const client = getClient();
 const clientContext = React.createContext<ReturnType<typeof getClient>>(client);
 export const ClientProvider = (props: { children: React.ReactNode }) => {
   return (
@@ -19,6 +17,5 @@ export const ClientProvider = (props: { children: React.ReactNode }) => {
 };
 
 export const useClient = () => {
-  const client = useContext(clientContext);
-  return client;
+  return useContext(clientContext);
 };

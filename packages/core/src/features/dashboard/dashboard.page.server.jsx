@@ -6,12 +6,12 @@ import {
   dangerouslySkipEscape,
   renderPage,
 } from "vite-plugin-ssr";
-import appleTouchIcon from "../../public/apple-touch-icon.png";
-import favIcon32 from "../../public/favicon-32x32.png";
-import favIcon16 from "../../public/favicon-16x16.png";
-import webmanifest from "../../public/site.webmanifest";
-import safariPinned from "../../public/safari-pinned-tab.svg";
-import icon from "../../public/favicon.ico";
+import appleTouchIcon from "@neobase/admin-ui/public/apple-touch-icon.png";
+import favIcon32 from "@neobase/admin-ui/public/favicon-32x32.png";
+import favIcon16 from "@neobase/admin-ui/public/favicon-16x16.png";
+import webmanifest from "@neobase/admin-ui/public/site.webmanifest";
+import safariPinned from "@neobase/admin-ui/public/safari-pinned-tab.svg";
+import icon from "@neobase/admin-ui/public/favicon.ico";
 import { manifest } from "../../lib/manifest.ts";
 
 export { render };

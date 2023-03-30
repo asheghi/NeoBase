@@ -43,11 +43,10 @@ function processFilter(filterArg: any, context: any) {
 let AccessConfig: any = null;
 
 export async function getUserFilter(arg: any) {
-  const { req, operation, collection } = arg;
+  const { req, operation, collection, user } = arg;
   if (!AccessConfig) AccessConfig = await getAccessConfigCollection();
   const existing = await AccessConfig.findOne({ collection });
   const accessConfig = existing ? existing.roles : defaultAccessConfig;
-  const { user } = req;
 
   if (user) {
     if (user.role) {

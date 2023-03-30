@@ -7,8 +7,7 @@ import List from "@mui/material/List";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import BrandLogo from "../assets/logo.svg";
-import { manifest } from "../../../lib/manifest";
+import BrandLogo from "../../../public/logo.svg";
 import {
   ListItem,
   ListItemButton,
@@ -18,13 +17,14 @@ import {
   MenuItem,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
-import { dashboardRoutes } from "../dashboard.routes";
-import { Link, useNavigate, useHref } from "react-router-dom";
+import {routes, usePageTitle} from "../routes";
+import {Link, Outlet, useNavigate} from "react-router-dom";
+import {sideBarItems} from "../sideBarItems";
+import {usePageContext} from "../../lib";
 const drawerWidth = 240;
 
 interface Props {
-  children: React.ReactNode;
-  pageTitle: string;
+  pageTitle?: string;
 }
 
 // responsive drawer
@@ -32,14 +32,17 @@ export default function DashboardLayout(props: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const pageTitle = usePageTitle();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleDrawerItemClicked = (item: { path: string }) => {
-    navigate(item.path);
+  const handleDrawerItemClicked = (item: { href: string }) => {
+    navigate(item.href);
   };
+
+  const pageContext = usePageContext();
 
   const drawer = (
     <Box
@@ -60,19 +63,18 @@ export default function DashboardLayout(props: Props) {
         }}
       >
         <img style={{ height: "1.5rem" }} src={BrandLogo} />
-        <Typography variant={"h5"}>{manifest.title}</Typography>
+        <Typography variant={"h5"}>{pageContext?.manifest?.title}</Typography>
       </Box>
       <List>
-        {dashboardRoutes
-          .filter((it) => !it.hideNav)
+        {sideBarItems
           .map((item, index) => {
-            const isSelected = item?.path.startsWith(window.location.pathname);
+            const isSelected = item?.href.startsWith(window.location.pathname);
             return (
               <ListItem
-                key={item.title}
+                key={item.label + index}
                 disablePadding
                 component={Link}
-                to={item.path}
+                to={item.href}
                 sx={{
                   color: "white",
                 }}
@@ -88,7 +90,7 @@ export default function DashboardLayout(props: Props) {
                       }}
                     />
                   </ListItemIcon>
-                  <ListItemText primary={item.title} />
+                  <ListItemText primary={item.label} />
                 </ListItemButton>
               </ListItem>
             );
@@ -114,13 +116,12 @@ export default function DashboardLayout(props: Props) {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex",height:'100%' }}>
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
-          minHeight: "4rem",
         }}
         color={"transparent"}
         elevation={0}
@@ -135,8 +136,8 @@ export default function DashboardLayout(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h4" noWrap component="div">
-            {props.pageTitle}
+          <Typography variant="h5" noWrap component="div" sx={{textTransform:'capitalize'}}>
+            {pageTitle}
           </Typography>
           <IconButton
             size="large"
@@ -215,11 +216,11 @@ export default function DashboardLayout(props: Props) {
         sx={{
           flexGrow: 1,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          pt: 6,
+          pt: 7,
           px: 2.5,
         }}
       >
-        {props.children}
+        <Outlet />
       </Box>
     </Box>
   );

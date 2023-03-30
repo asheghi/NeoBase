@@ -1,16 +1,26 @@
 import {createContext, useContext} from "react";
 
-const contextValue = ((window as any).pageContext) ?? {}
+let contextValue = ((window as any).pageContext) ?? {}
 
-const pageContext = createContext(contextValue)
+if(import.meta.env.DEV){
+   contextValue = {
+      manifest:{
+          "title": "NeoBase",
+          "version": "0.0.1",
+          "description": "NeoBase Server",
+      },
+       ...contextValue
+   };
+}
+
+const PageContext = createContext(contextValue)
 
 export const PageContextProvider = (props: {children: React.ReactNode}) => {
-    return <pageContext.Provider value={pageContext}>
+    return <PageContext.Provider value={contextValue}>
         {props.children}
-    </pageContext.Provider>
+    </PageContext.Provider>
 };
 
 export const usePageContext = () => {
-    const context = useContext(pageContext);
-    return context;
+    return useContext(PageContext);
 }

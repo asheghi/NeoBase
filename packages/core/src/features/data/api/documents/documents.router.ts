@@ -6,7 +6,6 @@ import { getCollection } from "../../../../lib/db-connector.js";
 
 const { SlowDownDocumentsRouter } = slowdown;
 
-// const logger = getLogger("documents.api");
 const FIND_LIMIT = 100;
 
 const app = Express.Router();
@@ -16,7 +15,7 @@ app.use(bodyParser.json());
 const canUserDo =
   (operation: string) =>
   async (req: any, res: Express.Response, next: Express.NextFunction) => {
-    if (req.user && req.user.auth_provider === "account") {
+    if (req.user && req.user.role === "admin") {
       req.access_filter = {};
       return next();
     }
@@ -25,6 +24,7 @@ const canUserDo =
       collection: req.collection,
       operation,
     });
+
     if (filter) {
       req.access_filter = filter;
       return next();
@@ -126,6 +126,7 @@ const setCollection = async (
   req.Collection = await getCollection(collection);
   next();
 };
+
 const cover = Express.Router();
 cover.use("/:collection", setCollection, SlowDownDocumentsRouter, app);
 export const DocumentsApiRouter = cover;

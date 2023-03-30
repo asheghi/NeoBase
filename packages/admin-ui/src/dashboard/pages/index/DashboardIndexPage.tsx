@@ -3,5 +3,5 @@ import { Navigate } from "react-router-dom";
 
 export const DashboardIndexPage = () => {
   // return <div>index page!</div>;
-  return <Navigate to={"/data"} replace />;
+  return <Navigate to={"/dashboard/data"} replace />;
 };
