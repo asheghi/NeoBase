@@ -4,7 +4,7 @@ import UsersIcon from "@mui/icons-material/People";
 export const sideBarItems = [
     {
         label:"Database",
-        href:'/dashboard/data/collections',
+        href:'/dashboard/database',
         icon: DatabaseIcon
     },
     {

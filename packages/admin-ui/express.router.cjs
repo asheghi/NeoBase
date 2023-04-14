@@ -16,7 +16,7 @@ const sendPage = (page) => (req,res) => {
     res.send(html);
 }
 
-app.get('/dashboard',sendPage('dashboard'))
+app.get('/dashboard/*',sendPage('dashboard'))
 app.get('/login',sendPage('login'))
 app.get('/register',sendPage('register'))
 

@@ -1,2 +1,2 @@
-import { DatabasePage } from "./DatabasePage";
-export default DatabasePage;
+import { DatabaseView } from "./DatabaseView";
+export default DatabaseView;

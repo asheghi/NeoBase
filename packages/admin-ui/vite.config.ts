@@ -72,21 +72,16 @@ export function SpaFallbackMiddleware() {
         if (lastPart && lastPart.includes('.')) {
           return next()
         }
-        // console.log('check first part', firstPart);
-        // console.log('check last part', lastPart);
 
-        console.log('url before', req.url);
+        // rewrite url
         if(req.url.includes('dashboard')){
           req.url = '/dashboard/'
         }
-
         // // rewrite /foo/bar/baz to /foo/ the downstream middleware 'indexhtml' will take care of the rest
         // const match = req.url.match(/^\/([^\/]+)\/?/)
         // if (match && match[1]) {
         //   req.url = `/${match[1]}/`
         // }
-
-        console.log('url after', req.url);
         next()
       })
     }

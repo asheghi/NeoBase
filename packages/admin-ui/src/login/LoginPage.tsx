@@ -21,6 +21,9 @@ interface ILoginPage {
 export const LoginPage = (props: ILoginPage) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const params = new URLSearchParams(window.location.search);
+    console.log('params:', params.keys());
+
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
@@ -41,10 +44,14 @@ export const LoginPage = (props: ILoginPage) => {
             return;
         }
 
-        const redirectUrl =
-            props.redirectUrl && props.redirectUrl.length > 5
-                ? props.redirectUrl
-                : window.location.protocol + "//" + window.location.host + "/dashboard/";
+        let redirectUrl = window.location.protocol + "//" + window.location.host + "/dashboard/";
+        if (params.has('redirect')) {
+            try {
+                redirectUrl = atob(params.get('redirect') ?? '');
+            } catch (e) {
+                console.error(e);
+            }
+        }
 
         console.log("redirecting to", redirectUrl);
         window.location.href = redirectUrl;

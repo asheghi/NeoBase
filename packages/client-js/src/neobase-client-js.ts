@@ -24,11 +24,11 @@ function createClient(baseUrl) {
 
   return {
     Admin: {
-      Collection:{
-       getListOfCollections:  () => ax.get(`data/collections`),
-       createCollection:(name) => ax.post('data/collections',{name}),
-       deleteCollection: (name) => ax.delete('data/collection/'+name),
-    },
+      Collection: {
+        getListOfCollections: () => ax.get(`data/collections`),
+        createCollection: (name) => ax.post('data/collections', { name }),
+        deleteCollection: (name) => ax.delete('data/collection/' + name),
+      },
     },
     Collection(collection: string) {
       if (!collection) throw new Error('collection must be defined.')
@@ -96,7 +96,7 @@ function createClient(baseUrl) {
             },
             resolve: deferred.resolve,
             reject: deferred.reject,
-            then: (onResolve: (res: AxiosResponse) => void, onReject: (e) => void) => {
+            then: (onResolve: (res: AxiosResponse) => void, onReject?: (e) => void) => {
               exec()
               return deferred.then(onResolve, onReject)
             }
@@ -129,7 +129,7 @@ function createClient(baseUrl) {
             },
             resolve: deferred.resolve,
             reject: deferred.reject,
-            then: (onResolve: (res: AxiosResponse) => void, onReject: (e) => void) => {
+            then: (onResolve: (res: AxiosResponse) => void, onReject?: (e) => void) => {
               exec()
               return deferred.then(onResolve, onReject)
             }
@@ -147,26 +147,38 @@ function createClient(baseUrl) {
         deleteOne: payload => ax.post(`data/documents/${collection}/deleteOne`, payload),
         updateOne: (filter, update) =>
           ax.post(`data/documents/${collection}/updateOne`, { filter, update }),
-        deleteMany: filter => ax.post(`data/documents/${collection}/deleteMany`, filter)
+        deleteMany: filter => ax.post(`data/documents/${collection}/deleteMany`, filter),
+        AccessControl: {
+          getAccessConfig() {
+            return ax.get(`data/collections/access-config/${collection}`);
+          },
+          resetConfig() {
+            let url = `data/collections/access-config/${collection}`;
+            return ax.delete(url);
+          },
+          updateConfig(config) {
+            return ax.post(`data/collections/access-config/${collection}`, config);
+          },
+        }
       }
     },
     Auth: {
       loginUrl: `${baseUrl}login`,
-      registerUrl:`${baseUrl}register`,
-      getLoginUrl: function (returnUrl? : string){
-        if(!returnUrl) returnUrl = window.location.href;
+      registerUrl: `${baseUrl}register`,
+      getLoginUrl: function (returnUrl?: string) {
+        if (!returnUrl) returnUrl = window.location.href;
         const encodedReturnUrl = btoa(returnUrl);
         return `${this.loginUrl}?redirect=${encodedReturnUrl}`
       },
-      getRegisterUrl: function (returnUrl? : string){
-        if(!returnUrl) returnUrl = window.location.href;
+      getRegisterUrl: function (returnUrl?: string) {
+        if (!returnUrl) returnUrl = window.location.href;
         const encodedReturnUrl = btoa(returnUrl);
         return `${this.registerUrl}?redirect=${encodedReturnUrl}`
       },
-      redirectToLogin: function (returnUrl? : string){
-         window.location.href = this.getLoginUrl(returnUrl);
+      redirectToLogin: function (returnUrl?: string) {
+        window.location.href = this.getLoginUrl(returnUrl);
       },
-      redirectToRegister: function (returnUrl? : string){
+      redirectToRegister: function (returnUrl?: string) {
         window.location.href = this.getRegisterUrl(returnUrl);
       },
       me: () => ax.get(`user/auth/me`),

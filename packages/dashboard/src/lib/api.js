@@ -7,7 +7,7 @@ export const Api = {
       return ax.post("collections/", payload);
     },
     list() {
-      return ax.get("collections/");
+      return ax.get("data/collections/");
     },
     delete(name) {
       return ax.delete("collections/" + name);

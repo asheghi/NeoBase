@@ -41,10 +41,10 @@ export default {
   },
   computed: {
     loginUrl() {
-      return Client.Auth.getLoginUrl(window.location.href);
+      return Client.Auth.getLoginUrl(window.location.href + "dash");
     },
     registerUrl() {
-      return Client.Auth.getRegisterUrl(window.location.href);
+      return Client.Auth.getRegisterUrl(window.location.href + "dash");
     },
   },
 };
@@ -52,18 +52,20 @@ export default {
 <style lang="scss">
 .HomePage {
   @apply bg-gray-800;
+
   .cover {
-    @apply min-h-screen  container mx-auto px-4 flex flex-col gap-6 justify-center items-center;
+    @apply min-h-screen container mx-auto px-4 flex flex-col gap-6 justify-center items-center;
   }
+
   .header-text {
-    @apply text-6xl font-extrabold text-transparent
-    bg-clip-text bg-gradient-to-t from-green-400 to-green-900;
+    @apply text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-t from-green-400 to-green-900;
   }
 
   .desc {
     @apply text-white text-lg text-center;
     max-width: 400px;
   }
+
   .btn {
     @apply text-white bg-gradient-to-t from-green-600 to-green-800 px-4 py-2 rounded font-bold;
   }

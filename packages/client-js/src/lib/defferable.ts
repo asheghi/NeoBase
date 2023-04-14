@@ -4,7 +4,7 @@ type Reject = (e: Error) => void
 export interface IDeferred<T> {
   resolve: Resolve<T>
   reject: Reject
-  then(onResolved: Resolve<T>, onRejected: Reject): Promise<unknown>
+  then(onResolved: Resolve<T>, onRejected?: Reject): Promise<unknown>
 }
 
 export function createDeferred<T = void>(): IDeferred<T> {

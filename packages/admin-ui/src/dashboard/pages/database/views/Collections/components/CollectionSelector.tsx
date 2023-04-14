@@ -36,7 +36,7 @@ export const CollectionSelector = () => {
           <ListItem sx={{px:0}}
                     key={it.name}
                     component={Link}
-                    to={`/dashboard/data/collections/${it.name}/documents`}
+                    to={`/dashboard/database/${it.name}/documents`}
           >
               <ListItemButton>
                   <ListItemText sx={{color:'primary.main'}}>

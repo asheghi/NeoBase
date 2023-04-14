@@ -1,12 +1,14 @@
 
 import * as React from "react";
 import DashboardLayout from "./components/DashboardLayout";
-import {RouteObject, useLocation, useMatch} from "react-router-dom";
-import {useEffect, useState} from "react";
+import { RouteObject, useLocation, useMatch } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useCollection } from "./pages/database/views/Collections/useCollection";
+
 const DatabasePage = React.lazy(() => import("./pages/database"));
 const AuthenticationPage = React.lazy(() => import("./pages/authentication"));
-const CollectionsView = React.lazy(
-  () => import("./pages/database/views/Collections")
+const CollectionView = React.lazy(
+  () => import("./pages/database/CollectionView")
 );
 const RulesView = React.lazy(() => import("./pages/database/views/Rules"));
 const DocumentsView = React.lazy(
@@ -21,61 +23,70 @@ const DbIndexView = React.lazy(
 const DashboardIndexPage = React.lazy(() => import("./pages/index"));
 
 export const usePageTitle = () => {
-  const [title,setPageTitle] = useState("");
+  const [title, setPageTitle] = useState("");
   const location = useLocation();
+  const collection = useCollection();
 
   const list = [
     {
-      match:useMatch('/Dashboard/data/Collections'),
-      title:'Collections',
+      match: useMatch('/Dashboard/database'),
+      title: 'Database',
     },
     {
-      match:useMatch('/Dashboard/data/rules'),
-      title:'Rules',
+      match: useMatch('/Dashboard/database/:collection/documents'),
+      title: collection + ' documents',
     },
     {
-      match:useMatch('/Dashboard/data/db-index'),
-      title:'Indexes',
-    },{
-      match:useMatch('/Dashboard/data/rules'),
-      title:'Rules',
+      match: useMatch('/Dashboard/database/:collection/db-index'),
+      title: collection + ' Indexes',
+    }, {
+      match: useMatch('/Dashboard/database/:collection/rules'),
+      title: collection + ' Rules',
     },
-    ,{
-      match:useMatch('/dashboard/data/collections/:collection/documents/'),
+    , {
+      match: useMatch('/dashboard/data/collections/:collection/documents/'),
       title: useMatch('/dashboard/data/collections/:collection/documents/')?.params?.collection + ' Documents',
     },
     {
       match: useMatch('/Dashboard/Users'),
-      title:'Users'
+      title: 'Users'
     }
   ]
 
   useEffect(() => {
     const title = list.find(it => it?.match)?.title ?? location.pathname;
     setPageTitle(title);
-    if(!title){
-      console.error('add page title case for',location.pathname)
+    if (!title) {
+      console.error('add page title case for', location.pathname)
     }
-  },[location.pathname])
+  }, [location.pathname])
 
   return title;
 }
-export const routes : RouteObject[]  = [
+export const routes: RouteObject[] = [
   {
-    path:'/',
-    element: <DashboardLayout  />,
+    path: '/',
+    element: <DashboardLayout />,
 
-    children:[
+    children: [
       {
-        path: "/dashboard/",
+        path: "/dashboard",
         element: <React.Suspense>
           <DashboardIndexPage />
         </React.Suspense>,
       },
+      // when no collection is selected
       {
-        path: "/dashboard/data",
+        path: "/dashboard/database",
         element: <React.Suspense>
           <DatabasePage />
+        </React.Suspense>
+      },
+      // if collection is selected
+      {
+        path: "/dashboard/database/:collection",
+        element: <React.Suspense>
+          <CollectionView />
         </React.Suspense>,
         // data
         // rules
@@ -85,23 +96,15 @@ export const routes : RouteObject[]  = [
         children: [
           {
             element: <React.Suspense>
-              <CollectionsView />
+              <DocumentsView />
             </React.Suspense>,
-            path: "/dashboard/data/collections/",
+            path: "/dashboard/database/:collection/documents",
             children: [
               {
                 element: <React.Suspense>
-                  <DocumentsView />
+                  <DocumentView />
                 </React.Suspense>,
-                path: "/dashboard/data/collections/:collection/documents/",
-                children:[
-                  {
-                    element: <React.Suspense>
-                      <DocumentView />
-                    </React.Suspense>,
-                    path: "/dashboard/data/collections/:collection/documents/:documentId",
-                  }
-                ]
+                path: "/dashboard/database/:collection/documents/:documentId",
               },
             ],
           },
@@ -109,13 +112,13 @@ export const routes : RouteObject[]  = [
             element: <React.Suspense>
               <RulesView />
             </React.Suspense>,
-            path: "/dashboard/data/rules/",
+            path: "/dashboard/database/:collection/rules",
           },
           {
             element: <React.Suspense>
               <DbIndexView />
             </React.Suspense>,
-            path: "/dashboard/data/db-index/",
+            path: "/dashboard/database/:collection/db-index",
           },
         ],
       },
@@ -125,5 +128,6 @@ export const routes : RouteObject[]  = [
           <AuthenticationPage />
         </React.Suspense>,
       },
-    ]},
+    ]
+  },
 ];

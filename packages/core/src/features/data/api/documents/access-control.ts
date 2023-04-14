@@ -2,9 +2,11 @@
 
 import { getAccessConfigCollection } from "../../../../lib/db-connector.js";
 
+// policies
 export const defaultAccessConfig = [
   // user with role
   {
+    name: "admin",
     user: {
       role: "admin",
     },
@@ -15,6 +17,7 @@ export const defaultAccessConfig = [
   },
   // authenticated user
   {
+    name: "creator",
     user: true,
     create: true,
     read: { createdBy: "$uid" },
@@ -22,7 +25,14 @@ export const defaultAccessConfig = [
     delete: { createdBy: "$uid" },
   },
   // unAuthenticated user
-  { user: null, create: false, read: false, delete: false, update: false },
+  {
+    name: "anonymous",
+    user: null,
+    create: false,
+    read: false,
+    delete: false,
+    update: false,
+  },
 ];
 
 function processFilter(filterArg: any, context: any) {

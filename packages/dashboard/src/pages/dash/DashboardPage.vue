@@ -17,15 +17,15 @@ import { Api } from "../../lib/api";
 import { removeAccountToken } from "../../lib/auth";
 
 export default {
-  async beforeRouteEnter(to, from, next) {
-    try {
-      const { data, status } = await Api.me();
-    } catch (e) {
-      console.error(e);
-      return next("/login");
-    }
-    next();
-  },
+  // async beforeRouteEnter(to, from, next) {
+  //   try {
+  //     const { data, status } = await Api.me();
+  //   } catch (e) {
+  //     console.error(e);
+  //     return next("/login");
+  //   }
+  //   next();
+  // },
   computed: {
     showHome() {
       const routeName = this.$route.name;

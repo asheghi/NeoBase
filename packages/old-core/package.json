@@ -8,7 +8,7 @@
     "neobase": "dist/src/cli/index.js"
   },
   "scripts": {
-    "dev": "ts-node-dev src/cli start --cookie-secret devsecret -d",
+    "ddev": "ts-node-dev src/cli start --cookie-secret devsecret -d",
     "build": "rimraf dist/ && tsc && node src/bin/copy-views.js",
     "build-watch": "tsc --watch",
     "start": "cd dist && node src/cli/index.js start",
