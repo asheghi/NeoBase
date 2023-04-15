@@ -12,6 +12,7 @@ app.use(authGuard);
 app.use(bodyParser.json());
 
 app.get("/", async (req: any, res) => {
+  // todo add pagination
   const Users = await getAuthCollection();
   res.json(await Users.find({}, "-password"));
 });
@@ -26,12 +27,12 @@ app.get("/:uid", async (req: any, res) => {
 });
 
 app.post("/", async (req: any, res) => {
-  const { email, password, ...rest } = req.body;
+  const { username, password, ...rest } = req.body;
   const Users = await getAuthCollection();
-  const exists = await Users.findOne({ email });
+  const exists = await Users.findOne({ username });
   if (exists) return res.status(422).json({ msg: "user already exists!" });
   const result = await Users.create({
-    email,
+    username,
     ...rest,
     password: hashPassword(password),
   });
@@ -41,15 +42,19 @@ app.post("/", async (req: any, res) => {
 app.delete("/:uid", async (req: any, res) => {
   const Users = await getAuthCollection();
   const { uid } = req.params;
+  if (!uid) return res.status(422).json({ msg: "bad request!" });
+  console.log("check user:", req.user);
   const result = await Users.deleteOne({
     _id: new Mongoose.Types.ObjectId(uid),
   });
   res.json(result);
+  //todo destroy user active sessions
 });
 
 app.put("/:uid", async (req: any, res) => {
   const Users = await getAuthCollection();
   const { uid } = req.params;
+  if (!uid) return res.status(422).json({ msg: "bad request!" });
   const payload = req.body;
   delete payload.password;
   delete payload._id;

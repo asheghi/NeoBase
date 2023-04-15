@@ -29,6 +29,23 @@ function createClient(baseUrl) {
         createCollection: (name) => ax.post('data/collections', { name }),
         deleteCollection: (name) => ax.delete('data/collection/' + name),
       },
+      Users: {
+        find() {
+          return ax.get(`user/manage`);
+        },
+        newUser(payload) {
+          return ax.post("user/manage", payload);
+        },
+        deleteUser(uid) {
+          return ax.delete(`user/manage/${uid}`);
+        },
+        fetchUser(uid) {
+          return ax.get(`user/manage/${uid}`);
+        },
+        updateUser(uid, payload) {
+          return ax.put(`user/manage/${uid}`, payload);
+        },
+      },
     },
     Collection(collection: string) {
       if (!collection) throw new Error('collection must be defined.')

@@ -17,10 +17,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
-import {routes, usePageTitle} from "../routes";
-import {Link, Outlet, useNavigate} from "react-router-dom";
-import {sideBarItems} from "../sideBarItems";
-import {usePageContext} from "../../lib";
+import { routes, usePageTitle } from "../routes";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { sideBarItems } from "../sideBarItems";
+import { usePageContext } from "../../lib";
+import { useClient } from "../../lib/client";
 const drawerWidth = 240;
 
 interface Props {
@@ -33,6 +34,7 @@ export default function DashboardLayout(props: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const pageTitle = usePageTitle();
+  const client = useClient();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -103,9 +105,11 @@ export default function DashboardLayout(props: Props) {
     setAnchorEl(null);
     //
   };
-  const handleLogoutClicked = () => {
+  const handleLogoutClicked = async () => {
     //
     setAnchorEl(null);
+    await client.Auth.logout();
+    window.location.href = '/login/'
   };
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -116,7 +120,7 @@ export default function DashboardLayout(props: Props) {
   };
 
   return (
-    <Box sx={{ display: "flex",height:'100%' }}>
+    <Box sx={{ display: "flex", height: '100%' }}>
       <AppBar
         position="fixed"
         sx={{
@@ -136,7 +140,7 @@ export default function DashboardLayout(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h5" noWrap component="div" sx={{textTransform:'capitalize'}}>
+          <Typography variant="h5" noWrap component="div" sx={{ textTransform: 'capitalize' }}>
             {pageTitle}
           </Typography>
           <IconButton

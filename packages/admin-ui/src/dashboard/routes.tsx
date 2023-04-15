@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useCollection } from "./pages/database/views/Collections/useCollection";
 
 const DatabasePage = React.lazy(() => import("./pages/database"));
-const AuthenticationPage = React.lazy(() => import("./pages/authentication"));
+const AuthenticationPage = React.lazy(() => import("./pages/user-managment"));
 const CollectionView = React.lazy(
   () => import("./pages/database/CollectionView")
 );
