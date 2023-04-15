@@ -18,9 +18,13 @@ app.get("/access-config/:collection", async (req, res, next) => {
   let config: any = await AccessConfig.findOne({ collection });
   if (!config) config = defaultAccessConfig;
   else config = config.toObject().roles;
-  ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
-    delete config[it];
-  });
+  try {
+    ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
+      delete config[it];
+    });
+  } catch (e) {
+    console.error(e);
+  }
   res.json(config);
 });
 

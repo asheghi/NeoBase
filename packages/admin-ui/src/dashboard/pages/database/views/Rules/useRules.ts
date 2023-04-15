@@ -5,13 +5,13 @@ export const useRules = (collection: string | undefined) => {
     const client = useClient();
     const [rules, setRules] = useState<any>(undefined);
 
-    useEffect(() => {
+    const fetch = () => {
         //reset data
         if (rules) setRules(undefined)
 
         if (!collection) return;
 
-        client.Collection(collection)
+        client.Collection(collection!)
             .AccessControl
             .getAccessConfig()
             .then(
@@ -22,7 +22,11 @@ export const useRules = (collection: string | undefined) => {
                     console.error('ridi')
                     setRules(undefined)
                 })
+    }
+
+    useEffect(() => {
+        fetch();
     }, [collection])
 
-    return rules;
+    return { rules, refetch: fetch };
 }
