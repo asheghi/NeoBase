@@ -4,7 +4,7 @@
   "private":"true",
   "description": "",
   "scripts": {
-    "dev": "podman-compose up"
+    "dc:up": "podman-compose up"
   },
   "keywords": [],
   "author": "",
