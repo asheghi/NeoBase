@@ -21,6 +21,8 @@ export const RegisterPage = (props: ILoginPage) => {
     const [password, setPassword] = useState("");
     const params = new URLSearchParams(window.location.search);
 
+    const loginLink = '/login/' + (params.has('redirect') ? '?redirect='+params.get('redirect') : '');
+
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         const result: { success: boolean } = await fetch(
@@ -114,7 +116,7 @@ export const RegisterPage = (props: ILoginPage) => {
                         </Button>
                         <Grid container justifyContent={'center'}>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href={loginLink} variant="body2">
                                     {"Already have an account? Sign in"}
                                 </Link>
                             </Grid>

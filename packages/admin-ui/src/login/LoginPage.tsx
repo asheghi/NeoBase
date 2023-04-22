@@ -57,6 +57,8 @@ export const LoginPage = (props: ILoginPage) => {
         window.location.href = redirectUrl;
     };
 
+    const registerLink = '/register/' + (params.has('redirect') ? '?redirect='+params.get('redirect') : '');
+
     return (
         <>
             <Container component="main" maxWidth="xs">
@@ -124,7 +126,7 @@ export const LoginPage = (props: ILoginPage) => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="/register/" variant="body2">
+                                <Link href={registerLink} variant="body2">
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
