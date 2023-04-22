@@ -23,13 +23,13 @@ export const RuleItem = (props: {
     const whichUserType = getUserType(props.item.user);
 
 
-    const handleNameChange = (e) => {
+    const handleNameChange = (e: any) => {
         const val = e.target.value;
         const newItem = { ...props.item, name: val }
         props.onUpdate(newItem)
     }
 
-    const handleUserTypeChanged = (e) => {
+    const handleUserTypeChanged = (e: any) => {
         const newVal = e.target.value;
         const newItem = { ...props.item };
 
@@ -52,14 +52,14 @@ export const RuleItem = (props: {
     }
 
 
-    const handleUserRoleChange = (e) => {
+    const handleUserRoleChange = (e: any) => {
         const val = e.target.value;
         const newItem = { ...props.item, user: { role: val } };
         props.onUpdate(newItem);
 
     }
 
-    const handleCreateCheckboxChange = (e) => {
+    const handleCreateCheckboxChange = (e: any) => {
         console.log('checked:', e);
 
         const val = e.target.checked;
@@ -83,7 +83,7 @@ export const RuleItem = (props: {
         gap: 2,
         borderRadius: 1,
         background: 'white',
-        zIndex:1,
+        zIndex: 1,
         maxWidth: '600px'
     }}
     >
@@ -116,7 +116,7 @@ export const RuleItem = (props: {
         {
             ['read', 'update', 'delete'].map(mode => {
                 const permissionType = getPermissionType(props.item[mode])
-                const handleUpdatePermissionChange = (e) => {
+                const handleUpdatePermissionChange = (e: any) => {
                     const val = e.target.value;
                     const newItem = { ...props.item };
 
@@ -133,7 +133,7 @@ export const RuleItem = (props: {
                     props.onUpdate(newItem);
                 }
 
-                const handleCustomPermissionChange = (val) => {
+                const handleCustomPermissionChange = (val: any) => {
                     const newItem = { ...props.item, [mode]: val };
                     props.onUpdate(newItem);
                 }
@@ -151,7 +151,7 @@ export const RuleItem = (props: {
                     </Box>
                     {
                         permissionType === PermissionType.Custom &&
-                        <Box sx={{mb:2}}>
+                        <Box sx={{ mb: 2 }}>
                             <JsonEditor onChange={handleCustomPermissionChange} value={props.item[mode]} />
                         </Box>
                     }

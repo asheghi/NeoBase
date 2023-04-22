@@ -4,25 +4,26 @@ import path from 'path';
 
 const root = path.join(__dirname, 'src')
 const outDir = path.join(__dirname, 'dist')
-console.log('root',root);
+console.log('root', root);
 // https://vitejs.dev/config/
 export default defineConfig({
-  base:"/",
+  base: "/",
   root,
-  plugins: [react(),SpaFallbackMiddleware()],
-  publicDir: path.join(root,'../public'),
+  plugins: [react(), SpaFallbackMiddleware()],
+  publicDir: path.join(root, '../public'),
   build: {
     outDir,
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        main: path.join(root, 'dashboard','index.html'),
+        main: path.join(root, 'dashboard', 'index.html'),
         about: path.join(root, 'login', 'index.html'),
+        register: path.join(root, 'register', 'index.html'),
       }
     },
   },
-  server:{
-    proxy:{
+  server: {
+    proxy: {
       // neobase core back-end url
       '/api': 'http://localhost:8080',
     }
@@ -36,9 +37,9 @@ export function SpaFallbackMiddleware() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const [, firstPart, ...pathParts] = req.url.split('/')
-        const lastPart = pathParts[pathParts.length- 1]
+        const lastPart = pathParts[pathParts.length - 1]
 
-        if(req.url === '/'){
+        if (req.url === '/') {
           res.statusCode = 302;
           res.setHeader('Location', '/dashboard/');
           res.setHeader('Content-Length', '0');
@@ -46,7 +47,7 @@ export function SpaFallbackMiddleware() {
           return;
         }
 
-        if(req.url === '/register'){
+        if (req.url === '/register') {
           res.statusCode = 302;
           res.setHeader('Location', '/register/');
           res.setHeader('Content-Length', '0');
@@ -55,7 +56,7 @@ export function SpaFallbackMiddleware() {
         }
 
 
-        if(req.url === '/login'){
+        if (req.url === '/login') {
           res.statusCode = 302;
           res.setHeader('Location', '/login/');
           res.setHeader('Content-Length', '0');
@@ -74,7 +75,7 @@ export function SpaFallbackMiddleware() {
         }
 
         // rewrite url
-        if(req.url.includes('dashboard')){
+        if (req.url.includes('dashboard')) {
           req.url = '/dashboard/'
         }
         // // rewrite /foo/bar/baz to /foo/ the downstream middleware 'indexhtml' will take care of the rest

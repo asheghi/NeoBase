@@ -6,11 +6,14 @@ import { useClient } from "../../../lib/client";
 import { NewUserModal } from "./NewUserModal";
 
 export const AuthenticationPage = () => {
-  const { users, deleteUser, createUser } = useUsers();
+  const { users, deleteUser, createUser, updateUser } = useUsers();
   const client = useClient();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
+  const handleUpdateUser = async (uid: string, payload: any) => {
+    updateUser(uid, payload);
+  }
 
   return (
     <Box>
@@ -18,7 +21,12 @@ export const AuthenticationPage = () => {
       <Box height="2rem" display="flex">
         <OutlinedInput placeholder="search" />
         <Box mr='auto' />
-        <Button variant="contained" color="primary" onClick={handleModalOpen}>Create User</Button>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleModalOpen}>
+          Create User
+        </Button>
       </Box>
 
       <TableContainer>
@@ -33,6 +41,9 @@ export const AuthenticationPage = () => {
               </TableCell>
               <TableCell>
                 Created At
+              </TableCell>
+              <TableCell>
+                ID
               </TableCell>
             </TableRow>
           </TableHead>
@@ -49,6 +60,7 @@ export const AuthenticationPage = () => {
 
               return (
                 <UserRowItem
+                  onUpdate={handleUpdateUser}
                   key={user._id}
                   item={user}
                   onRoleUpdate={handleRoleUpdate}

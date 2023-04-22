@@ -20,7 +20,8 @@ export const useUsers = (collection?: string, documentId?: string) => {
                 () => {
                     console.error('ridi')
                     setUsers(undefined)
-                })
+                }
+            )
     }
 
     useEffect(() => {
@@ -31,10 +32,15 @@ export const useUsers = (collection?: string, documentId?: string) => {
 
     }, [collection, documentId])
 
+    const updateUser = async (uid: string, payload: any) => {
+        const { data } = await client.Admin.Users.updateUser(uid, payload);
+        console.log('check:', data);
+    }
+
     const createUser = async (payload: any) => {
         await client.Admin.Users.newUser(payload);
         fetch();
     }
 
-    return { deleteUser, users, createUser };
+    return { deleteUser, users, createUser, updateUser };
 }

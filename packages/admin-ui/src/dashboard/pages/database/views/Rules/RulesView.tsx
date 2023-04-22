@@ -14,7 +14,7 @@ export const RulesView = () => {
   const [updatedRules, setUpdatedRules] = useState<any[] | undefined>(undefined);
   const changed = JSON.stringify(rules) !== JSON.stringify(updatedRules);
 
-  // when api data comes 
+  // when api data comes
   useWatch(rules, () => {
     if (!updatedRules && rules && rules.length) {
       setUpdatedRules(rules);
@@ -78,6 +78,14 @@ export const RulesView = () => {
         onClick={handleResetChanges}
       >
         Reset Changes
+      </Button>
+      <Button
+        variant="text"
+        color="success"
+        disabled={!changed}
+        onClick={handleSave}
+      >
+        Save
       </Button>
       <Box ml="auto" />
       <Button

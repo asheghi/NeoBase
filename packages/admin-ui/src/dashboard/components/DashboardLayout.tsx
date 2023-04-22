@@ -108,7 +108,11 @@ export default function DashboardLayout(props: Props) {
   const handleLogoutClicked = async () => {
     //
     setAnchorEl(null);
-    await client.Auth.logout();
+    try {
+      await client.Auth.logout();
+    } catch (error) {
+      console.error(error);
+    }
     window.location.href = '/login/'
   };
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {

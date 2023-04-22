@@ -7,7 +7,8 @@
     "dev": "pnpm --parallel --filter='!docker-compose' run dev",
     "dev:core": "pnpm --filter=core run dev",
     "dev:admin": "pnpm --filter=admin-ui run dev",
-    "build" : "pnpm -r build"
+    "build:admin": "pnpm --filter=admin-ui run build",
+    "build": "pnpm -r build"
   },
   "keywords": [],
   "author": "",
