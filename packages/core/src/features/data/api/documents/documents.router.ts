@@ -14,25 +14,25 @@ app.use(bodyParser.json());
 
 const canUserDo =
   (operation: string) =>
-  async (req: any, res: Express.Response, next: Express.NextFunction) => {
-    if (req.user && req.user.role === "admin") {
-      req.access_filter = {};
-      return next();
-    }
-    const filter = await getUserFilter({
-      req,
-      collection: req.collection,
-      operation,
-    });
+    async (req: any, res: Express.Response, next: Express.NextFunction) => {
+      if (req.user && req.user.role === "admin") {
+        req.access_filter = {};
+        return next();
+      }
+      const filter = await getUserFilter({
+        req,
+        collection: req.collection,
+        operation,
+      });
 
-    if (filter) {
-      req.access_filter = filter;
-      return next();
-    }
-    return res.status(403).json({
-      msg: "Access Denied!, You do not have the appropriate permissions.",
-    });
-  };
+      if (filter) {
+        req.access_filter = filter;
+        return next();
+      }
+      return res.status(403).json({
+        msg: "Access Denied!, You do not have the appropriate permissions.",
+      });
+    };
 
 app.post(
   "/find",

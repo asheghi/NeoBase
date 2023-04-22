@@ -53,7 +53,8 @@ function processFilter(filterArg: any, context: any) {
 let AccessConfig: any = null;
 
 export async function getUserFilter(arg: any) {
-  const { req, operation, collection, user } = arg;
+  const { req, operation, collection } = arg;
+  const user = req.user;
   if (!AccessConfig) AccessConfig = await getAccessConfigCollection();
   const existing = await AccessConfig.findOne({ collection });
   const accessConfig = existing ? existing.roles : defaultAccessConfig;
@@ -66,6 +67,7 @@ export async function getUserFilter(arg: any) {
       const matchedConfig = roleBasedRoles.find(
         (it: any) => it.user.role === user.role
       );
+
       if (matchedConfig) {
         let operationConf = matchedConfig[operation];
         if (operationConf === true) operationConf = {};
@@ -76,6 +78,7 @@ export async function getUserFilter(arg: any) {
     if (authedRole) return processFilter(authedRole[operation], { req });
   } else {
     const unAuthedRole = accessConfig.find((it: any) => !it.user);
+
     if (unAuthedRole) return processFilter(unAuthedRole[operation], { req });
   }
 
