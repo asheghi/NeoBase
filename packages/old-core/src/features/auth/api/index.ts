@@ -1,1 +1,0 @@
-export { AuthApiRouter } from "./authApiRouter";
