@@ -1,4 +1,4 @@
-import { NextFunction, Request } from "express";
+import { NextFunction, Response } from "express";
 
 // todo 2 fix type
 export const adminGuard = (req: any, res: Response, next: NextFunction) => {

@@ -1,11 +1,9 @@
 import Mongoose from "mongoose";
-import { config } from "./config/index.js";
-import { getLogger } from "./getLogger.js";
+import { config } from "./config/index";
 import { Model as _Model } from "mongoose";
-import { User } from "./types";
+import { User } from "../types";
 
 type Model = _Model<any>;
-const log = getLogger("db-connector");
 
 const connectionPool: { [key: string]: any } = {};
 

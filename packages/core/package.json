@@ -3,34 +3,27 @@
   "title": "NeoBase",
   "version": "0.0.1",
   "description": "NeoBase Server",
-  "main": "dist/server/index.js",
-  "type": "module",
+  "main": "dist/index.js",
   "bin": {
-    "neobase": "dist/server/index.js"
+    "neobase": "dist/index.js"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development npm run server",
-    "clear:dist": "rimraf dist",
-    "server:build": "node scripts/bundleServer.cjs",
-    "build": "npm run clear:dist && npm run server:build",
-    "server": "ts-node src/cli/index.ts start --debug --cookie-secret nosecret",
-    "server:debug": "node --inspect -r ts-node/register src/cli/index start --debug --cookie-secret nosecret",
-    "server:prod": "cross-env NODE_ENV=production ts-node src/cli/index.ts start",
-    "start": "node dist/server/index.js start",
-    "test-prod": "npm run build && npm run start"
+    "dev": "ts-node-dev --respawn --transpile-only ./src/cli/index.ts start --debug --cookie-secret nosecret",
+    "cli": "node dist/index.js",
+    "build": "npm run clear:dist && npm run esbuild",
+    "lint": "eslint src/**/*.{ts,js,cjs}",
+    "lint:fix": "eslint src/**/*.{ts,js,cjs} --fix",
+    "debug": "node --inspect -r ts-node/register src/cli/index start --debug --cookie-secret nosecret",
+    "esbuild": "node scripts/EsBuild.cjs",
+    "test-prod": "npm run build && npm run start",
+    "clear:dist": "rimraf dist"
   },
   "dependencies": {
     "@neobase/admin-ui": "workspace:*",
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
-    "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.12",
     "@neobase/client": "workspace:*",
     "@types/compression": "^1.7.2",
     "@types/express": "^4.17.14",
     "@types/node": "^18.11.9",
-    "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.3",
     "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
@@ -50,13 +43,7 @@
     "mongoose": "^6.3.3",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-router-dom": "^6.9.0",
-    "react-streaming": "^0.3.5",
     "rimraf": "^2.6.2",
-    "simplebar-react": "^3.2.1",
-    "sirv": "^2.0.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.4",
     "zod": "^3.18.0"
@@ -73,12 +60,11 @@
     "@types/jsonwebtoken": "^8.5.8",
     "@types/morgan": "^1.9.3",
     "@types/passport": "^1.0.12",
-    "@types/prop-types": "^15.7.5",
     "@typescript-eslint/eslint-plugin": "^5.34.0",
     "@typescript-eslint/parser": "^5.34.0",
     "esbuild": "^0.17.11",
     "eslint": "^8.16.0",
     "fs-extra": "^11.1.0",
-    "prop-types": "^15.8.1"
+    "ts-node-dev": "^2.0.0"
   }
 }

@@ -1,1 +1,1 @@
-export { getLogger } from "./getLogger.js";
+export { getLogger } from "./getLogger";

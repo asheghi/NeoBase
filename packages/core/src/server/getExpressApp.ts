@@ -1,19 +1,19 @@
 import express from "express";
 import compression from "compression";
-import { getApisMiddleware } from "./getApisMiddleware.js";
-import { setupPassportOnExpressApp } from "../features/user/apis/auth/setupPassportMiddlewares.js";
-import { corsMiddleware } from "../lib/corsMiddleware.js";
-import { morganMiddleware } from "../lib/middleware/morganMiddleware.js";
+import { ApisMiddleware } from "../api";
+import { corsMiddleware } from "../lib/middleware/corsMiddleware";
+import { morganMiddleware } from "../lib/middleware/morganMiddleware";
 import AdminUIRouter from "@neobase/admin-ui";
-export const getExpressApp = async () => {
+import { setupPassportOnExpressApp } from "../api/user/auth/setupPassportMiddlewares";
+export const getExpressApp = () => {
   const app = express();
 
   app.use(morganMiddleware);
   app.use(corsMiddleware);
 
   app.use(compression());
-  await setupPassportOnExpressApp(app);
-  app.use("/api", await getApisMiddleware());
+  setupPassportOnExpressApp(app);
+  app.use("/api", ApisMiddleware);
   app.use(AdminUIRouter);
   return app;
 };

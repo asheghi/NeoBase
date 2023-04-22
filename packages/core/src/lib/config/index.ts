@@ -1,5 +1,5 @@
-import { defaultConfig } from "./defaultConfig.js";
-import { getLogger } from "../getLogger.js";
+import { defaultConfig } from "./defaultConfig";
+import { getLogger } from "../getLogger";
 
 const log = getLogger("config");
 
@@ -16,7 +16,7 @@ const proxy: any = new Proxy(target, {
     if (process.env[key]) {
       return process.env[key];
     }
-    // default value from files
+    // default value from source code
     if (t[key]) {
       return t[key];
     }
