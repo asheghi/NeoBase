@@ -1,6 +1,9 @@
 /* eslint-disable no-loops/no-loops */
 
-import { getAccessConfigCollection } from "../../../lib/db-connector";
+import {
+  getAccessConfigCollection,
+  getAuthCollection,
+} from "../../../lib/db-connector";
 
 // policies
 export const defaultAccessConfig = [
@@ -37,6 +40,8 @@ export const defaultAccessConfig = [
 
 function processFilter(filterArg: any, context: any) {
   if (!filterArg) return false;
+  // if access allowed we don't apply any filter
+  if (filterArg === true) return {};
   const { req } = context;
   const filter = { ...filterArg };
   Object.keys(filter).forEach((key) => {
@@ -47,41 +52,70 @@ function processFilter(filterArg: any, context: any) {
       }
     }
   });
+  // mongodb db query filter
   return filter;
 }
 
 let AccessConfig: any = null;
+
+async function filterRulesForUser(rules: any[], user: any) {
+  const selectedRules = [];
+  // level 1 check if user falls in one of the rules
+  for (const rule of rules) {
+    // un-authenticated users
+    if (!rule.user) {
+      selectedRules.push({ ...rule, priority: 1 });
+    }
+    // authenticated users
+    else if (user && rule.user === true) {
+      selectedRules.push({ ...rule, priority: 2 });
+    }
+    // only role based rule
+    else if (
+      user?.role &&
+      rule?.user?.role &&
+      Object.keys(rule.user).length === 1
+    ) {
+      if (user.role === rule.user.role)
+        selectedRules.push({ ...rule, priority: 3 });
+    }
+    // custom user filter
+    else if (user && rule.user) {
+      const Users = await getAuthCollection();
+      const found = await Users.findOne({ ...rule.user, _id: user.id });
+      if (found) selectedRules.push({ ...rule, priority: 4 });
+    } else {
+      console.error("bad rule: did not find a case for this rule:");
+      console.log("rule:", rule);
+    }
+  }
+  return selectedRules.sort((a, b) => a.priority - b.priority);
+}
 
 export async function getUserFilter(arg: any) {
   const { req, operation, collection } = arg;
   const user = req.user;
   if (!AccessConfig) AccessConfig = await getAccessConfigCollection();
   const existing = await AccessConfig.findOne({ collection });
-  const accessConfig = existing ? existing.roles : defaultAccessConfig;
+  const rules = existing.rules ?? defaultAccessConfig;
+  const filteredRules = await filterRulesForUser(rules, user);
 
-  if (user) {
-    if (user.role) {
-      const roleBasedRoles = accessConfig.filter(
-        (it: any) => it.user && it.user.role && typeof it.user.role === "string"
-      );
-      const matchedConfig = roleBasedRoles.find(
-        (it: any) => it.user.role === user.role
-      );
+  // if no rules found for this user then no access
+  if (!filteredRules.length) return false;
 
-      if (matchedConfig) {
-        let operationConf = matchedConfig[operation];
-        if (operationConf === true) operationConf = {};
-        return processFilter(operationConf, { req });
-      }
+  let result: any = false;
+  for (const rule of filteredRules) {
+    const filter = processFilter(rule[operation], { req });
+    if (!filter) {
+      result = false;
+    } else if (!result) {
+      result = filter;
+    } else {
+      // should we override or extend?
+      // result = { ...result, ...filter };
+      result = filter;
     }
-    const authedRole = accessConfig.find((it: any) => it.user === true);
-    if (authedRole) return processFilter(authedRole[operation], { req });
-  } else {
-    const unAuthedRole = accessConfig.find((it: any) => !it.user);
-
-    if (unAuthedRole) return processFilter(unAuthedRole[operation], { req });
   }
 
-  // finally, if no suitable rules were found
-  return false;
+  return result;
 }

@@ -96,7 +96,8 @@ export default {
     async removeTodo(task) {
       try {
         this.loading[task._id] = true;
-        await Todos.deleteOne({ _id: task._id });
+        const { data } = await Todos.deleteOne({ _id: task._id });
+        if (!data.deletedCount) return;
         const index = this.todos.findIndex((it) => it._id === task._id);
         this.todos.splice(index, 1);
         await this.fetchCount();

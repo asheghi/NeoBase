@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only ./src/cli/index.ts start --debug --cookie-secret nosecret",
+    "dev:todos": "ts-node-dev --inspect --respawn --transpile-only ./src/cli/index.ts start --db-name todo-app --debug -P 8080 --cookie-secret nosecret",
     "cli": "node dist/index.js",
     "build": "npm run clear:dist && npm run esbuild",
     "lint": "eslint src/**/*.{ts,js,cjs}",

@@ -17,7 +17,7 @@ app.get("/access-config/:collection", async (req, res) => {
   const { collection } = req.params;
   let config: any = await AccessConfig.findOne({ collection });
   if (!config) config = defaultAccessConfig;
-  else config = config.toObject().roles;
+  else config = config.toObject().rules;
   try {
     ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
       delete config[it];
@@ -35,11 +35,11 @@ app.post("/access-config/:collection", async (req, res) => {
   const existing = await AccessConfig.findOne(query);
   const config = req.body;
   if (!existing)
-    return res.json(await AccessConfig.create({ roles: config, collection }));
+    return res.json(await AccessConfig.create({ rules: config, collection }));
   ["_id", "updatedAt", "createdAt", "__v", "collection"].forEach((it) => {
     delete config[it];
   });
-  await AccessConfig.updateOne(query, { $set: { roles: config } });
+  await AccessConfig.updateOne(query, { $set: { rules: config } });
   return res.json(await AccessConfig.findOne({ collection }));
 });
 
