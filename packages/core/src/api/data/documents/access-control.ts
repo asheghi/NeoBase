@@ -20,7 +20,7 @@ export const defaultAccessConfig = [
   },
   // authenticated user
   {
-    name: "creator",
+    name: "authenticated",
     user: true,
     create: true,
     read: { createdBy: "$uid" },
@@ -97,7 +97,7 @@ export async function getUserFilter(arg: any) {
   const user = req.user;
   if (!AccessConfig) AccessConfig = await getAccessConfigCollection();
   const existing = await AccessConfig.findOne({ collection });
-  const rules = existing.rules ?? defaultAccessConfig;
+  const rules = existing?.rules ?? defaultAccessConfig;
   const filteredRules = await filterRulesForUser(rules, user);
 
   // if no rules found for this user then no access

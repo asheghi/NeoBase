@@ -1,11 +1,7 @@
-import { CollectionSelector } from "./views/Collections/components/CollectionSelector"
+import {CollectionsView} from "./views/Collections/CollectionsView";
 
 export const DatabaseView = () => {
     return <>
-        collections:
-        <CollectionSelector />
-        <br />
-
-        other database related features
+        <CollectionsView />
     </>
 }

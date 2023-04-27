@@ -6,11 +6,14 @@ import {
   getAccessConfigCollection,
   getDatabase,
 } from "../../../lib/db-connector";
+import { adminGuard } from "../../../lib/middleware/adminGuard";
 
 const console = getLogger("collection.api");
 const app = Express.Router();
 
 app.use(bodyParser.json());
+
+app.use(adminGuard);
 
 app.get("/access-config/:collection", async (req, res) => {
   const AccessConfig = await getAccessConfigCollection();

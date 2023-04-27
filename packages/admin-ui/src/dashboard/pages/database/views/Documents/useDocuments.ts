@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useClient } from "../../../../../../../lib/client";
+import { useClient } from "../../../../../lib/client";
 
 export const useDocuments = (collection?: string, pageSize: number = 10) => {
     const client = useClient();

@@ -1,4 +1,4 @@
-import {useClient} from "../../../../../../../lib/client";
+import {useClient} from "../../../../../lib/client";
 import {useEffect, useState} from "react";
 
 export const useDocument = (collection?: string,documentId?:string) => {

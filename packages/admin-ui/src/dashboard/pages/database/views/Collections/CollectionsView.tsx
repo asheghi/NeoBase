@@ -1,5 +1,5 @@
 import React from "react";
-import { CollectionSelector } from "./components/CollectionSelector";
+import { CollectionSelector } from "./CollectionSelector";
 
 export const CollectionsView = () => {
   return (

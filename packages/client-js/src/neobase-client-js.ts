@@ -27,7 +27,7 @@ function createClient(baseUrl) {
       Collection: {
         getListOfCollections: () => ax.get(`data/collections`),
         createCollection: (name) => ax.post('data/collections', { name }),
-        deleteCollection: (name) => ax.delete('data/collection/' + name),
+        deleteCollection: (name) => ax.delete('data/collections/' + name),
       },
       Users: {
         find() {

@@ -1,7 +1,7 @@
 import { Link, Box, Button, OutlinedInput, ButtonGroup, IconButton, List, ListItem } from "@mui/material";
 import { Outlet, useParams } from "react-router-dom";
 // todo fix this 
-import { useClient } from "../../../../../../../lib/client";
+import { useClient } from "../../../../../lib/client";
 import { useDocuments } from "./useDocuments";
 import { useState } from "react";
 import ListViewIcon from '@mui/icons-material/Menu';
@@ -10,8 +10,8 @@ import TableViewIcon from '@mui/icons-material/GridView';
 import RefreshIcon from '@mui/icons-material/Cached';
 import NextPageIcon from '@mui/icons-material/ArrowForwardIos';
 import PrevPageIcon from '@mui/icons-material/ArrowBackIos';
-import { Loading } from "../../../../../../components/Loading";
-import { useFirstRender } from "../../../../../../../lib/useFirstRender";
+import { Loading } from "../../../../components/Loading";
+import { useFirstRender } from "../../../../../lib/useFirstRender";
 
 enum ViewMode {
   List,

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, Outlet, useLocation, useMatch, useMatches } from "react-router-dom";
 import { Box, Tab, Tabs } from "@mui/material";
-import { useCollection } from "./views/Collections/useCollection";
+import { useCollection } from "../../useCollection";
 
 
 

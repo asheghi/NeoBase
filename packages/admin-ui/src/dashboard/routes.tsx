@@ -3,19 +3,19 @@ import * as React from "react";
 import DashboardLayout from "./components/DashboardLayout";
 import { RouteObject, useLocation, useMatch } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useCollection } from "./pages/database/views/Collections/useCollection";
+import { useCollection } from "./pages/database/useCollection";
 
 const DatabasePage = React.lazy(() => import("./pages/database"));
 const AuthenticationPage = React.lazy(() => import("./pages/user-managment"));
 const CollectionView = React.lazy(
-  () => import("./pages/database/CollectionView")
+  () => import("./pages/database/views/Collection/CollectionView")
 );
 const RulesView = React.lazy(() => import("./pages/database/views/Rules"));
 const DocumentsView = React.lazy(
-  () => import("./pages/database/views/Collections/Views/Documents")
+  () => import("./pages/database/views/Documents")
 );
 const DocumentView = React.lazy(() =>
-  import('./pages/database/views/Collections/Views/DocumentView')
+  import('./pages/database/views/DocumentView')
 )
 const DbIndexView = React.lazy(
   () => import("./pages/database/views/DatabaseIndex")

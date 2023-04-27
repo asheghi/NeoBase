@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRules } from "./useRules";
-import { useCollection } from "../Collections/useCollection";
+import { useCollection } from "../../useCollection";
 import { Box, Button } from "@mui/material";
 import useWatch from "../../../../../lib/useWatch";
 import { client } from "../../../../../lib/client";

@@ -2,36 +2,19 @@
   <div class="Todos">
     <div class="form">
       <div :class="{ 'skeleton-box': creating }" class="w-full">
-        <input
-          id="todo"
-          v-model="newTask"
-          :disabled="creating"
-          type="text"
-          name="todo"
-          placeholder="yet another task"
-          @keydown.enter="createTask"
-        />
+        <input id="todo" v-model="newTask" :disabled="creating" type="text" name="todo" placeholder="yet another task"
+          @keydown.enter="createTask" />
       </div>
       <button :disabled="creating" @click="createTask">Add Todo</button>
     </div>
     <div class="list">
       <template v-if="!fetching">
-        <div
-          v-for="task in todos"
-          :key="task._id"
-          class="item"
-          :class="{
+        <div v-for="task in todos" :key="task._id" class="item" :class="{
             done: task.done,
             'skeleton-box': loading[task._id],
             loading: loading[task._id],
-          }"
-        >
-          <input
-            :disabled="loading[task._id]"
-            :checked="task.done"
-            type="checkbox"
-            @click="toggleDone(task)"
-          />
+          }">
+          <input :disabled="loading[task._id]" :checked="task.done" type="checkbox" @click="toggleDone(task, $event)" />
           <div class="name" v-text="task.name"></div>
           <button class="remove" @click="removeTodo(task)">Delete</button>
         </div>
@@ -108,14 +91,19 @@ export default {
       }
     },
     //update task
-    async toggleDone(task) {
+    async toggleDone(task, $event) {
       this.loading[task._id] = true;
       try {
-        await Todos.updateOne({ _id: task._id }, { ...task, done: !task.done });
-        const { data: updatedTask } = await Todos.findOne({ _id: task._id });
+        let payload = { ...task, done: !task.done };
+        await Todos.updateOne({ _id: task._id }, payload);
+        const { data } = await Todos.findOne({ _id: task._id });
+        if (!data.modifiedCount) {
+          $event.preventDefault();
+          return;
+        }
         const index = this.todos.findIndex((it) => it._id === task._id);
         this.todos.splice(index, 1);
-        this.todos.splice(index, 0, updatedTask);
+        this.todos.splice(index, 0, payload);
       } catch (err) {
         console.error(err);
       } finally {
@@ -132,9 +120,10 @@ export default {
 <style lang="scss">
 .Todos {
   @apply px-4;
+
   .item {
-    @apply text-lg  text-gray-700 flex px-2 items-center gap-2 w-full py-2 rounded
-    hover:bg-gray-200 transition my-2;
+    @apply text-lg text-gray-700 flex px-2 items-center gap-2 w-full py-2 rounded hover: bg-gray-200 transition my-2;
+
     .remove {
       @apply ml-auto bg-red-400 text-white px-2 py-1 text-sm rounded;
     }
@@ -160,6 +149,7 @@ export default {
 
   .form {
     @apply flex w-full gap-2;
+
     input {
       @apply bg-transparent w-full border outline-blue-600 border-gray-200 px-2 py-1;
     }
@@ -185,13 +175,11 @@ export default {
       bottom: 0;
       left: 0;
       transform: translateX(-100%);
-      background-image: linear-gradient(
-        90deg,
-        rgba(#fff, 0) 0,
-        rgba(#fff, 0.2) 20%,
-        rgba(#fff, 0.5) 60%,
-        rgba(#fff, 0)
-      );
+      background-image: linear-gradient(90deg,
+          rgba(#fff, 0) 0,
+          rgba(#fff, 0.2) 20%,
+          rgba(#fff, 0.5) 60%,
+          rgba(#fff, 0));
       animation: shimmer 2s infinite;
       content: "";
     }
