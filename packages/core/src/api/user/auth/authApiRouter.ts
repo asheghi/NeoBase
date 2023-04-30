@@ -8,6 +8,7 @@ import { authGuard } from "../../../lib/middleware/authGuard";
 import { validateSchema } from "../../../lib/validateSchema";
 import { GoogleOAuthRouter } from "./google/google-oauth";
 import { Services } from "../../../lib/services";
+import { OAuth } from "../../../lib/auth-providers";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -93,6 +94,10 @@ app.post(
 );
 
 app.use("/google", GoogleOAuthRouter);
+
+app.get("/oauth-providers", (req, res) => {
+  return res.json(OAuth.getProviders());
+});
 
 // private routes
 app.use(authGuard);

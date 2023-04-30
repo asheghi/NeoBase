@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { FormLayout } from "./FormLayout"
 import { useAuth } from "../AuthProvider";
 import GoogleLogo from '../../assets/icons/google-logo.svg';
+import { useOAuthProviders } from "./useOAuthProviders";
 
 export const LoginForm = () => {
   const { api, fetchUser } = useAuth();
@@ -11,6 +12,8 @@ export const LoginForm = () => {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>()
+
+  const oAuthProviders = useOAuthProviders(api);
 
   const handleSubmit: React.FormEventHandler = (e) => {
     e.preventDefault();
@@ -75,12 +78,14 @@ export const LoginForm = () => {
         </div>
       }
       <div className="flex justify-center pt-8">
-        <a href={api.Auth.loginWithGoogleUrl} className="">
-          <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
-            <img src={GoogleLogo} alt="google-icon" width="18" height="18" />
-            Sign in with Google
-          </div>
-        </a>
+        {
+          oAuthProviders.includes('google') && <a href={api.Auth.loginWithGoogleUrl} className="">
+            <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
+              <img src={GoogleLogo} alt="google-icon" width="18" height="18" />
+              Sign in with Google
+            </div>
+          </a>
+        }
       </div>
     </form>
   </FormLayout>

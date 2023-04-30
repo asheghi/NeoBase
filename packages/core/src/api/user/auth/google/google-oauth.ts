@@ -1,7 +1,17 @@
 import express from "express";
 import passport from "passport";
+import { OAuth, OAuthProviders } from "../../../../lib/auth-providers";
 
 const app = express.Router();
+
+app.use((req, res, next) => {
+  if (OAuth.isAvailable(OAuthProviders.Google)) {
+    return next();
+  }
+  return res.status(400).json({
+    msg: "google auth provider is not configured",
+  });
+});
 
 app.get(
   "/",

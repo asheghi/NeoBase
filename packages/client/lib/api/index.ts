@@ -210,6 +210,7 @@ function createApi(baseUrl) {
       register: (payload: any) => ax.post(`user/auth/register/password`, payload),
       login: (payload: any) => ax.post(`user/auth/login/password`, payload),
       logout: () => ax.post(`user/auth/logout`),
+      oAuthProviders: () => ax.get(`user/auth/oauth-providers`),
       loginWithGoogleUrl: apiBaseUrl + '/user/auth/google',
     },
     axiosClient: ax,
