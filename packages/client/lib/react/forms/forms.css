@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.form-layout{
+  @apply flex justify-center items-center w-full h-full py-4;
+}
+
+.form-header{
+  @apply text-center py-4 text-lg;
+}
+
+.form{
+  @apply flex flex-col gap-4 min-w-[280px];
+}
+
+.form-groups > div{
+  @apply py-2 flex flex-col gap-1 w-full;
+}
+
+.remember-forget{
+  @apply flex justify-between items-center;
+}
+
+.remember-me{
+  @apply  flex items-center gap-2;
+}
+.remember-me input{
+  @apply w-4 h-4;
+}
+
+
+input{
+  @apply py-1 px-2 rounded border border-gray-500;
+}
+
+.text-btn{
+  @apply rounded text-blue-500;
+}
+.contained-btn{
+  @apply bg-blue-500 rounded text-white py-1;
+}
+
+
+.error-message{
+  @apply text-red-700;
+}

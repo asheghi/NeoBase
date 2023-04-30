@@ -6,6 +6,8 @@ import { usernameSchema, passwordSchema } from "./validations/auth.validations";
 import { getLogger } from "../../../lib/getLogger";
 import { authGuard } from "../../../lib/middleware/authGuard";
 import { validateSchema } from "../../../lib/validateSchema";
+import { GoogleOAuthRouter } from "./google/google-oauth";
+import { Services } from "../../../lib/services";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -90,21 +92,26 @@ app.post(
   }
 );
 
+app.use("/google", GoogleOAuthRouter);
+
 // private routes
 app.use(authGuard);
 
 app.get("/me", (req, res) => {
-  const { username } = (req as any).user;
-  res.json({ username });
+  const { username, id, email } = (req as any).user;
+  res.json({ username, id, email });
 });
 
 app.post("/logout", function (req, res, next) {
+  const userId = (req.user as any).id;
+  const authChannel = "auth-" + userId;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
+    Services.getIoService().emit(authChannel, "logout");
     return res.json({ success: true });
   });
 });

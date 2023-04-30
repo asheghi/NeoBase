@@ -13,6 +13,9 @@ const themeOptions: ThemeOptions = {
     },
   },
   typography: {
+    button: {
+      textTransform: 'none',
+    },
     allVariants: {
       fontFamily: "Poppins",
     },

@@ -25,4 +25,4 @@ const proxy: any = new Proxy(target, {
   },
 });
 
-export const config = proxy;
+export const config = proxy as typeof defaultConfig;

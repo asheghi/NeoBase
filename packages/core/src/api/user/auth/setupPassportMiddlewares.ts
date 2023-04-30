@@ -5,6 +5,7 @@ import { config } from "../../../lib/config";
 import passport from "passport";
 import flash from "connect-flash";
 import cookieParser from "cookie-parser";
+import * as GoogleOAuth2 from "passport-google-oauth20";
 
 export const setupPassportOnExpressApp = (app: Application) => {
   app.use(cookieParser());
@@ -21,6 +22,31 @@ export const setupPassportOnExpressApp = (app: Application) => {
       },
     })
   );
+
+  if (config.google_oauth_client_id && config.google_oauth_client_secret) {
+    passport.use(
+      new GoogleOAuth2.Strategy(
+        {
+          clientID: config.google_oauth_client_id,
+          clientSecret: config.google_oauth_client_secret,
+          callbackURL: "http://localhost:8080/auth/google/callback",
+        },
+        function (accessToken, refreshToken, profile, cb) {
+          console.log(
+            "got user:accessToken, refreshToken, profile,",
+            accessToken,
+            refreshToken,
+            profile
+          );
+          cb();
+          // User.findOrCreate({ googleId: profile.id }, function (err, user) {
+          //   return cb(err, user);
+          // });
+        }
+      )
+    );
+  }
+
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());

@@ -5,6 +5,7 @@ import { theme } from "../lib/theme";
 import { client, ClientProvider } from "../lib/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
+
 export const App = () => {
     const router = createBrowserRouter(routes)
     useEffect(() => {

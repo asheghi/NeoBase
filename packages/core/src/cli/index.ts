@@ -7,6 +7,12 @@ import { config } from "../lib/config/index";
 import { createAdminUserAction } from "./actions/createAdminUserAction";
 import { randomString } from "../lib/randomString";
 import { manifest } from "../lib/manifest";
+import * as dotenv from "dotenv";
+import fs from "node:fs";
+import path from "node:path";
+
+dotenv.config();
+
 printFiglet();
 
 program
@@ -41,6 +47,25 @@ program
       "--db-name <dbName>",
       `mongodb database name, default:'${manifest.title}'`
     ).env("DB_NAME")
+  )
+  .addOption(
+    new Option(
+      "--google-oauth-client-id <clientId>",
+      `google oauth 2 client id`
+    ).env("GOOGLE_OAUTH_CLIENT_ID")
+  )
+  .addOption(
+    new Option(
+      "--google-oauth-client-secret <clientSecret>",
+      `google oauth 2 client id`
+    ).env("GOOGLE_OAUTH_CLIENT_SECRET")
+  )
+  .addOption(new Option("--https", `server as https server`).env("HTTPS"))
+  .addOption(
+    new Option("--ssl-cert <sslCert>", `ssl cert file content`).env("SSL_CERT")
+  )
+  .addOption(
+    new Option("--ssl-key <sslKey>", `ssl key file content`).env("SSL_KEY")
   )
   .addOption(
     new Option("-d, --debug", `show debug information, default:'false'`)
@@ -81,6 +106,32 @@ program
           .map((key) => `config.${key}=${config[key]}`)
           .join("\n")
       );
+    }
+
+    if (options.googleOauthClientId || options.googleOauthClientSecret) {
+      if (!(options.googleOauthClientId && options.googleOauthClientSecret)) {
+        console.error(
+          "Error: both Google OAuth client id and client secret must be passed!"
+        );
+        process.exit(0);
+      }
+    }
+
+    if (options.googleOauthClientId) {
+      config.google_oauth_client_id = options.googleOauthClientId;
+    }
+
+    if (options.googleOauthClientSecret) {
+      config.google_oauth_client_secret = options.googleOauthClientSecret;
+    }
+
+    if (options.https) {
+      if (!(options.sslCert && options.sslKey)) {
+        console.error(
+          "Error: ssl cert and ssl key are required for https mode"
+        );
+        process.exit(0);
+      }
     }
 
     startServerAction();
