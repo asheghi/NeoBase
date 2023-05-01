@@ -1,7 +1,8 @@
-import { config } from "./config";
+import { config } from "../config";
 
 export enum OAuthProviders {
   Google = "google",
+  Github = "github",
 }
 
 let providers: OAuthProviders[];
@@ -11,6 +12,9 @@ const initProviders = () => {
   // google
   if (config.google_oauth_client_id && config.google_oauth_client_secret) {
     providers.push(OAuthProviders.Google);
+  }
+  if (config.github_oauth_client_id && config.github_oauth_client_secret) {
+    providers.push(OAuthProviders.Github);
   }
 };
 

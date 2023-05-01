@@ -9,6 +9,8 @@ import { getAuthCollection } from "../../../lib/db-connector";
 
 const log = getLogger("auth.service");
 
+export type UserService = ReturnType<typeof getAuthService>;
+
 // todo 2 implement dependency injection!
 export async function getAuthService() {
   const Users = await getAuthCollection();

@@ -1,4 +1,4 @@
-import { randomString } from "../randomString";
+import { randomString } from "../lib/randomString";
 export type ConfigType = {
   cookie_secret: string;
   domain: string;
@@ -16,6 +16,8 @@ export type ConfigType = {
   google_oauth_client_id: string | undefined;
   google_oauth_client_secret: string | undefined;
   cors_origin: string | undefined;
+  github_oauth_client_id: string | undefined;
+  github_oauth_client_secret: string | undefined;
 };
 
 export const defaultConfig: ConfigType = {
@@ -45,7 +47,12 @@ export const defaultConfig: ConfigType = {
   listen_host: "localhost",
   listen_port: 8080,
   trust_proxy: false,
+  cors_origin: "http://localhost:5173",
+  /*
+    oAuth providers
+   */
   google_oauth_client_id: undefined,
   google_oauth_client_secret: undefined,
-  cors_origin: "http://localhost:5173",
+  github_oauth_client_id: undefined,
+  github_oauth_client_secret: undefined,
 };

@@ -9,6 +9,7 @@ import { validateSchema } from "../../../lib/validateSchema";
 import { GoogleOAuthRouter } from "./google/google-oauth";
 import { Services } from "../../../lib/services";
 import { OAuth } from "../../../lib/auth-providers";
+import { GithubOAuthRouter } from "./github/github-oauth";
 
 const log = getLogger("auth.api");
 const app = Express.Router();
@@ -94,6 +95,7 @@ app.post(
 );
 
 app.use("/google", GoogleOAuthRouter);
+app.use("/github", GithubOAuthRouter);
 
 app.get("/oauth-providers", (req, res) => {
   return res.json(OAuth.getProviders());
@@ -103,8 +105,8 @@ app.get("/oauth-providers", (req, res) => {
 app.use(authGuard);
 
 app.get("/me", (req, res) => {
-  const { username, id, email } = (req as any).user;
-  res.json({ username, id, email });
+  const { id, username, role, emails, avatar, name, provider } = (req as any).user;
+  res.json({ id, username, role, emails, avatar, name, provider });
 });
 
 app.post("/logout", function (req, res, next) {

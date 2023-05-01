@@ -1,6 +1,6 @@
 import repl from "node:repl";
 import * as JwtUtils from "../../lib/jwt-utils";
-import { config } from "../../lib/config/index";
+import { config } from "../../config/index";
 import { getLogger } from "../../lib/getLogger";
 import * as DbConnector from "../../lib/db-connector";
 import { getAuthService } from "../../api/user/auth/auth.service";

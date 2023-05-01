@@ -3,13 +3,14 @@ import { printFiglet } from "./misc/printFiglet";
 import { createConfigFile } from "./actions/createEnvFile";
 import { startServerAction } from "./actions/startServerAction";
 import { startReplConsole } from "./actions/startReplConsole";
-import { config } from "../lib/config/index";
+import { config } from "../config/index";
 import { createAdminUserAction } from "./actions/createAdminUserAction";
 import { randomString } from "../lib/randomString";
 import { manifest } from "../lib/manifest";
 import * as dotenv from "dotenv";
 import fs from "node:fs";
 import path from "node:path";
+import { envFormatter } from "./misc/envFormatter";
 
 dotenv.config();
 
@@ -48,6 +49,14 @@ program
       `mongodb database name, default:'${manifest.title}'`
     ).env("DB_NAME")
   )
+
+  .addOption(new Option("--https", `server as https server`).env("HTTPS"))
+  .addOption(
+    new Option("--ssl-cert <sslCert>", `ssl cert file content`).env("SSL_CERT")
+  )
+  .addOption(
+    new Option("--ssl-key <sslKey>", `ssl key file content`).env("SSL_KEY")
+  )
   .addOption(
     new Option(
       "--google-oauth-client-id <clientId>",
@@ -60,12 +69,17 @@ program
       `google oauth 2 client id`
     ).env("GOOGLE_OAUTH_CLIENT_SECRET")
   )
-  .addOption(new Option("--https", `server as https server`).env("HTTPS"))
   .addOption(
-    new Option("--ssl-cert <sslCert>", `ssl cert file content`).env("SSL_CERT")
+    new Option(
+      "--github-oauth-client-id <clientId>",
+      `github oauth 2 client id`
+    ).env("GITHUB_OAUTH_CLIENT_ID")
   )
   .addOption(
-    new Option("--ssl-key <sslKey>", `ssl key file content`).env("SSL_KEY")
+    new Option(
+      "--github-oauth-client-secret <clientSecret>",
+      `github oauth 2 client id`
+    ).env("GITHUB_OAUTH_CLIENT_SECRET")
   )
   .addOption(
     new Option("-d, --debug", `show debug information, default:'false'`)
@@ -97,13 +111,13 @@ program
     if (options.debug) {
       console.log(
         Object.keys(options)
-          .map((key) => `options.${key}=${options[key]}`)
+          .map((key) => `options.${key}=${envFormatter(options[key])}`)
           .join("\n")
       );
 
       console.log(
         Object.keys(config)
-          .map((key) => `config.${key}=${config[key]}`)
+          .map((key) => `config.${key}=${envFormatter(config[key])}`)
           .join("\n")
       );
     }
@@ -123,6 +137,23 @@ program
 
     if (options.googleOauthClientSecret) {
       config.google_oauth_client_secret = options.googleOauthClientSecret;
+    }
+
+    if (options.https) {
+      if (!(options.sslCert && options.sslKey)) {
+        console.error(
+          "Error: ssl cert and ssl key are required for https mode"
+        );
+        process.exit(0);
+      }
+    }
+
+    if (options.githubOauthClientId) {
+      config.github_oauth_client_id = options.githubOauthClientId;
+    }
+
+    if (options.githubOauthClientSecret) {
+      config.github_oauth_client_secret = options.githubOauthClientSecret;
     }
 
     if (options.https) {

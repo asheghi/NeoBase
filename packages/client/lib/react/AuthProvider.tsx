@@ -111,7 +111,19 @@ export const AuthProvider = (props: { children: React.ReactNode, api: ApiType })
       return;
     }
     fetchUser();
-  }, [props,])
+  }, [props,]);
+
+  // refetch data when user use back button
+  const onPageShow = function (event) {
+    // Check if the page is being loaded from the cache
+    if (event.persisted) {
+      fetchUser();
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
+  })
 
   return <AuthContext.Provider value={contextValue}>
     {props.children}

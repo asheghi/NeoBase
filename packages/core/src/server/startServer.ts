@@ -1,5 +1,5 @@
 import { getExpressApp } from "./getExpressApp";
-import { config } from "../lib/config/index";
+import { config } from "../config/index";
 import http from "node:http";
 import https from "node:https";
 import { Server as SocketIoServer } from "socket.io";

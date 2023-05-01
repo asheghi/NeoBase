@@ -13,6 +13,7 @@ app.use((req, res, next) => {
   });
 });
 
+// todo implement returnTo just like github
 app.get(
   "/",
   passport.authenticate("google", {

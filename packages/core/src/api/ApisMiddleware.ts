@@ -1,7 +1,7 @@
 import express from "express";
 
 import { manifest } from "../lib/manifest";
-import { config } from "../lib/config";
+import { config } from "../config";
 import { DataApiRouter } from "./data";
 import { UserApiRouter } from "./user";
 const app = express.Router();

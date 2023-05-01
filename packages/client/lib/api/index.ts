@@ -212,6 +212,7 @@ function createApi(baseUrl) {
       logout: () => ax.post(`user/auth/logout`),
       oAuthProviders: () => ax.get(`user/auth/oauth-providers`),
       loginWithGoogleUrl: apiBaseUrl + '/user/auth/google',
+      loginWithGithubUrl: apiBaseUrl + '/user/auth/github',
     },
     axiosClient: ax,
     setAxiosClient: arg => (ax = arg)

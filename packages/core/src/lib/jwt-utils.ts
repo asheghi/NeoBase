@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 // todo 3 remove jwt if not required!
 import jwt from "jsonwebtoken";
-import { config } from "./config/index";
+import { config } from "../config/index";
 import { getLogger } from "./getLogger";
 
 const log = getLogger("jwt-utils");

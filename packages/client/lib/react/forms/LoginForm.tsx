@@ -2,9 +2,13 @@ import React, { useState } from "react"
 import { FormLayout } from "./FormLayout"
 import { useAuth } from "../AuthProvider";
 import GoogleLogo from '../../assets/icons/google-logo.svg';
+import GithubLogo from '../../assets/icons/github-logo.svg';
 import { useOAuthProviders } from "./useOAuthProviders";
+type LoginFormProps = {
+  returnTo: string | undefined,
+}
 
-export const LoginForm = () => {
+export const LoginForm = (props: LoginFormProps) => {
   const { api, fetchUser } = useAuth();
 
   const [username, setUsername] = useState<string>();
@@ -42,6 +46,8 @@ export const LoginForm = () => {
     e.preventDefault();
   }
 
+  const returnTo = props.returnTo ?? window.location.href;
+
   return <FormLayout>
     <form onSubmit={handleSubmit} className="form">
       <div className="form-header">
@@ -49,7 +55,7 @@ export const LoginForm = () => {
       </div>
       <div className="form-groups">
         <div>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="username">Username or Email</label>
           <input value={username} onChange={e => setUsername(e.target.value)}
             type="text" placeholder="Enter your username or email" />
         </div>
@@ -77,12 +83,20 @@ export const LoginForm = () => {
           </div>
         </div>
       }
-      <div className="flex justify-center pt-8">
+      <div className="flex justify-center pt-8 gap-4">
         {
           oAuthProviders.includes('google') && <a href={api.Auth.loginWithGoogleUrl} className="">
             <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
               <img src={GoogleLogo} alt="google-icon" width="18" height="18" />
               Sign in with Google
+            </div>
+          </a>
+        }
+        {
+          oAuthProviders.includes('github') && <a href={api.Auth.loginWithGithubUrl + "?returnTo=" + btoa(returnTo)} className="">
+            <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
+              <img src={GithubLogo} alt="google-icon" width="18" height="18" />
+              Sign in with Github
             </div>
           </a>
         }

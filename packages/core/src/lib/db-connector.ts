@@ -1,5 +1,5 @@
 import Mongoose from "mongoose";
-import { config } from "./config/index";
+import { config } from "../config/index";
 import { Model as _Model } from "mongoose";
 import { User } from "../types";
 
