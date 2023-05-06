@@ -9,12 +9,12 @@ type LoginFormProps = {
   returnTo?: string,
 }
 
-export const LoginForm = (props: LoginFormProps) => {
+export const RegisterForm = (props: LoginFormProps) => {
   const { api, fetchUser, user } = useAuth();
 
   const [username, setUsername] = useState<string>();
+  const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>()
 
@@ -28,10 +28,10 @@ export const LoginForm = (props: LoginFormProps) => {
     }
     setError(undefined);
     setLoading(true);
-    api?.Auth.login({
+    api?.Auth.register({
+      email,
       username,
       password,
-      rememberMe
     })
       .then(() => {
         fetchUser();
@@ -42,9 +42,6 @@ export const LoginForm = (props: LoginFormProps) => {
       .finally(() => {
         setLoading(false);
       })
-  }
-  function handleForgetPassword(e: any) {
-    e.preventDefault();
   }
 
   const returnTo = props.returnTo ?? window.location.href;
@@ -60,30 +57,27 @@ export const LoginForm = (props: LoginFormProps) => {
   return <FormLayout>
     <form onSubmit={handleSubmit} className="form">
       <div className="form-header">
-        <h1>Sign in to your account</h1>
+        <h1>Sign up a new account</h1>
       </div>
       <div className="form-groups">
         <div>
-          <label htmlFor="username">Username or Email</label>
+          <label htmlFor="email">Email</label>
+          <input value={email} id="email" onChange={e => setEmail(e.target.value)}
+            type="text" placeholder="Enter your email" />
+        </div>
+        <div>
+          <label htmlFor="username">Username</label>
           <input value={username} onChange={e => setUsername(e.target.value)}
-            type="text" placeholder="Enter your username or email" />
+            type="text" placeholder="Enter your username" />
         </div>
         <div>
           <label htmlFor="password">Password</label>
           <input value={password} onChange={e => setPassword(e.target.value)} type="password" placeholder="Enter your password" />
         </div>
       </div>
-      <div className="remember-forget ">
-        <div className="remember-me">
-          <input onChange={e => setRememberMe(e.target.checked)} id="remember-me" type="checkbox" />
-          <label htmlFor="remember-me" >Remember me</label>
-        </div>
-        <a onClick={handleForgetPassword} className="text-btn">
-          Forgot Password?
-        </a>
-      </div>
+
       <button disabled={loading} className="contained-btn">
-        {loading ? 'Signing in' : 'Sign in'}
+        {loading ? 'Signing up' : 'Sign up'}
       </button>
       {
         error && <div className="error-container">
@@ -97,7 +91,7 @@ export const LoginForm = (props: LoginFormProps) => {
           oAuthProviders.includes('google') && <a href={api.Auth.loginWithGoogleUrl} className="">
             <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
               <img src={GoogleLogo} alt="google-icon" width="18" height="18" />
-              Sign in with Google
+              Sign up with Google
             </div>
           </a>
         }
@@ -105,7 +99,7 @@ export const LoginForm = (props: LoginFormProps) => {
           oAuthProviders.includes('github') && <a href={api.Auth.loginWithGithubUrl + "?returnTo=" + btoa(returnTo)} className="">
             <div className="flex items-center gap-2 border border-gray-300 px-2 py-1 rounded">
               <img src={GithubLogo} alt="google-icon" width="18" height="18" />
-              Sign in with Github
+              Sign up with Github
             </div>
           </a>
         }

@@ -1,5 +1,4 @@
 import { Forms, useAuth } from '@neobase/client/react';
-import { Api } from './api';
 import '@neobase/client/react/theme.css'
 
 function App() {

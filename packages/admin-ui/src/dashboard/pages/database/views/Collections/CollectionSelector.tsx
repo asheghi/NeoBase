@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { useClient } from "../../../../../lib/client";
+import { useApi } from "../../../../../lib/client";
 
 function DeleteCollectionModal(props: {
   onClose: () => void;
@@ -62,7 +62,7 @@ function NewCollectionModal(props: {
 
 export const CollectionSelector = () => {
   const [search, setSearch] = useState();
-  const client = useClient();
+  const client = useApi();
   const [collections, setCollections] = useState<{ name: string }[]>([]);
   const [currentDeletingCollection, setCurrentDeletingCollection] = useState(
     ""
@@ -75,7 +75,7 @@ export const CollectionSelector = () => {
     });
   }
 
-  useEffect(function() {
+  useEffect(function () {
     fetchCollections();
     return () => {
       //

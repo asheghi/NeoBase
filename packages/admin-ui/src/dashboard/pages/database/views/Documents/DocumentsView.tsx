@@ -1,7 +1,7 @@
 import { Link, Box, Button, OutlinedInput, ButtonGroup, IconButton, List, ListItem } from "@mui/material";
 import { Outlet, useParams } from "react-router-dom";
-// todo fix this 
-import { useClient } from "../../../../../lib/client";
+// todo fix this
+import { useApi } from "../../../../../lib/client";
 import { useDocuments } from "./useDocuments";
 import { useState } from "react";
 import ListViewIcon from '@mui/icons-material/Menu';

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useClient } from "../../../lib/client";
+import { useApi } from "../../../lib/client";
 
 export const useUsers = (collection?: string, documentId?: string) => {
-    const client = useClient();
+    const client = useApi();
     const [users, setUsers] = useState<any>(undefined);
 
     const deleteUser = (index: number) => {

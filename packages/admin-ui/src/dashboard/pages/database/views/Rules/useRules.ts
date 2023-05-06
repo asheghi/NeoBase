@@ -1,8 +1,8 @@
-import { useClient } from "../../../../../lib/client";
+import { useApi } from "../../../../../lib/client";
 import { useEffect, useState } from "react";
 
 export const useRules = (collection: string | undefined) => {
-    const client = useClient();
+    const client = useApi();
     const [rules, setRules] = useState<any>(undefined);
 
     const fetch = () => {

@@ -1,2 +1,1 @@
-export {usePageContext} from "./pageContext";
-export {App} from "../dashboard/App";
+export { usePageContext, PageContextProvider } from "./pageContext";

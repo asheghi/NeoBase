@@ -21,7 +21,7 @@ import { routes, usePageTitle } from "../routes";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { sideBarItems } from "../sideBarItems";
 import { usePageContext } from "../../lib";
-import { useClient } from "../../lib/client";
+import { useApi } from "../../lib/client";
 const drawerWidth = 240;
 
 interface Props {
@@ -34,7 +34,7 @@ export default function DashboardLayout(props: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const pageTitle = usePageTitle();
-  const client = useClient();
+  const client = useApi();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

@@ -1,13 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {AppWrapper} from "./AppWrapper";
-import {RegisterPage} from "./RegisterPage";
+import { App } from './App';
 
 ReactDOM.render(
     <React.StrictMode>
-       <AppWrapper>
-           <RegisterPage />
-       </AppWrapper>
+        <App />
     </React.StrictMode>,
     document.getElementById('app-root')
 )

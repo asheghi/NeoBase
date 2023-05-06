@@ -33,10 +33,14 @@ app.post(
   validateSchema(registerSchema),
   async (req: any, res, next) => {
     const {
-      body: { username, password },
+      body: { email, username, password },
     } = req;
     try {
-      const user = await req.AuthService.register(username, password);
+      const user = await req.AuthService.register({
+        email,
+        username,
+        password,
+      });
       if (!user) return res.status(400).send("something is not right!");
       const error = await new Promise((resolve) => {
         req.login(user, function (err: any) {
@@ -73,9 +77,9 @@ app.post(
   validateSchema(loginSchema),
   async (req: any, res) => {
     const {
-      body: { username, password },
+      body: { username, password, email },
     } = req;
-    const user = await req.AuthService.login(username, password);
+    const user = await req.AuthService.login({ email, username, password });
     if (!user) return res.status(400).json({ success: false });
     const error = await new Promise((resolve) => {
       req.login(user, function (err: any) {
@@ -105,7 +109,8 @@ app.get("/oauth-providers", (req, res) => {
 app.use(authGuard);
 
 app.get("/me", (req, res) => {
-  const { id, username, role, emails, avatar, name, provider } = (req as any).user;
+  const { id, username, role, emails, avatar, name, provider } = (req as any)
+    .user;
   res.json({ id, username, role, emails, avatar, name, provider });
 });
 

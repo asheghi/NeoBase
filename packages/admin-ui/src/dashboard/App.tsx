@@ -2,17 +2,38 @@ import React, { useEffect } from "react";
 import { PageContextProvider } from "../lib/pageContext";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "../lib/theme";
-import { client, ClientProvider } from "../lib/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { ClientProvider } from "../lib/client";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
+import { useAuth } from "@neobase/client/react";
 
 export const App = () => {
     const router = createBrowserRouter(routes)
+    const { user, loading } = useAuth();
+
     useEffect(() => {
-        client.Auth.me().catch(() => {
-            location.href = '/login';
-        })
-    }, [])
+        if (!loading && !user) {
+            window.location.href = '/login/';
+        }
+    })
+
+    if (loading) {
+        return <div>Loading ...</div>
+    }
+    if (!user) {
+        return <div>
+            You must login to be able to access dashboard.
+            <br />
+            Redirecting to Login...
+        </div>
+    }
+
+    if (user.role !== 'admin') {
+        return <div>
+            you don't have permission to access this page.
+        </div>
+    }
+
     return (
         <PageContextProvider >
             <ClientProvider>

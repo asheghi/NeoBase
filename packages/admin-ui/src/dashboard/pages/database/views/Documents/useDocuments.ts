@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useClient } from "../../../../../lib/client";
+import { useApi } from "../../../../../lib/client";
 
 export const useDocuments = (collection?: string, pageSize: number = 10) => {
-    const client = useClient();
+    const client = useApi();
     const [documents, setDocuments] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [query, setQuery] = useState<string | undefined>(undefined);
@@ -88,6 +88,6 @@ export const useDocuments = (collection?: string, pageSize: number = 10) => {
         prevPage, nextPage, pageCount, page,
         count, from, to,
         reset,
-        isResetDisabled : !isResetAvailable,
+        isResetDisabled: !isResetAvailable,
     };
 }

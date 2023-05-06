@@ -1,13 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {AppWrapper} from "./AppWrapper";
-import {LoginPage} from "./LoginPage";
+import { App } from './App'
+import '@neobase/client/react/theme.css'
 
 ReactDOM.render(
     <React.StrictMode>
-       <AppWrapper>
-           <LoginPage />
-       </AppWrapper>
+        <App />
     </React.StrictMode>,
-    document.getElementById('app-root')
+    document.getElementById('app-root'),
 )

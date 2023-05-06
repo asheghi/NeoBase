@@ -3,8 +3,8 @@ import { useRules } from "./useRules";
 import { useCollection } from "../../useCollection";
 import { Box, Button } from "@mui/material";
 import useWatch from "../../../../../lib/useWatch";
-import { client } from "../../../../../lib/client";
 import { RuleItem } from "./RuleItem";
+import { Api } from "../../../../../lib/api";
 
 export const RulesView = () => {
   const collection = useCollection();
@@ -55,7 +55,7 @@ export const RulesView = () => {
   }
 
   const handleSave = async () => {
-    await client.Collection(collection!).AccessControl.updateConfig(updatedRules)
+    await Api.Collection(collection!).AccessControl.updateConfig(updatedRules)
     setUpdatedRules(undefined);
     refetchRules();
   }
@@ -64,7 +64,7 @@ export const RulesView = () => {
 
 
   const handleResetDefaultConfig = async () => {
-    await client.Collection(collection!).AccessControl.resetConfig();
+    await Api.Collection(collection!).AccessControl.resetConfig();
     setUpdatedRules(undefined);
     refetchRules();
   }

@@ -120,7 +120,7 @@ importers:
         specifier: ^5.11.12
         version: 5.11.12(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@types/react@18.0.28)(react-dom@18.2.0)(react@18.2.0)
       '@neobase/client':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../client
       express:
         specifier: ^4.18.1

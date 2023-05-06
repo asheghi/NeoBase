@@ -26,6 +26,11 @@ export default defineConfig({
     proxy: {
       // neobase core back-end url
       '/api': 'http://localhost:8080',
+      // Proxying websockets or socket.io: ws://localhost:5173/socket.io -> ws://localhost:5174/socket.io
+      '/socket.io': {
+        target: 'ws://localhost:8080',
+        ws: true,
+      },
     }
   }
 });

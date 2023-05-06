@@ -2,12 +2,12 @@ import React from "react";
 import { Box, Button, Modal, OutlinedInput, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useUsers } from "./useUsers";
 import { UserRowItem } from "./UserRowItem";
-import { useClient } from "../../../lib/client";
+import { useApi } from "../../../lib/client";
 import { NewUserModal } from "./NewUserModal";
 
 export const AuthenticationPage = () => {
   const { users, deleteUser, createUser, updateUser } = useUsers();
-  const client = useClient();
+  const client = useApi();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);

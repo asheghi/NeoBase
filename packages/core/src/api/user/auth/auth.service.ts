@@ -1,4 +1,8 @@
-import { usernameSchema, passwordSchema } from "./validations/auth.validations";
+import {
+  usernameSchema,
+  passwordSchema,
+  emailSchema,
+} from "./validations/auth.validations";
 import {
   comparePassword,
   generateTokenForPayload,
@@ -16,11 +20,20 @@ export async function getAuthService() {
   const Users = await getAuthCollection();
   return {
     Users,
-    async login(username: string, password: string) {
-      usernameSchema.parse(username);
+    async login(payload: {
+      email: string;
+      username: string;
+      password: string;
+    }) {
+      const { email, username, password } = payload;
+      if (username) usernameSchema.parse(username);
+      if (email) emailSchema.parse(email);
       passwordSchema.parse(password);
 
-      const user = await Users.findOne({ username });
+      const user = await Users.findOne({
+        $or: [{ username }, { emails: email }],
+      });
+
       if (user) {
         const result = comparePassword(user.password, password);
         log.debug("compare result:", result);
@@ -32,13 +45,23 @@ export async function getAuthService() {
       });
       return null;
     },
-    async register(username: string, password: string) {
-      usernameSchema.parse(username);
+    async register(payload: {
+      username?: string;
+      password: string;
+      email?: string;
+    }) {
+      const { username, password, email } = payload;
+      if (username) usernameSchema.parse(username);
+      if (email) emailSchema.parse(email);
       passwordSchema.parse(password);
 
-      const exists = await Users.findOne({ username });
+      const exists = await Users.findOne({
+        $or: [{ username }, { emails: email }],
+      });
       if (exists) throw new Error("account already exists");
+
       return Users.create({
+        emails: [email],
         username,
         password: hashPassword(password),
       });

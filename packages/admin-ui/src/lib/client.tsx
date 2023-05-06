@@ -1,21 +1,16 @@
-import {createClient} from "@neobase/client";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
+import { Api } from './api';
 
-const getClient = () => {
-  let baseUrl = location.protocol + "//" + location.host;
-  return createClient(baseUrl);
-};
+const clientContext = React.createContext<typeof Api>(Api);
 
-export const client = getClient();
-const clientContext = React.createContext<ReturnType<typeof getClient>>(client);
 export const ClientProvider = (props: { children: React.ReactNode }) => {
   return (
-    <clientContext.Provider value={client}>
+    <clientContext.Provider value={Api}>
       {props.children}
     </clientContext.Provider>
   );
 };
 
-export const useClient = () => {
+export const useApi = () => {
   return useContext(clientContext);
 };

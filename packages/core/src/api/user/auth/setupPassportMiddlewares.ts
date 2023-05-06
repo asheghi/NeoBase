@@ -9,6 +9,7 @@ import * as GoogleOAuth2 from "passport-google-oauth20";
 import { OAuth, OAuthProviders } from "../../../lib/auth-providers";
 import * as GithubOAuth2 from "passport-github2";
 import { getAuthCollection } from "../../../lib/db-connector";
+import { onlyUnique } from "../../../lib/utils";
 
 export const setupPassportOnExpressApp = (app: Application) => {
   app.use(cookieParser());
@@ -71,7 +72,8 @@ export const setupPassportOnExpressApp = (app: Application) => {
           done: any
         ) {
           const User = await getAuthCollection();
-          const existing = await User.find({ emails: { $in: profile.emails } });
+          const emails = profile.emails.map((it: any) => it.value);
+          const existing = await User.find({ emails: { $in: emails } });
 
           if (existing && existing.length) {
             // update profile
@@ -80,14 +82,11 @@ export const setupPassportOnExpressApp = (app: Application) => {
               { _id: user._id },
               {
                 $set: {
-                  github_profile: profile,
                   avatar: profile.photos?.[0]?.value,
                   github_id: profile.id,
-                  emails: [
-                    ...user.emails,
-                    ...profile.emails.map((it: any) => it.value),
-                  ],
+                  emails: [...user.emails, ...emails].filter(onlyUnique),
                   name: profile.displayName,
+                  github_profile: profile,
                 },
               }
             );
@@ -95,7 +94,7 @@ export const setupPassportOnExpressApp = (app: Application) => {
           } else {
             // create new user
             const user = await User.create({
-              emails: profile.emails.map((it: any) => it.value),
+              emails,
               avatar: profile.photos?.[0]?.value,
               name: profile.displayName,
               github_id: profile.id,
