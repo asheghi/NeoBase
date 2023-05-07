@@ -2,8 +2,17 @@ version: "3.9"
 services:
   core:
     build: .
+    restart: always
     command: ["node","/app/packages/core/dist","start"]
     ports:
       - "8080:8080"
+    environment:
+      - DDEBUG=true
+      - DB_URL=mongodb://mongodb:27017/
   mongodb:
     image: "mongo:latest"
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/mongodb:/data/db
