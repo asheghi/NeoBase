@@ -174,7 +174,7 @@ importers:
         version: 18.0.28
       '@vitejs/plugin-react':
         specifier: ^3.1.0
-        version: 3.1.0(vite@4.2.1)
+        version: 3.1.0(vite@4.3.2)
       autoprefixer:
         specifier: ^10.4.7
         version: 10.4.14(postcss@8.4.21)
@@ -190,18 +190,15 @@ importers:
       tailwindcss:
         specifier: ^3.0.24
         version: 3.2.7(postcss@8.4.21)
-      tsc:
-        specifier: ^2.0.4
-        version: 2.0.4
       typescript:
-        specifier: ^4.9.4
+        specifier: ^4.9.5
         version: 4.9.5
       vite:
-        specifier: ^4.0.4
-        version: 4.2.1
+        specifier: ^4.2.0
+        version: 4.3.2
       vite-plugin-dts:
         specifier: ^2.3.0
-        version: 2.3.0(vite@4.2.1)
+        version: 2.3.0(vite@4.3.2)
 
   packages/core:
     dependencies:
@@ -3089,6 +3086,22 @@ packages:
       magic-string: 0.27.0
       react-refresh: 0.14.0
       vite: 4.2.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@vitejs/plugin-react@3.1.0(vite@4.3.2):
+    resolution: {integrity: sha512-AfgcRL8ZBhAlc3BFdigClmTUMISmmzHn7sB2h9U1odvc5U/MjWXsAaz18b/WoppUTDBzxOJwo2VdClfUcItu9g==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.1.0-beta.0
+    dependencies:
+      '@babel/core': 7.21.0
+      '@babel/plugin-transform-react-jsx-self': 7.21.0(@babel/core@7.21.0)
+      '@babel/plugin-transform-react-jsx-source': 7.19.6(@babel/core@7.21.0)
+      magic-string: 0.27.0
+      react-refresh: 0.14.0
+      vite: 4.3.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -6679,11 +6692,6 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  /tsc@2.0.4:
-    resolution: {integrity: sha512-fzoSieZI5KKJVBYGvwbVZs/J5za84f2lSTLPYf6AGiIf43tZ3GNrI1QzTLcjtyDDP4aLxd46RTZq1nQxe7+k5Q==}
-    hasBin: true
-    dev: true
-
   /tsconfig@7.0.0:
     resolution: {integrity: sha512-vZXmzPrL+EmC4T/4rVlT2jNVMWCi/O4DIiSj3UHg1OE5kCKbk4mfrXc6dZksLgRM/TZlKnousKH9bbTazUWRRw==}
     dependencies:
@@ -6833,7 +6841,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /vite-plugin-dts@2.3.0(vite@4.2.1):
+  /vite-plugin-dts@2.3.0(vite@4.3.2):
     resolution: {integrity: sha512-WbJgGtsStgQhdm3EosYmIdTGbag5YQpZ3HXWUAPCDyoXI5qN6EY0V7NXq0lAmnv9hVQsvh0htbYcg0Or5Db9JQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -6849,7 +6857,7 @@ packages:
       kolorist: 1.8.0
       magic-string: 0.29.0
       ts-morph: 18.0.0
-      vite: 4.2.1
+      vite: 4.3.2
     transitivePeerDependencies:
       - '@types/node'
       - rollup

@@ -10,7 +10,8 @@
     "build:client": "pnpm --filter @neobase/client run build",
     "build:admin": "pnpm --filter @neobase/admin-ui run build",
     "build:core": "pnpm --filter @neobase/core run build",
-    "build": "pnpm -r --filter @neobase/core --filter @neobase/admin-ui --filter @neobase/client run build"
+    "build": "pnpm -r --filter @neobase/core --filter @neobase/admin-ui --filter @neobase/client run build",
+    "docker:build": "docker build ./ -t neobase:latest --no-cache"
   },
   "keywords": [],
   "author": "",
