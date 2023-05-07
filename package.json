@@ -7,8 +7,10 @@
     "dev": "pnpm --parallel --filter='!docker-compose' run dev",
     "dev:core": "pnpm --filter=core run dev",
     "dev:admin": "pnpm --filter=admin-ui run dev",
-    "build:admin": "pnpm --filter=admin-ui run build",
-    "build": "pnpm -r build"
+    "build:client": "pnpm --filter @neobase/client run build",
+    "build:admin": "pnpm --filter @neobase/admin-ui run build",
+    "build:core": "pnpm --filter @neobase/core run build",
+    "build": "pnpm -r --filter @neobase/core --filter @neobase/admin-ui --filter @neobase/client run build"
   },
   "keywords": [],
   "author": "",

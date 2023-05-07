@@ -1,12 +1,12 @@
 import { randomString } from "../lib/randomString";
 export type ConfigType = {
   cookie_secret: string;
-  domain: string;
   https: boolean;
   ssl_key: string | undefined;
   ssl_cert: string | undefined;
   db_url: string;
   db_name: string;
+  cors_origin: string | undefined;
   simulate_slow_network: boolean;
   disable_morgan: boolean;
   morgan: string;
@@ -15,10 +15,13 @@ export type ConfigType = {
   trust_proxy: boolean;
   google_oauth_client_id: string | undefined;
   google_oauth_client_secret: string | undefined;
-  cors_origin: string | undefined;
   github_oauth_client_id: string | undefined;
   github_oauth_client_secret: string | undefined;
+  log_requests: boolean;
+  compression: boolean;
 };
+
+// todo create a dev default values
 
 export const defaultConfig: ConfigType = {
   //cookie
@@ -26,7 +29,6 @@ export const defaultConfig: ConfigType = {
     process.env.cookie_secret || process.env.NODE_ENV === "development"
       ? "dev-mode-jwt-token"
       : randomString() + randomString(),
-  domain: "",
   https: false,
   ssl_cert: undefined,
   ssl_key: undefined,
@@ -44,10 +46,12 @@ export const defaultConfig: ConfigType = {
    * server is listening on all interfaces by default
    * you can change it to 127.0.0.1 to listen only to localhost and expose api via a reverse proxy
    */
-  listen_host: "localhost",
+  listen_host: "0.0.0.0",
   listen_port: 8080,
   trust_proxy: false,
+  /* default dev */
   cors_origin: "http://localhost:5173",
+  log_requests: false,
   /*
     oAuth providers
    */

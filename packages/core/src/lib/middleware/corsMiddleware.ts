@@ -1,14 +1,19 @@
 import cors from "cors";
 import { Request, Response, NextFunction } from "express";
+import { config } from "../../config";
 
-export const corsMiddleware = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const { origin } = req.headers;
-  cors({
+let it;
+if (config.cors_origin) {
+  it = cors({
+    origin: config.cors_origin,
     credentials: true,
-    origin,
-  })(req, res, next);
-};
+  });
+} else {
+  console.warn("cors origin configuration is not set!, starting without cors");
+
+  it = (req: Request, res: Response, next: NextFunction) => {
+    next();
+  };
+}
+
+export const corsMiddleware = it;

@@ -14,7 +14,7 @@ import createClient from '@neobase/client';
 //commonjs
 const createClient = require('@neobase/client')
 
-const client = createClient('project-name',{ baseUrl : 'http://localhost:8080/api'})
+const client = createClient({ baseUrl : 'http://localhost:8080/api'})
 ```
 
 4.create collection

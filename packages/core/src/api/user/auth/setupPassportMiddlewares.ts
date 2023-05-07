@@ -36,7 +36,6 @@ export const setupPassportOnExpressApp = (app: Application) => {
         {
           clientID: config.google_oauth_client_id!,
           clientSecret: config.google_oauth_client_secret!,
-          callbackURL: "http://localhost:8080/auth/google/callback",
         },
         function (accessToken, refreshToken, profile, cb) {
           console.log(

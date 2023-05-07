@@ -27,6 +27,12 @@ program
   )
   .addOption(
     new Option(
+      "-C, --cors-origin <cors origin>",
+      "add cors origin, e.g: http://domain.com"
+    ).env("CORS_ORIGIN")
+  )
+  .addOption(
+    new Option(
       "-P, --trust-proxy",
       "behind reverse proxy, default:'false'"
     ).env("TRUST_PROXY")
