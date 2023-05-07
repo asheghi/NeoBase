@@ -88,7 +88,9 @@ program
     ).env("GITHUB_OAUTH_CLIENT_SECRET")
   )
   .addOption(
-    new Option("-d, --debug", `show debug information, default:'false'`)
+    new Option("-d, --debug", `show debug information, default:'false'`).env(
+      "DDEBUG"
+    )
   )
   .action(async (options) => {
     if (options.port) {
