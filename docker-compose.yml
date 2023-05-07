@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  core:
+    build: .
+    command: ["node","/app/packages/core/dist","start"]
+    ports:
+      - "8080:8080"
+  mongodb:
+    image: "mongodb:latest"

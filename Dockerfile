@@ -22,4 +22,4 @@ RUN pnpm build
 
 EXPOSE 8080
 
-CMD [ "node", "packages/core" ]
+CMD [ "node", "/app/packages/core/dist"]
