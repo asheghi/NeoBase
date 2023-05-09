@@ -1,15 +1,12 @@
 import { program, Option } from "commander";
 import { printFiglet } from "./misc/printFiglet";
 import { createConfigFile } from "./actions/createEnvFile";
-import { startServerAction } from "./actions/startServerAction";
 import { startReplConsole } from "./actions/startReplConsole";
 import { config } from "../config/index";
 import { createAdminUserAction } from "./actions/createAdminUserAction";
 import { randomString } from "../lib/randomString";
 import { manifest } from "../lib/manifest";
 import * as dotenv from "dotenv";
-import fs from "node:fs";
-import path from "node:path";
 import { envFormatter } from "./misc/envFormatter";
 
 dotenv.config();
@@ -55,7 +52,6 @@ program
       `mongodb database name, default:'${manifest.title}'`
     ).env("DB_NAME")
   )
-
   .addOption(new Option("--https", `server as https server`).env("HTTPS"))
   .addOption(
     new Option("--ssl-cert <sslCert>", `ssl cert file content`).env("SSL_CERT")
@@ -86,6 +82,37 @@ program
       "--github-oauth-client-secret <clientSecret>",
       `github oauth 2 client id`
     ).env("GITHUB_OAUTH_CLIENT_SECRET")
+  )
+  .addOption(
+    new Option("--s3-endpoint <S3 Rndpoint>", `object storage base url`).env(
+      "S3_ENDPOINT"
+    )
+  )
+  .addOption(
+    new Option("--s3-port <number>", `s3 endpoint port`).env("S3_PORT")
+  )
+  .addOption(
+    new Option("--s3-ssl", `use https to connect to s3 endpoint`).env("S3_SSL")
+  )
+  .addOption(
+    new Option("--s3-access-key <accessKey>", `s3 storage access key`).env(
+      "S3_ACCESS_KEY"
+    )
+  )
+  .addOption(
+    new Option("--s3-secret-key <secret key>", `s3 storage secret key`).env(
+      "S3_SECRET_KEY"
+    )
+  )
+  .addOption(
+    new Option("--s3-bucket-name <bucket name>", `s3 bucket name`).env(
+      "S3_BUCKET_NAME"
+    )
+  )
+  .addOption(
+    new Option("--upload-path <dbName>", `path to store uploaded files`).env(
+      "UPLOAD_PATH"
+    )
   )
   .addOption(
     new Option("-d, --debug", `show debug information, default:'false'`).env(
@@ -172,6 +199,28 @@ program
         process.exit(0);
       }
     }
+
+    // Storage, s3 configs
+    const {
+      s3Endpoint: s3_endpoint,
+      s3Port: s3_port,
+      s3Ssl: s3_ssl,
+      s3AccessKey: s3_access_key,
+      s3SecretKey: s3_secret_key,
+      uploadPath: upload_path,
+      s3BucketName: s3_bucket_name,
+    } = options;
+
+    config.s3_endpoint = s3_endpoint ?? config.s3_endpoint;
+    config.s3_port = s3_port  ?? config.s3_port;
+    config.s3_ssl = s3_ssl ?? config.s3_ssl;
+    config.s3_access_key = s3_access_key ?? config.s3_access_key;
+    config.s3_secret_key = s3_secret_key ?? config.s3_secret_key;
+    config.s3_bucket_name = s3_bucket_name ?? config.s3_bucket_name;
+    config.upload_path = upload_path ?? config.upload_path;
+
+    // lazy loading because some
+    const { startServerAction } = require("./actions/startServerAction");
 
     startServerAction();
   });

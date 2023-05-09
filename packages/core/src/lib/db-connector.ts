@@ -2,6 +2,7 @@ import Mongoose from "mongoose";
 import { config } from "../config/index";
 import { Model as _Model } from "mongoose";
 import { User } from "../types";
+import { manifest } from "./manifest";
 
 type Model = _Model<any>;
 
@@ -9,7 +10,7 @@ const connectionPool: { [key: string]: any } = {};
 
 export async function getDatabase(dbNameArg?: string) {
   const dbName =
-    (config.db_name ?? "neo-base") + (dbNameArg ? `-${dbNameArg}` : "");
+    (config.db_name ?? manifest.title) + (dbNameArg ? `-${dbNameArg}` : "");
   if (!connectionPool[dbName]) {
     const uri = config.db_url + dbName;
     connectionPool[dbName] = Mongoose.createConnection(uri);
@@ -40,6 +41,10 @@ export async function getCollection(
       colName
     )
   );
+}
+
+export async function getFilesCollection(): Promise<Model> {
+  return getCollection("files");
 }
 
 export async function getAuthCollection(): Promise<Model> {

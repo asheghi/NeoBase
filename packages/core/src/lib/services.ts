@@ -1,9 +1,13 @@
 import { Server as SocketIoServer } from "socket.io";
+import { getFilesCollection } from "./db-connector";
+import { Model } from "mongoose";
 
 const cache: {
   io: SocketIoServer | undefined;
+  files: Model<any> | undefined;
 } = {
   io: undefined,
+  files: undefined,
 };
 export const Services = {
   getIoService(): SocketIoServer {
@@ -14,5 +18,11 @@ export const Services = {
   },
   setIoService(io: SocketIoServer) {
     cache.io = io;
+  },
+  async getFilesCollection() {
+    if (!cache["files"]) {
+      cache["files"] = await getFilesCollection();
+    }
+    return cache.files;
   },
 };

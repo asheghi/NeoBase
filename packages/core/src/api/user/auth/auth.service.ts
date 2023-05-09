@@ -30,9 +30,20 @@ export async function getAuthService() {
       if (email) emailSchema.parse(email);
       passwordSchema.parse(password);
 
-      const user = await Users.findOne({
-        $or: [{ username }, { emails: email }],
-      });
+      if (!(email || username)) {
+        return null;
+      }
+
+      const filter: any = {};
+      if (email) {
+        filter.email = email;
+      }
+
+      if (username) {
+        filter.username = username;
+      }
+
+      const user = await Users.findOne(filter);
 
       if (user) {
         const result = comparePassword(user.password, password);
@@ -55,9 +66,20 @@ export async function getAuthService() {
       if (email) emailSchema.parse(email);
       passwordSchema.parse(password);
 
-      const exists = await Users.findOne({
-        $or: [{ username }, { emails: email }],
-      });
+      if (!(email || username)) {
+        throw new Error("either username or email should be passed");
+      }
+
+      const filter: any = {};
+      if (email) {
+        filter.email = email;
+      }
+
+      if (username) {
+        filter.username = username;
+      }
+
+      const exists = await Users.findOne(filter);
       if (exists) throw new Error("account already exists");
 
       return Users.create({

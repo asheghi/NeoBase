@@ -19,6 +19,15 @@ export type ConfigType = {
   github_oauth_client_secret: string | undefined;
   log_requests: boolean;
   compression: boolean;
+
+  /* storage */
+  s3_endpoint: string | undefined;
+  s3_port: string | undefined;
+  s3_ssl: boolean | undefined;
+  s3_access_key: string | undefined;
+  s3_secret_key: string | undefined;
+  upload_path: string;
+  s3_bucket_name: string;
 };
 
 // todo create a dev default values
@@ -59,4 +68,6 @@ export const defaultConfig: ConfigType = {
   google_oauth_client_secret: undefined,
   github_oauth_client_id: undefined,
   github_oauth_client_secret: undefined,
+
+  upload_path: "/tmp/uploads/",
 };

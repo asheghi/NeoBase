@@ -4,6 +4,7 @@ import { manifest } from "../lib/manifest";
 import { config } from "../config";
 import { DataApiRouter } from "./data";
 import { UserApiRouter } from "./user";
+import { StorageApiRouter } from "./storage";
 const app = express.Router();
 
 if (config.simulate_slow_network) {
@@ -14,6 +15,7 @@ if (config.simulate_slow_network) {
 
 app.use("/user", UserApiRouter);
 app.use("/data", DataApiRouter);
+app.use("/storage", StorageApiRouter);
 
 app.get("/", (req, res) => {
   res.json({
