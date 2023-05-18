@@ -47,7 +47,19 @@ export const LoginForm = (props: LoginFormProps) => {
     e.preventDefault();
   }
 
-  const returnTo = props.returnTo ?? window.location.href;
+  let returnToParam = undefined;
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('returnTo')
+    if(param && param.trim().length){
+      returnToParam = atob(param);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+
+  const returnTo = returnToParam ??  props.returnTo ?? window.location.href;
 
   useEffect(() => {
     if (user && returnTo) {

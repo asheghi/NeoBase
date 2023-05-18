@@ -44,12 +44,22 @@ export const RegisterForm = (props: LoginFormProps) => {
       })
   }
 
-  const returnTo = props.returnTo ?? window.location.href;
+  let returnToParam = undefined;
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('returnTo')
+    if(param && param.trim().length){
+      returnToParam = atob(param);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+
+  const returnTo = returnToParam ??  props.returnTo ?? window.location.href;
 
   useEffect(() => {
     if (user && returnTo) {
       console.log('user already logged in redirecting to returnTo', returnTo);
-
       window.location.href = returnTo;
     }
   }, [returnTo, user])
