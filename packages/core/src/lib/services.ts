@@ -1,28 +1,30 @@
-import { Server as SocketIoServer } from "socket.io";
-import { getFilesCollection } from "./db-connector";
-import { Model } from "mongoose";
+const cache: any = {} as any;
 
-const cache: {
-  io: SocketIoServer | undefined;
-  files: Model<any> | undefined;
-} = {
-  io: undefined,
-  files: undefined,
-};
-export const Services = {
-  getIoService(): SocketIoServer {
-    if (!cache.io) {
-      throw new Error("IO object is not set");
+const containers = new Proxy(cache, {
+  get: function (target: any, property: string) {
+    if (typeof target[property] === "function") {
+      return function (...args: any[]) {
+        return target[property](...args);
+      };
+    } else {
+      return target[property];
     }
-    return cache.io;
   },
-  setIoService(io: SocketIoServer) {
-    cache.io = io;
+});
+
+const resolvers: any = {};
+
+export const Service = {
+  containers,
+  addSingleton(name: string, generator: (containers: any) => Promise<void>) {
+    resolvers[name] = generator;
   },
-  async getFilesCollection() {
-    if (!cache["files"]) {
-      cache["files"] = await getFilesCollection();
-    }
-    return cache.files;
+  async resolve() {
+    Promise.all(
+      Object.keys(resolvers).map(async (name) => {
+        cache[name] = await resolvers[name];
+        console.log("resolved ", name);
+      })
+    );
   },
 };

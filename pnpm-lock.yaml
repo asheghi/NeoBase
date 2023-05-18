@@ -318,7 +318,7 @@ importers:
         specifier: ^7.1.0
         version: 7.1.0
       mongoose:
-        specifier: ^6.3.3
+        specifier: ^6.10.2
         version: 6.10.2
       morgan:
         specifier: ^1.10.0

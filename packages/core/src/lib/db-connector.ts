@@ -3,6 +3,9 @@ import { config } from "../config/index";
 import { Model as _Model } from "mongoose";
 import { User } from "../types";
 import { manifest } from "./manifest";
+import { getLogger } from "./getLogger";
+
+const logger = getLogger("database");
 
 type Model = _Model<any>;
 
@@ -15,7 +18,9 @@ export async function getDatabase(
     (config.db_name ?? manifest.title) + (dbNameArg ? `-${dbNameArg}` : "");
   if (!connectionPool[dbName]) {
     const uri = config.db_url + dbName;
-    connectionPool[dbName] = Mongoose.createConnection(uri);
+    logger.info("mongodb uri:", uri);
+    const connection = await Mongoose.createConnection(uri).asPromise();
+    connectionPool[dbName] = connection;
   }
   return connectionPool[dbName];
 }

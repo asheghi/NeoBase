@@ -43,7 +43,7 @@ export const defaultConfig: ConfigType = {
   ssl_key: undefined,
 
   // database
-  db_url: "mongodb://localhost:27017/",
+  db_url: "mongodb://127.0.0.1:27017/",
   db_name: "neobase",
 
   // server

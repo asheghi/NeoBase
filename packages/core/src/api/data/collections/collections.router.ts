@@ -60,7 +60,7 @@ app.post("/", async (req, res) => {
     // todo check if collection exists
     // ignore exception for now
     try {
-      const connection = await getDatabase();
+      const connection: any = await getDatabase();
       const db = connection.client.db();
       name = req.body.name;
       await db.createCollection(name);
@@ -76,7 +76,7 @@ app.post("/", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-    const connection = await getDatabase();
+    const connection: any = await getDatabase();
     const db = connection.client.db();
     const listCollections = (await db.listCollections().toArray()).map(
       (it: any) => ({ name: it.name })
@@ -91,7 +91,7 @@ app.get("/", async (req, res) => {
 app.delete("/:name", async (req, res) => {
   try {
     const { name } = req.params;
-    const connection = await getDatabase();
+    const connection: any = await getDatabase();
     const db = connection.client.db();
     await db.dropCollection(name, () => {
       res.json({ name });
