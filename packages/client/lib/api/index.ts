@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios'
 import { createDeferred } from '../common/defferable'
-import { io } from 'socket.io-client';
+import { io,Socket } from 'socket.io-client';
 
 type QueryOptions = {
   sort?: any
@@ -23,7 +23,7 @@ function createApi(baseUrl) {
   let socket = undefined;
 
   return {
-    getSocket() {
+    getSocket(): Socket {
       if (!socket) {
         socket = io(baseUrl, {
           transports: ["websocket", "polling"],
@@ -193,12 +193,12 @@ function createApi(baseUrl) {
       getLoginUrl: function (returnUrl?: string) {
         if (!returnUrl) returnUrl = window.location.href;
         const encodedReturnUrl = btoa(returnUrl);
-        return `${this.loginUrl}?redirect=${encodedReturnUrl}`
+        return `${this.loginUrl}?returnTo=${encodedReturnUrl}`
       },
       getRegisterUrl: function (returnUrl?: string) {
         if (!returnUrl) returnUrl = window.location.href;
         const encodedReturnUrl = btoa(returnUrl);
-        return `${this.registerUrl}?redirect=${encodedReturnUrl}`
+        return `${this.registerUrl}?returnTo=${encodedReturnUrl}`
       },
       redirectToLogin: function (returnUrl?: string) {
         window.location.href = this.getLoginUrl(returnUrl);
