@@ -4,7 +4,7 @@ export const routes = [
     component: () => import("./pages/HomePage.vue"),
   },
   {
-    path: "/dash",
+    path: "/todos",
     component: () => import("./pages/dash/DashboardPage.vue"),
     children: [
       {

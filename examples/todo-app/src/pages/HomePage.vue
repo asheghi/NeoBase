@@ -11,7 +11,7 @@
         >
       </template>
       <template v-if="user">
-        <router-link class="btn" to="/dash">go to dashboard</router-link>
+        <router-link class="btn" to="/todos">go to dashboard</router-link>
       </template>
     </div>
   </div>
@@ -41,10 +41,10 @@ export default {
   },
   computed: {
     loginUrl() {
-      return Client.Auth.getLoginUrl(window.location.href + "dash");
+      return Client.Auth.getLoginUrl(window.location.href + "todos");
     },
     registerUrl() {
-      return Client.Auth.getRegisterUrl(window.location.href + "dash");
+      return Client.Auth.getRegisterUrl(window.location.href + "todos");
     },
   },
 };

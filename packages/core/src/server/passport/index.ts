@@ -1,0 +1,1 @@
+export { setupPassport } from "./setupPassport";

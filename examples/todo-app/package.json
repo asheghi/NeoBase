@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "start-server": "neobase start --db-name todo-app --debug -P 8080",
+    "start-server": "neobase start --db-name todo-app --debug -P 8080 --cors-origin http://localhost:3000",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

@@ -2,9 +2,8 @@ import { getExpressApp } from "./getExpressApp";
 import { config } from "../config/index";
 import http from "node:http";
 import https from "node:https";
-import { Server as SocketIoServer } from "socket.io";
 import { getLogger } from "../lib";
-import { Services } from "../lib/services";
+import { io } from "./ioServer";
 
 const log = getLogger("StartServer");
 
@@ -16,15 +15,7 @@ export async function startServer() {
     ? https.createServer({ key: config.ssl_key, cert: config.ssl_cert }, app)
     : http.createServer(app);
 
-  const io = new SocketIoServer(server, {
-    cors: {
-      origin: config.cors_origin,
-      methods: ["GET", "POST"],
-      // allowedHeaders: ["my-custom-header"],
-      credentials: true,
-    },
-  });
-  Services.setIoService(io);
+  io.attach(server);
 
   server.listen(config.listen_port, config.listen_host, () => {
     log.info(

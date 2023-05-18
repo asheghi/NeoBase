@@ -2,19 +2,36 @@
   <div class="Todos">
     <div class="form">
       <div :class="{ 'skeleton-box': creating }" class="w-full">
-        <input id="todo" v-model="newTask" :disabled="creating" type="text" name="todo" placeholder="yet another task"
-          @keydown.enter="createTask" />
+        <input
+          id="todo"
+          v-model="newTask"
+          :disabled="creating"
+          type="text"
+          name="todo"
+          placeholder="yet another task"
+          @keydown.enter="createTask"
+        />
       </div>
       <button :disabled="creating" @click="createTask">Add Todo</button>
     </div>
     <div class="list">
       <template v-if="!fetching">
-        <div v-for="task in todos" :key="task._id" class="item" :class="{
+        <div
+          v-for="task in todos"
+          :key="task._id"
+          class="item"
+          :class="{
             done: task.done,
             'skeleton-box': loading[task._id],
             loading: loading[task._id],
-          }">
-          <input :disabled="loading[task._id]" :checked="task.done" type="checkbox" @click="toggleDone(task, $event)" />
+          }"
+        >
+          <input
+            :disabled="loading[task._id]"
+            :checked="task.done"
+            type="checkbox"
+            @click="toggleDone(task, $event)"
+          />
           <div class="name" v-text="task.name"></div>
           <button class="remove" @click="removeTodo(task)">Delete</button>
         </div>
@@ -122,7 +139,7 @@ export default {
   @apply px-4;
 
   .item {
-    @apply text-lg text-gray-700 flex px-2 items-center gap-2 w-full py-2 rounded hover: bg-gray-200 transition my-2;
+    @apply text-lg text-gray-700 flex px-2 items-center gap-2 w-full py-2 rounded hover:bg-gray-200 transition my-2;
 
     .remove {
       @apply ml-auto bg-red-400 text-white px-2 py-1 text-sm rounded;
@@ -175,11 +192,13 @@ export default {
       bottom: 0;
       left: 0;
       transform: translateX(-100%);
-      background-image: linear-gradient(90deg,
-          rgba(#fff, 0) 0,
-          rgba(#fff, 0.2) 20%,
-          rgba(#fff, 0.5) 60%,
-          rgba(#fff, 0));
+      background-image: linear-gradient(
+        90deg,
+        rgba(#fff, 0) 0,
+        rgba(#fff, 0.2) 20%,
+        rgba(#fff, 0.5) 60%,
+        rgba(#fff, 0)
+      );
       animation: shimmer 2s infinite;
       content: "";
     }

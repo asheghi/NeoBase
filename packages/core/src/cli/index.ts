@@ -212,12 +212,15 @@ program
     } = options;
 
     config.s3_endpoint = s3_endpoint ?? config.s3_endpoint;
-    config.s3_port = s3_port  ?? config.s3_port;
+    config.s3_port = s3_port ?? config.s3_port;
     config.s3_ssl = s3_ssl ?? config.s3_ssl;
     config.s3_access_key = s3_access_key ?? config.s3_access_key;
     config.s3_secret_key = s3_secret_key ?? config.s3_secret_key;
     config.s3_bucket_name = s3_bucket_name ?? config.s3_bucket_name;
     config.upload_path = upload_path ?? config.upload_path;
+
+    const { corsOrigin: cors_origin } = options;
+    config.cors_origin = cors_origin ?? config.cors_origin;
 
     // lazy loading because some
     const { startServerAction } = require("./actions/startServerAction");

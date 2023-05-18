@@ -8,7 +8,9 @@ type Model = _Model<any>;
 
 const connectionPool: { [key: string]: any } = {};
 
-export async function getDatabase(dbNameArg?: string) {
+export async function getDatabase(
+  dbNameArg?: string
+): Promise<Mongoose.Connection> {
   const dbName =
     (config.db_name ?? manifest.title) + (dbNameArg ? `-${dbNameArg}` : "");
   if (!connectionPool[dbName]) {

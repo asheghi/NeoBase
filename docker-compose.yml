@@ -13,6 +13,17 @@ services:
     image: "mongo:latest"
     restart: always
     ports:
-      - "27017:27017"
+      - "127.0.0.1:27017:27017"
     volumes:
       - /data/mongodb:/data/db
+  minio:
+    image: quay.io/minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    #environment:
+      # MINIO_ROOT_USER: ""
+      # MINIO_ROOT_PASSWORD: ""
+    volumes:
+      - /data/minio:/data
+    command: server /data

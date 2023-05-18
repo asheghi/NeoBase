@@ -21,7 +21,7 @@ export const getLogger = (identifier: string | null) => {
     };
   }
   const { fatal, error, warn, info, debug, trace, log } = DebugLevel(
-    `app` + identifier ? ":" + identifier : "",
+    `app` + (identifier ? ":" + identifier : ""),
     {}
   );
   return { fatal, error, warn, info, debug, trace, log };
