@@ -21,7 +21,7 @@ import { routes, usePageTitle } from "../routes";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { sideBarItems } from "../sideBarItems";
 import { usePageContext } from "../../lib";
-import { useApi } from "../../lib/client";
+import { useApi } from "@neobase/client/react";
 const drawerWidth = 240;
 
 interface Props {
@@ -34,7 +34,7 @@ export default function DashboardLayout(props: Props) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const pageTitle = usePageTitle();
-  const client = useApi();
+  const api = useApi();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -109,7 +109,7 @@ export default function DashboardLayout(props: Props) {
     //
     setAnchorEl(null);
     try {
-      await client.Auth.logout();
+      await api.Auth.logout();
     } catch (error) {
       console.error(error);
     }

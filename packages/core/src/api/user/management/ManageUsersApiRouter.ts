@@ -1,7 +1,7 @@
 import bodyParser from "body-parser";
 import Express from "express";
 import Mongoose from "mongoose";
-import { authGuard } from "../../../lib/middleware/authGuard";
+import { authGuard } from "../../../server/middleware/authGuard";
 import { getAuthCollection } from "../../../lib/db-connector";
 import { hashPassword } from "../../../lib/jwt-utils";
 

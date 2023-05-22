@@ -1,5 +1,5 @@
+import { useApi } from "@neobase/client/react";
 import { useEffect, useState } from "react";
-import { useApi } from "../../../lib/client";
 
 export const useUsers = (collection?: string, documentId?: string) => {
     const client = useApi();

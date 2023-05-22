@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { PageContextProvider } from "../lib/pageContext";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "../lib/theme";
-import { ClientProvider } from "../lib/client";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { routes } from "./routes";
 import { useAuth } from "@neobase/client/react";
@@ -36,12 +35,10 @@ export const App = () => {
 
     return (
         <PageContextProvider >
-            <ClientProvider>
-                <CssBaseline />
-                <ThemeProvider theme={theme}>
-                    <RouterProvider router={router} />
-                </ThemeProvider>
-            </ClientProvider>
+            <CssBaseline />
+            <ThemeProvider theme={theme}>
+                <RouterProvider router={router} />
+            </ThemeProvider>
         </PageContextProvider>
     );
 }

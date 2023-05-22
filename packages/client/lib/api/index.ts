@@ -31,6 +31,40 @@ function createApi(baseUrl) {
       }
       return socket;
     },
+    AccessControl:{
+      createRole(name:string, sources?:string[]){
+        return ax.post('access-control/roles',{name,sources})
+      },
+      getRoles(){
+        return ax.get('access-control/roles')
+      },
+      deleteRole(name:string){
+        return ax.delete('access-control/roles/'+ name)
+      },
+      onRole(roleId: string){
+        return {
+          deletePermission(action: string,resource: string,filter?: any){
+            return ax.post(`access-control/roles/${roleId}/permissions/delete`,
+            {action,resource,filter})
+          },
+          addPermission(action: string,resource: string, filter?: any){
+            return ax.post(`access-control/roles/${roleId}/permissions`,
+            {action,resource,filter})
+          },
+          enablePermission(action: string,resource: string, filter?: any){
+            return ax.post(`access-control/roles/${roleId}/permissions/enable`,
+            {action,resource,filter})
+          },
+          disablePermission(action: string,resource: string, filter?: any){
+            return ax.post(`access-control/roles/${roleId}/permissions/disable`,
+            {action,resource,filter})
+          },
+        }
+      },
+      getAllPermissions(){
+        return ax.get('access-control/permissions')
+      }
+    },
     Admin: {
       Collection: {
         getListOfCollections: () => ax.get(`data/collections`),

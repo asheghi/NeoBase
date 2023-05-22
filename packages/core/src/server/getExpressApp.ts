@@ -1,12 +1,13 @@
 import express from "express";
 import { ApisMiddleware } from "../api";
-import { morganMiddleware } from "../lib/middleware/morganMiddleware";
+import { morganMiddleware } from "./middleware/morganMiddleware";
 import AdminUIRouter from "@neobase/admin-ui";
 import { setupPassport } from "./passport";
-import { corsMiddleware } from "../lib/middleware/corsMiddleware";
-import { compressionMiddleware } from "../lib/middleware/compressionMiddleware";
+import { corsMiddleware } from "./middleware/corsMiddleware";
+import { compressionMiddleware } from "./middleware/compressionMiddleware";
 import { io } from "./ioServer";
 import { setupCollectionWatch } from "../api/data/collections/watch";
+import { ExpressErrorHandler } from "./middleware/ErrorHandler";
 
 export const getExpressApp = () => {
   const app = express();
@@ -22,5 +23,6 @@ export const getExpressApp = () => {
 
   setupCollectionWatch();
 
+  app.use(ExpressErrorHandler);
   return app;
 };

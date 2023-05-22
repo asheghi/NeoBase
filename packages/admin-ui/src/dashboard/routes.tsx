@@ -21,6 +21,7 @@ const DbIndexView = React.lazy(
   () => import("./pages/database/views/DatabaseIndex")
 );
 const DashboardIndexPage = React.lazy(() => import("./pages/index"));
+const AccessControlPage = React.lazy(() => import("./pages/access-control"));
 
 export const usePageTitle = () => {
   const [title, setPageTitle] = useState("");
@@ -50,6 +51,10 @@ export const usePageTitle = () => {
     {
       match: useMatch('/Dashboard/Users'),
       title: 'Users'
+    },
+    {
+      match: useMatch('/dashboard/access-control'),
+      title:"Access Control",
     }
   ]
 
@@ -74,6 +79,12 @@ export const routes: RouteObject[] = [
         element: <React.Suspense>
           <DashboardIndexPage />
         </React.Suspense>,
+      },
+      {
+        path:'/dashboard/access-control',
+        element:<React.Suspense>
+          <AccessControlPage />
+        </React.Suspense>
       },
       // when no collection is selected
       {

@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getAuthService } from "./auth.service";
 import { usernameSchema, passwordSchema } from "./validations/auth.validations";
 import { getLogger } from "../../../lib/getLogger";
-import { authGuard } from "../../../lib/middleware/authGuard";
+import { authGuard } from "../../../server/middleware/authGuard";
 import { validateSchema } from "../../../lib/validateSchema";
 import { GoogleOAuthRouter } from "./google/google-oauth";
 import { Services } from "../../../lib/services";

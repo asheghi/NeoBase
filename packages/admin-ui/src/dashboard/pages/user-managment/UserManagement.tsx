@@ -2,12 +2,12 @@ import React from "react";
 import { Box, Button, Modal, OutlinedInput, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { useUsers } from "./useUsers";
 import { UserRowItem } from "./UserRowItem";
-import { useApi } from "../../../lib/client";
 import { NewUserModal } from "./NewUserModal";
+import { useApi } from "@neobase/client/react";
 
 export const AuthenticationPage = () => {
   const { users, deleteUser, createUser, updateUser } = useUsers();
-  const client = useApi();
+  const api = useApi();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const handleModalOpen = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
@@ -50,12 +50,12 @@ export const AuthenticationPage = () => {
           <TableBody>
             {users && users.map((user: any, index: number) => {
               const handleUserDelete = async () => {
-                await client.Admin.Users.deleteUser(user._id);
+                await api.Admin.Users.deleteUser(user._id);
                 deleteUser(index);
               }
 
               const handleRoleUpdate = (newRole: string) => {
-                client.Admin.Users.updateUser(user.id, { role: newRole });
+                api.Admin.Users.updateUser(user.id, { role: newRole });
               }
 
               return (

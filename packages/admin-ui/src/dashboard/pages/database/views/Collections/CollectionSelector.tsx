@@ -10,7 +10,7 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import { useApi } from "../../../../../lib/client";
+import { useApi } from "@neobase/client/react";
 
 function DeleteCollectionModal(props: {
   onClose: () => void;

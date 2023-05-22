@@ -1,5 +1,6 @@
 /* eslint-disable no-loops/no-loops */
 
+import { OAuthProviders } from "../../../lib/auth-providers";
 import {
   getAccessConfigCollection,
   getAuthCollection,

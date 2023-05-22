@@ -6,7 +6,7 @@ import {
   getAccessConfigCollection,
   getDatabase,
 } from "../../../lib/db-connector";
-import { adminGuard } from "../../../lib/middleware/adminGuard";
+import { adminGuard } from "../../../server/middleware/adminGuard";
 
 const console = getLogger("collection.api");
 const app = Express.Router();

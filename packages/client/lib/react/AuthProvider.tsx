@@ -24,6 +24,11 @@ export const useAuth = () => {
   return useContext(AuthContext);
 }
 
+export const useApi : () => ApiType = () => {
+  const {api} = useContext(AuthContext);
+  return api;
+}
+
 export enum AuthState {
   Initializing = 'initalizing',
   Loading = 'loading',

@@ -1,6 +1,6 @@
 import bodyParser from "body-parser";
 import Express from "express";
-import slowdown from "../../../lib/middleware/slowDownMiddleware";
+import slowdown from "../../../server/middleware/slowDownMiddleware";
 import { getUserFilter } from "./access-control";
 import { getCollection } from "../../../lib/db-connector";
 
