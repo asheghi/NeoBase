@@ -1,12 +1,12 @@
 import express from "express";
-import { makeAccessControlService } from "../../access-control/AccessControlService";
+import { makeRolesService } from "../../access-control/RolesService";
 import bodyParser from "body-parser";
 import { Permissions } from "../../access-control/Permissions";
 const app = express.Router();
 
 app.use(bodyParser.json());
 
-makeAccessControlService().then((Service) => {
+makeRolesService().then((Service) => {
   app.get("/roles", async (req, res) => {
     const roles = await Service.getRoles();
     res.json(roles);
