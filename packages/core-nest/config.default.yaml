@@ -1,4 +1,16 @@
+application:
+  name: "NeoBase"
+
 server:
   host: "0.0.0.0"
   port: 3000
   protocol: http
+
+session:
+  secret: "changemerandom"
+  db_url: 'mongodb://localhost:27017/admin-session'
+  max_age: 30
+
+database:
+  url: "mongodb://localhost:27017"
+  admin_db: "admin"

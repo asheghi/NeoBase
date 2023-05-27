@@ -1,8 +1,11 @@
-import { Controller, Get, Inject, Logger } from '@nestjs/common';
+import { Body, Controller, Get, Post, Inject, Logger } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserViewModel } from './user.view-model';
 import { Config } from '../config';
+import { User } from './user.model';
+import { CreateUserDto } from './dtos/createUser.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService, private logger: Logger) {}
@@ -11,13 +14,17 @@ export class UserController {
   private config: Config;
 
   @Get()
-  async find(): Promise<UserViewModel[]> {
+  async find(): Promise<User[]> {
     return await this.userService.find();
   }
 
   @Get('config')
   async getConfig() {
-    this.logger.log(this.config);
     return await this.userService.find();
+  }
+
+  @Post()
+  async createUser(@Body() payload: CreateUserDto): Promise<User> {
+    return await this.userService.createUser(payload);
   }
 }
