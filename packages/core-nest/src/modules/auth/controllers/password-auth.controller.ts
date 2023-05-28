@@ -17,7 +17,7 @@ import {
 import { UserViewModel } from '../../user/user.view-model';
 
 @ApiTags('Auth')
-@Controller('auth')
+@Controller('api/auth/password')
 export class AuthPasswordController {
   constructor(private authService: AuthService) {}
 
@@ -28,7 +28,7 @@ export class AuthPasswordController {
     description: 'successfull login',
     type: UserViewModel,
   })
-  @Post('password/register')
+  @Post('register')
   async register(@Body() body: LoginRequest, @Req() req: Request) {
     const { email, password } = body;
     const user = await this.authService.registerUser(email, password);
@@ -55,7 +55,7 @@ export class AuthPasswordController {
     description: 'successfull login',
     type: UserViewModel,
   })
-  @Post('password/login')
+  @Post('login')
   async login(
     @Body() body: LoginRequest,
     @Req() req: Request,

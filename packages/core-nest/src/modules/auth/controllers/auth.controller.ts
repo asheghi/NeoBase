@@ -14,7 +14,7 @@ import { AuthGuard } from '../guards/auth.guard';
 
 @ApiTags('Auth')
 @UseGuards(AuthGuard)
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   @ApiResponse({
     type: UserViewModel,

@@ -1,11 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from './user.model';
 
 export class UserViewModel {
-  constructor(user: User) {
-    this.name = user.name;
-    this.email = user.email;
+  constructor(user: any) {
     this.id = user.id;
+    this.email = user.email;
+    this.roles = user.roles;
+    this.name = user.name;
   }
   @ApiProperty()
   id: string;
@@ -15,4 +15,7 @@ export class UserViewModel {
 
   @ApiProperty()
   email: string;
+
+  @ApiProperty()
+  roles: string;
 }

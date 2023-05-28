@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotAcceptableException } from '@nestjs/common';
 import { UserService } from '../../user/user.service';
 import { AuthUtils } from '../auth.utils';
-import { User } from 'src/modules/user/user.model';
+import { IUser, User } from 'src/modules/user/user.model';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,7 @@ export class AuthService {
       return null;
     }
   }
-  async registerUser(email: string, password: string): Promise<User> {
+  async registerUser(email: string, password: string): Promise<IUser> {
     const existing = await this.userService.findByEmail(email);
     if (existing)
       throw new NotAcceptableException(
@@ -38,6 +38,7 @@ export class AuthService {
     const user = await this.userService.createUser({
       email,
       password: hashedPassword,
+      roles: ['basic'],
     });
     return user;
   }

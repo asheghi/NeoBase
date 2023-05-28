@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import { INestApplication } from '@nestjs/common';
 import { Config } from '../../modules';
 import session from 'express-session';
-import { Request } from 'express';
 import mongoConnect from 'connect-mongo';
 
 export const setupPassport = (app: INestApplication) => {
